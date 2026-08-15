@@ -1,0 +1,5 @@
+comparison_dimension,stability_group,matched_interval_count,unique_product_count,valid_favorite_interval_count,positive_favorite_interval_count,positive_favorite_breadth_percent,median_favorite_change_per_day_approx,valid_price_interval_count,median_actual_price_change_percent,valid_average_rating_interval_count,median_average_rating_change
+LEVEL2_STABILITY,STABLE,3689,3066,3480,1515,43.53448276,0,3681,0,3491,0
+LEVEL2_STABILITY,CHANGED,9,8,9,3,33.33333333,0,9,0,9,0
+FULL_PATH_STABILITY,STABLE,3678,3057,3470,1509,43.4870317,0,3670,0,3480,0
+FULL_PATH_STABILITY,CHANGED,20,19,19,9,47.36842105,0,20,0,20,0

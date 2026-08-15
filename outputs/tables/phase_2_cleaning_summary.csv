@@ -1,0 +1,11 @@
+metric,raw,processed,change
+rows,20312,20312,0
+columns,20,111,91
+raw_columns_preserved,20,20,0
+exact_duplicate_rows,0,0,0
+snapshot_key_duplicate_rows,0,0,0
+rows_removed,0,0,0
+valid_observation_dates,20312,20312,0
+valid_comparable_price_pairs,0,20086,20086
+matched_products,0,3070,3070
+verified_sales_metric_fields,0,0,0

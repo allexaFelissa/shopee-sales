@@ -1,0 +1,11 @@
+metric,value
+unique_products,16614
+products_observed_once,13544
+matched_products,3070
+products_with_at_least_3_observations,535
+products_with_at_least_4_observations,86
+matched_intervals,3698
+positive_unverified_counter_intervals,1707
+zero_unverified_counter_intervals,1987
+negative_unverified_counter_intervals,2
+movement_eligible_with_verified_sales_metric,0

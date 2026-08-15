@@ -1,0 +1,20 @@
+anomaly,affected_rows,treatment
+RAW_EXACT_DUPLICATE,0,Retained; none found
+SNAPSHOT_KEY_DUPLICATE,0,Retained; none found
+POTENTIAL_DUPLICATE_REVIEW_ROW,62,Retained and grouped
+PRODUCT_CATEGORY_PATH_CHANGE_ROW,45,Retained and flagged
+PRODUCT_LEVEL2_CATEGORY_CHANGE_ROW,21,Retained and flagged
+NEGATIVE_UNVERIFIED_COUNTER_CHANGE,2,Retained; no correction
+PRICE_ORI_MISSING,200,Raw retained; clean value missing
+PRICE_ORI_ZERO,12,Raw retained; clean value missing
+PRICE_ORI_SENTINEL,2,Raw retained; clean value missing
+PRICE_ORI_SUSPICIOUS_HIGH,1,Raw retained; clean value missing
+PRICE_ACTUAL_MISSING,15,Raw retained; clean value missing
+PRICE_ACTUAL_ZERO,12,Raw retained; clean value missing
+PRICE_ACTUAL_SENTINEL,2,Raw retained; clean value missing
+PRICE_ACTUAL_SUSPICIOUS_HIGH,1,Raw retained; clean value missing
+PRICE_ORI_STATISTICAL_OUTLIER,2423,Retained; descriptive flag only
+PRICE_ACTUAL_STATISTICAL_OUTLIER,2353,Retained; descriptive flag only
+FAVORITE_INVALID_LABEL,1,Raw retained; parsed value missing
+TOTAL_SOLD_UNUSABLE_STATUS,20312,Preserved but excluded from sales metrics
+TOTAL_RATING_UNVERIFIED_STATUS,20312,Preserved but not independently trusted

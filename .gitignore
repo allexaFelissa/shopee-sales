@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments and local environment variables
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+
+# Jupyter and editor state
+.ipynb_checkpoints/
+.vscode/
+.idea/
+*.code-workspace
+
+# OS and temporary files
+.DS_Store
+Thumbs.db
+*.tmp
+*.temp
+*.bak
+*.swp
+~$*
+
+# Logs, caches, and local coverage artifacts
+*.log
+.coverage
+htmlcov/
+
+# Reproducible intermediate data and disposable generated results
+data/interim/*
+outputs/analysis_results/*
+
+# Local secrets and credentials
+*.pem
+*.key
+credentials*.json
+secrets*.toml
+
+# Power BI lock and temporary files
+dashboard/~$*.pbix
+

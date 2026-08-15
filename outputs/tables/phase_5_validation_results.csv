@@ -1,0 +1,45 @@
+check_id,area,status,evidence
+P5-IN-category_daily_coverage,Phase 4 input integrity,PASS,data/processed/shopee_category_daily_coverage.csv SHA-256=943aadf0d5d57834071b97788ddce529a6f787e808e6a657b979d38b1e719aba
+P5-IN-category_level2_summary,Phase 4 input integrity,PASS,data/processed/shopee_category_level2_summary.csv SHA-256=6b3a100d49160513e1d1cb6de129f658fdb5cb6bdcdd266e7929aa009ad62cfb
+P5-IN-daily_coverage,Phase 4 input integrity,PASS,data/processed/shopee_daily_coverage.csv SHA-256=578acae330b70d059e11dcdb84c9893d7bce9cafc41ad514546ac9ef67236661
+P5-IN-matched_observations,Phase 4 input integrity,PASS,data/processed/shopee_matched_observations.csv SHA-256=2d3d99460710163833dad739fae0e4096061f62ca6b1038d5420325d92e967d6
+P5-IN-product_coverage,Phase 4 input integrity,PASS,data/processed/shopee_product_coverage.csv SHA-256=6b1795a57376325f35b68a8a044cef35bf4b9ec8ef705d3e532f33981a50be79
+P5-IN-product_snapshots,Phase 4 input integrity,PASS,data/processed/shopee_product_snapshots.csv SHA-256=95920ed94dbcaafce08971540e86e4d0e55a57639891f6e1fd6a16c7864213ea
+P5-OUT-big_question_feasibility,Output table integrity,PASS,"rows=7, columns=5, SHA-256=de4b727796e4647fee770de6ee764884277e9ffdc99bc37e18693ca163d4dbfb"
+P5-OUT-category_change_impact,Output table integrity,PASS,"rows=4, columns=12, SHA-256=9b945b0ff015308720a16a0a7361cfe02dc1ee2281141b9e8b3ba9e9d2eddb18"
+P5-OUT-category_evidence,Output table integrity,PASS,"rows=24, columns=76, SHA-256=90b7045d738114146901811b4627e11b43be1d5eac73c18835fd22d876978b51"
+P5-OUT-daily_coverage_diagnostics,Output table integrity,PASS,"rows=20, columns=19, SHA-256=72d2454848d777669f182f9c06af3127b1fdd1e6404e39d2f3f350a17e43dd90"
+P5-OUT-descriptive_statistics,Output table integrity,PASS,"rows=14, columns=19, SHA-256=b384fc2744ed7e414008bbae37e840450b18482834248180bb8c9ec5a7dd65c7"
+P5-OUT-engagement_sensitivity_by_category,Output table integrity,PASS,"rows=120, columns=20, SHA-256=58be4989061cefaa0db08ec36b4480e60227d4b790bbae109271b8cc92bfb60c"
+P5-OUT-figure_review,Output table integrity,PASS,"rows=12, columns=9, SHA-256=01edfb99d26238471938838c47ba5cc7cdd0e6e22ce2b1441d4cf1c708f6a302"
+P5-OUT-interval_distribution,Output table integrity,PASS,"rows=19, columns=4, SHA-256=7c820dc048f56b53bb03e24e9bd1406822ff952e4da0733642ba07fab589b0bd"
+P5-OUT-price_sensitivity_by_category,Output table integrity,PASS,"rows=24, columns=20, SHA-256=eba87b115e107f674d818d06b9b1971cc1599de14fb0671f4b8e6df9e83ae754"
+P5-OUT-product_observation_distribution,Output table integrity,PASS,"rows=5, columns=5, SHA-256=67cf3addd427f27f9049d1918a8b590fb659031594fb0c5743b0a4aee963c064"
+P5-REC-01,Snapshot reconciliation,PASS,"Daily and category snapshots both sum to 20,312."
+P5-REC-02,Product reconciliation,PASS,"Observation-frequency distribution sums to 16,614 products."
+P5-REC-03,Matched interval reconciliation,PASS,"Interval distribution and category evidence both sum to 3,698."
+P5-REC-04,Repeat-product reconciliation,PASS,"Repeated products=3070; expected 3,070."
+P5-REC-05,Date/category reconciliation,PASS,20 dates and 24 Level-2 categories represented.
+P5-ENG-01,Favorite denominator,PASS,"3,489 valid favorite intervals reconcile to positive/zero/negative directions."
+P5-ENG-02,Favorite directions,PASS,"Positive=1,518; zero=1,891; negative=80."
+P5-ENG-03,Sensitivity denominators,PASS,"Exact=2603, Level-2 stable=3480, no outlier endpoints=3006."
+P5-ENG-04,Uncertainty bounds,PASS,All reported Wilson bounds lie within 0–100 and lower <= upper.
+P5-CAT-01,Category-change sensitivity,PASS,"Level-2 stable=3,689 and changed=9 matched intervals."
+P5-CAT-02,Full-path sensitivity,PASS,"Full-path stable=3,678 and changed=20 matched intervals."
+P5-SAFE-01,Unsupported metric safeguard,PASS,Prohibited output columns=[]
+P5-SAFE-02,total_sold safeguard,PASS,total_sold remains blocked; no verified sales metric created.
+P5-SAFE-03,Phase boundary,PASS,No Phase 6/final business outputs were created.
+P5-SAFE-04,Question feasibility,PASS,Original question unsupported; proposed reframing remains conditional and unapproved.
+P5-VIS-01,Visual review,PASS,All 12 exact rendered PNGs recorded as visually reviewed.
+P5-FIG-actual_price_distribution,Figure integrity,PASS,"1456x876, bytes=66396, variance_sum=12158.2"
+P5-FIG-category_coverage_heatmap,Figure integrity,PASS,"2152x1251, bytes=170253, variance_sum=21825.2"
+P5-FIG-category_evidence_coverage,Figure integrity,PASS,"1934x1425, bytes=153628, variance_sum=15466.9"
+P5-FIG-category_observation_distribution,Figure integrity,PASS,"1562x1320, bytes=148736, variance_sum=13257.8"
+P5-FIG-daily_observation_volume,Figure integrity,PASS,"1731x876, bytes=125152, variance_sum=2549.7"
+P5-FIG-discount_distribution,Figure integrity,PASS,"1456x876, bytes=60511, variance_sum=3638.4"
+P5-FIG-favorite_distribution,Figure integrity,PASS,"1456x876, bytes=69948, variance_sum=10435.3"
+P5-FIG-favorite_movement,Figure integrity,PASS,"1778x1320, bytes=175187, variance_sum=2481.9"
+P5-FIG-favorite_positive_breadth,Figure integrity,PASS,"1823x1320, bytes=184215, variance_sum=2708.5"
+P5-FIG-observation_interval_distribution,Figure integrity,PASS,"1456x876, bytes=53317, variance_sum=11155.0"
+P5-FIG-price_mean_median,Figure integrity,PASS,"1686x1320, bytes=158394, variance_sum=2766.4"
+P5-FIG-product_observation_distribution,Figure integrity,PASS,"1219x876, bytes=49664, variance_sum=16913.6"

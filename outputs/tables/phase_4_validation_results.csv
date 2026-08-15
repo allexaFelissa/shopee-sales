@@ -1,0 +1,36 @@
+check_id,area,severity,status,expected,observed,detail
+SRC-001,SOURCE_INTEGRITY,CRITICAL,PASS,407c6f5e654283461c8eba20a3a1721f5105650212e92ae99206ea6dbadd199d,407c6f5e654283461c8eba20a3a1721f5105650212e92ae99206ea6dbadd199d,Validated Phase 2 source hash.
+SRC-002,SOURCE_INTEGRITY,CRITICAL,PASS,afed3932287c81df7eefcd7397b723cc2e2ca71d73690dc661ad250c7c78bc69,afed3932287c81df7eefcd7397b723cc2e2ca71d73690dc661ad250c7c78bc69,Immutable raw source hash.
+TAB-001,TABLE_INVENTORY,CRITICAL,PASS,"['category_daily_coverage', 'category_level2_summary', 'daily_coverage', 'matched_observations', 'product_coverage', 'product_snapshots']","['category_daily_coverage', 'category_level2_summary', 'daily_coverage', 'matched_observations', 'product_coverage', 'product_snapshots']",Exact analytical table inventory.
+TAB-category_daily_coverage,TABLE_INVENTORY,CRITICAL,PASS,exists,True,data/processed/shopee_category_daily_coverage.csv
+SCH-category_daily_coverage,SCHEMA,CRITICAL,PASS,480x17; documented schema/hash,480x17; schema=True; hash=True,Manifest reconciliation.
+TAB-category_level2_summary,TABLE_INVENTORY,CRITICAL,PASS,exists,True,data/processed/shopee_category_level2_summary.csv
+SCH-category_level2_summary,SCHEMA,CRITICAL,PASS,24x39; documented schema/hash,24x39; schema=True; hash=True,Manifest reconciliation.
+TAB-daily_coverage,TABLE_INVENTORY,CRITICAL,PASS,exists,True,data/processed/shopee_daily_coverage.csv
+SCH-daily_coverage,SCHEMA,CRITICAL,PASS,20x15; documented schema/hash,20x15; schema=True; hash=True,Manifest reconciliation.
+TAB-matched_observations,TABLE_INVENTORY,CRITICAL,PASS,exists,True,data/processed/shopee_matched_observations.csv
+SCH-matched_observations,SCHEMA,CRITICAL,PASS,3698x62; documented schema/hash,3698x62; schema=True; hash=True,Manifest reconciliation.
+TAB-product_coverage,TABLE_INVENTORY,CRITICAL,PASS,exists,True,data/processed/shopee_product_coverage.csv
+SCH-product_coverage,SCHEMA,CRITICAL,PASS,16614x35; documented schema/hash,16614x35; schema=True; hash=True,Manifest reconciliation.
+TAB-product_snapshots,TABLE_INVENTORY,CRITICAL,PASS,exists,True,data/processed/shopee_product_snapshots.csv
+SCH-product_snapshots,SCHEMA,CRITICAL,PASS,20312x65; documented schema/hash,20312x65; schema=True; hash=True,Manifest reconciliation.
+KEY-product_snapshots,GRAIN_AND_KEYS,CRITICAL,PASS,0 duplicate / 0 missing,duplicates=0; missing=0,product_id+observation_date
+KEY-matched_observations,GRAIN_AND_KEYS,CRITICAL,PASS,0 duplicate / 0 missing,duplicates=0; missing=0,product_id+current_observation_date
+KEY-product_coverage,GRAIN_AND_KEYS,CRITICAL,PASS,0 duplicate / 0 missing,duplicates=0; missing=0,product_id
+KEY-daily_coverage,GRAIN_AND_KEYS,CRITICAL,PASS,0 duplicate / 0 missing,duplicates=0; missing=0,observation_date
+KEY-category_daily_coverage,GRAIN_AND_KEYS,CRITICAL,PASS,0 duplicate / 0 missing,duplicates=0; missing=0,category_level_2+observation_date
+KEY-category_level2_summary,GRAIN_AND_KEYS,CRITICAL,PASS,0 duplicate / 0 missing,duplicates=0; missing=0,category_level_2
+SNP-001,SNAPSHOT_LINEAGE,CRITICAL,PASS,"20,312 one-to-one source mappings",20312,"Identifiers, dates, product labels, and categories map to validated source rows."
+SNP-002,SNAPSHOT_LINEAGE,CRITICAL,PASS,all analytical values/statuses match,True,Validity-aware price and engagement mapping.
+MAT-001,MATCHED_OBSERVATIONS,CRITICAL,PASS,3698,3698,Exactly one row for every non-first product observation.
+MAT-002,MATCHED_OBSERVATIONS,CRITICAL,PASS,valid source rows and positive date differences,True,Interval lineage and elapsed days.
+MAT-003,MATCHED_OBSERVATIONS,CRITICAL,PASS,valid comparisons recompute; invalid comparisons empty,True,Price-change logic.
+MAT-004,MATCHED_OBSERVATIONS,CRITICAL,PASS,all rows retain restrictions,True,Sales-counter safeguard.
+PRD-001,PRODUCT_COVERAGE,CRITICAL,PASS,"16,614 products; 20,312 observations; 3,698 intervals",16614 products; 20312 observations; 3698 intervals,Product-grain coverage reconciliation.
+DAY-001,DAILY_COVERAGE,CRITICAL,PASS,20 dates and exact source counts,dates=20; snapshots=20312,Daily coverage reconciliation.
+CDY-001,CATEGORY_DAILY_COVERAGE,CRITICAL,PASS,"480 grid rows; 20,312 sampled snapshots",480 rows; 20312 snapshots,Complete Level-2 category/date grid reconciliation.
+CAT-001,CATEGORY_SUMMARY,CRITICAL,PASS,24 categories; source counts; shares sum to 100%; no performance metric,categories=24; snapshots=20312; share=99.99999999559999,Level-2 structural summary reconciliation.
+REL-001,RELIABILITY,HIGH,PASS,no tier assigned,True,Evidence fields are present; thresholds remain unapproved.
+SAFE-001,BUSINESS_SAFETY,CRITICAL,PASS,no unsupported KPIs or exposed counters,none,"No sales, revenue, order, AOV, momentum, ranking, or counter-value interface."
+SAFE-002,BUSINESS_SAFETY,CRITICAL,PASS,all false,True,Transformation manifest safeguard declarations.
+SRC-003,SOURCE_INTEGRITY,CRITICAL,PASS,source and raw hashes unchanged,processed=407c6f5e654283461c8eba20a3a1721f5105650212e92ae99206ea6dbadd199d; raw=afed3932287c81df7eefcd7397b723cc2e2ca71d73690dc661ad250c7c78bc69,No protected input changed during validation.

@@ -1,0 +1,8 @@
+component,question_component,phase_5_assessment,evidence,additional_requirement
+A,Verified sales momentum,NOT_SUPPORTED,No independently verified sales/unit field; total_sold duplicates total_rating.,Verified transactions or trustworthy cumulative sales history.
+B,Category growth,NOT_SUPPORTED_AS_BUSINESS_GROWTH,Listing coverage changes sharply and engagement fields are proxies.,Representative category panels plus verified performance events over a longer window.
+C,Platform-wide category growth,NOT_SUPPORTED,The dataset is an uneven scraped sample rather than a platform census.,Known sampling frame or platform-wide category aggregates.
+D,Categories with observed traction,PARTIALLY_SUPPORTABLE_FOR_EXPLORATION,Repeated-product favorite/rating and price observations permit separate descriptive dimensions with explicit evidence counts.,"Approved proxy definition, denominators, inclusion rules, sensitivity requirements, and reliability thresholds."
+E,Campaign priority recommendations,NOT_SUPPORTED,"No campaign exposure, conversion, revenue, margin, inventory, or causal design.","Campaign outcomes, inventory, margin, conversion, audience, and experimental/control evidence."
+F,Original Big Question overall,NOT_DEFENSIBLY_ANSWERABLE,"Sales momentum, platform inference, and decision economics are all unsupported.",Verified longitudinal marketplace performance data and campaign decision inputs.
+R,Proposed sampled-listing traction question,CONDITIONALLY_SUPPORTABLE_REQUIRES_APPROVAL,"Observed scale, matched engagement movement, breadth, coverage, and sensitivity can be reported separately.",Phase 6 approval of wording and governed multidimensional methodology; no silent substitution.

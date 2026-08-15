@@ -1,0 +1,7 @@
+table_name,grain,primary_key,row_count,expected_row_count,duplicate_key_row_count,reconciled_snapshot_count,unique_product_count,level2_category_count,reconciliation_note,source_date_min,source_date_max,status
+shopee_product_snapshots.csv,product snapshot,product_id + observation_date,20312,20312,0,20312,16614,24,No filtering; one row per validated source row,2023-04-24,2023-05-13,PASS
+shopee_matched_observations.csv,consecutive product observation interval,product_id + current_observation_date,3698,3698,0,,3070,23,First observation per product intentionally excluded; no sold-count movement,2023-04-24,2023-05-13,PASS
+shopee_product_coverage.csv,product,product_id,16614,16614,0,20312,16614,24,Observation counts sum to source rows,2023-04-24,2023-05-13,PASS
+shopee_daily_coverage.csv,observation date,observation_date,20,20,0,20312,,24,Daily snapshot counts sum to source rows,2023-04-24,2023-05-13,PASS
+shopee_category_daily_coverage.csv,Level-2 category by study date,category_level_2 + observation_date,480,480,0,20312,,24,Complete category-date grid; zero rows represent no sampled observation,2023-04-24,2023-05-13,PASS
+shopee_category_level2_summary.csv,Level-2 category,category_level_2,24,24,0,20312,,24,Category snapshot counts sum to source rows; no ranking,2023-04-24,2023-05-13,PASS

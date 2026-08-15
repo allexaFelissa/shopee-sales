@@ -1,0 +1,48 @@
+check_id,area,severity,status,expected,observed,detail
+RAW-001,RAW_INTEGRITY,CRITICAL,PASS,exists,dataset/shopee_sales_data.csv,Raw source exists.
+RAW-002,RAW_INTEGRITY,CRITICAL,PASS,afed3932287c81df7eefcd7397b723cc2e2ca71d73690dc661ad250c7c78bc69,afed3932287c81df7eefcd7397b723cc2e2ca71d73690dc661ad250c7c78bc69,Independent SHA-256 verification.
+RAW-003,RAW_INTEGRITY,CRITICAL,PASS,20312 x 20,20312 x 20,Raw record and field counts.
+RAW-004,RAW_INTEGRITY,CRITICAL,PASS,dataset/shopee_sales_data.csv,dataset/shopee_sales_data.csv,No second byte-identical raw CSV exists.
+RAW-005,RAW_INTEGRITY,LOW,WARNING,data/raw or protected legacy path,dataset/shopee_sales_data.csv,Source remains protected at the legacy path; relocation is outside validation.
+REP-001,REPRODUCIBILITY,CRITICAL,PASS,exit code 0,0,"Raw: 20,312 rows x 20 columns | Processed: 20,312 rows x 111 columns | Rows removed: 0 | Raw SHA-256: afed3932287c81df7eefcd7397b723cc2e2ca71d73690dc661ad250c7c78bc69 | Processed SHA-256: 407c6f5e654283461c8eba20a3a1721f5105650212e92ae99206ea6dbadd199d | Output: data\processed\shopee_sales_cleaned.csv"
+REP-002,REPRODUCIBILITY,CRITICAL,PASS,407c6f5e654283461c8eba20a3a1721f5105650212e92ae99206ea6dbadd199d,407c6f5e654283461c8eba20a3a1721f5105650212e92ae99206ea6dbadd199d,Isolated regeneration is byte-for-byte identical to the canonical processed CSV.
+REP-003,REPRODUCIBILITY,CRITICAL,PASS,identical schema/order/values,True,Independent normalized text comparison of baseline and regenerated output.
+REP-004,REPRODUCIBILITY,CRITICAL,PASS,afed3932287c81df7eefcd7397b723cc2e2ca71d73690dc661ad250c7c78bc69,afed3932287c81df7eefcd7397b723cc2e2ca71d73690dc661ad250c7c78bc69,Raw bytes did not change during regeneration.
+STR-001,STRUCTURE,CRITICAL,PASS,20312 x 111,20312 x 111,Processed shape.
+STR-002,STRUCTURE,CRITICAL,PASS,documented 111-column ordered schema,match,"Expected 20 raw plus 91 derived fields, with no extras."
+STR-003,STRUCTURE,CRITICAL,PASS,0,0,Duplicate column-name check.
+STR-004,STRUCTURE,HIGH,PASS,none,none,Accidental serialized index check.
+STR-005,STRUCTURE,HIGH,PASS,none,none,Completely empty column check.
+STR-006,STRUCTURE,CRITICAL,PASS,0 duplicate or missing keys,duplicates=0; missing=0,Product-snapshot grain and key uniqueness.
+REC-001,RAW_RECONCILIATION,CRITICAL,PASS,"['price_ori', 'delivery', 'item_category_detail', 'specification', 'title', 'w_date', 'link_ori', 'item_rating', 'seller_name', 'idElastic', 'price_actual', 'sitename', 'idHash', 'total_rating', 'id', 'total_sold', 'pict_link', 'favorite', 'timestamp', 'desc']","['price_ori', 'delivery', 'item_category_detail', 'specification', 'title', 'w_date', 'link_ori', 'item_rating', 'seller_name', 'idElastic', 'price_actual', 'sitename', 'idHash', 'total_rating', 'id', 'total_sold', 'pict_link', 'favorite', 'timestamp', 'desc']",Original column names and order.
+REC-002,RAW_RECONCILIATION,CRITICAL,PASS,0,0,"Cell-by-cell text comparison across all 406,240 original cells."
+REC-003,RAW_RECONCILIATION,CRITICAL,PASS,1..20312,True,Source row numbers preserve raw ordering.
+REC-004,RAW_RECONCILIATION,CRITICAL,PASS,0,0,Missing-token behavior in original fields.
+DER-001,DERIVED_FIELDS,CRITICAL,PASS,91,91,All documented derived fields included in the independent gate.
+DER-002,DERIVED_FIELDS,CRITICAL,PASS,all 91 pass,all 91 pass,"Independent definition, type, null, and source-relationship comparison."
+DAT-001,DATES,CRITICAL,PASS,20312 valid,20312,All raw observation dates parsed.
+DAT-002,DATES,CRITICAL,PASS,2023-04-24..2023-05-13; 20 dates,2023-04-24..2023-05-13; 20 dates,No missing or shifted calendar date.
+DAT-003,DATES,HIGH,PASS,20312 TRUE,20312,Epoch timestamp agrees with date without timezone shift.
+CAT-001,CATEGORIES,CRITICAL,PASS,24 raw-derived Level-2 categories,24,No broad categories were created or reassigned.
+CAT-002,CATEGORIES,CRITICAL,PASS,45 rows / 19 products,45 rows / 19 products,Full-path product history flags.
+CAT-003,CATEGORIES,CRITICAL,PASS,21 rows / 8 products,21 rows / 8 products,Level-2 product history flags.
+PRI-001,PRICES,CRITICAL,PASS,2 original + 2 actual sentinels; all clean values empty,ori=2; actual=2; clean_empty=True,999999999 never enters usable price fields.
+PRI-002,PRICES,CRITICAL,PASS,"20,086 independently matching valid pairs; invalid pairs empty",20086,Discount amount and percentage recomputation.
+CNT-001,COMPACT_COUNTS,CRITICAL,PASS,all count parsing metadata matches,True,"Suffix, mathematical multiplier, precision, rounding, and status validation."
+SAFE-001,SALES_SAFEGUARD,CRITICAL,PASS,"20,301 exact strings + 11 jointly missing-equivalent; 0 substantive inequalities",exact=20301; jointly_missing=11; substantive_inequalities=0,Independent raw comparison preserves the blank-vs-N/A distinction while confirming duplication wherever populated.
+SAFE-002,SALES_SAFEGUARD,CRITICAL,PASS,all rows restricted,sold=True; rating=True,Trust-status enforcement.
+SAFE-003,SALES_SAFEGUARD,CRITICAL,PASS,no prohibited analytical metric columns,none,"No sales velocity, revenue, AOV, order, rank, or momentum score field."
+DUP-001,DUPLICATES,CRITICAL,PASS,0 exact / 0 key,0 exact / 0 key,Exact and snapshot-key duplicate validation.
+DUP-002,DUPLICATES,HIGH,PASS,62 rows / 30 groups,62 rows / 30 groups,Potential duplicates retained with deterministic identifiers.
+COH-001,MATCHED_COHORT,CRITICAL,PASS,3070/6768/3698/535/86,3070/6768/3698/535/86,Repeated products / repeated rows / intervals / products >=3 / products >=4.
+COH-002,MATCHED_COHORT,CRITICAL,PASS,all intervals > 0,True,Chronological sequence and elapsed-day validation.
+COH-003,MATCHED_COHORT,CRITICAL,PASS,0 verified eligible intervals,0,All movement remains unavailable or blocked.
+NEG-001,NEGATIVE_CHANGE,CRITICAL,PASS,"2 unchanged, flagged, blocked intervals",2,Negative ambiguous-counter interval validation.
+MIS-001,MISSINGNESS,CRITICAL,PASS,all 9 flags match; source cells unchanged,True,No imputation and exact source-to-flag correspondence.
+OUT-001,OUTLIERS,HIGH,PASS,independent IQR thresholds and flags match,thresholds=True; flags=True,"Outliers retained; flags are descriptive, not invalidation rules."
+BUS-001,BUSINESS_SAFETY,CRITICAL,PASS,original retained; alternative requires approval,original=True; pending=True,No silent reframing.
+BUS-002,BUSINESS_SAFETY,HIGH,WARNING,claims remain unavailable,sales/revenue/orders/AOV/customers/conversion/campaign effectiveness unsupported,Structural validation does not validate a business performance metric.
+BUS-003,BUSINESS_SAFETY,HIGH,WARNING,hard restriction remains,total_sold unusable; total_rating unverified,Downstream use requires independent semantic evidence.
+WARN-001,KNOWN_LIMITATIONS,MEDIUM,WARNING,retained for review,62 potential duplicate rows; 45 category-change rows; 2 negative intervals,Known anomalies are correctly preserved and flagged.
+WARN-002,KNOWN_LIMITATIONS,HIGH,WARNING,coverage limitation retained,"3,070/16,614 repeated products; 3,698 intervals over 20 unevenly sampled days",Matched history is sparse and does not establish platform-wide momentum.
+WARN-003,KNOWN_LIMITATIONS,MEDIUM,WARNING,price anomalies retained,"zero, missing, sentinel, suspicious-high, and IQR outliers remain flagged",Valid-status filters are mandatory for later price work.

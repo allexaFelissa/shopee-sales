@@ -1,0 +1,17 @@
+step,area,transformation,affected_rows,integrity_treatment
+1,SOURCE_PROTECTION,Verified raw SHA-256 before read,20312,No raw write
+2,RAW_PRESERVATION,Preserved all 20 raw columns as source text,20312,No raw value changed
+3,MISSINGNESS,Added flags for nine analytically important raw fields; no imputation,14023,Rows retained
+4,DATE,Parsed observation date and added week/month/day-of-week,20312,Raw w_date/timestamp retained
+5,CATEGORY,Split and trimmed four hierarchy levels,20312,No category reassignment
+6,COMPACT_COUNTS,"Parsed sold/rating/favorite displays with suffix, precision, and status",20301,Parsed values remain approximate where compact
+7,SALES_SAFEGUARD,Marked total_sold unusable and total_rating unverified,20312,No sales metric created
+8,ITEM_RATING,Parsed numeric average rating and preserved unrated/missing states,19384,No imputation
+9,PRICE,Created cleaned prices and missing/zero/sentinel/suspicious statuses,226,Rows/raw prices retained
+10,DISCOUNT,Calculated discount only for valid comparable price pairs,20086,Not revenue or campaign data
+11,DUPLICATES,Added exact/key/potential duplicate flags and review group IDs,62,No deletion
+12,MATCHED_COHORT,"Added product history, intervals, and structural eligibility fields",6768,Final movement blocked
+13,NEGATIVE_CHANGE,Flagged decreases in ambiguous cumulative counter,2,No clamping/interpolation
+14,CATEGORY_CHANGE,Added product/path/category change fields,45,No reassignment
+15,COVERAGE,Added daily/category/product coverage counts,20312,No weighting or row duplication
+16,OUTLIERS,Added descriptive statistical outlier flags,7266,No removal

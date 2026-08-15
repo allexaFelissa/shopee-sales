@@ -1,0 +1,7 @@
+output_table,transformation,input_row_count,output_row_count,filtering_or_expansion_logic
+shopee_product_snapshots.csv,Select and clearly rename analysis-useful validated fields,20312,20312,No rows filtered
+shopee_matched_observations.csv,Pair each repeated product observation with its immediately preceding snapshot,20312,3698,First observation per product excluded by grain
+shopee_product_coverage.csv,Aggregate observation and validity coverage to product grain,20312,16614,All source rows represented in observation_count
+shopee_daily_coverage.csv,Aggregate sampling and validity coverage by observation date,20312,20,All source rows represented in sampled_snapshot_count
+shopee_category_daily_coverage.csv,Build complete Level-2 category/date coverage grid,20312,480,Zero-count combinations added explicitly; no source rows duplicated
+shopee_category_level2_summary.csv,"Aggregate structural, price, engagement, and reliability evidence by Level 2",20312,24,"No sales metric, ranking, or reliability tier assigned"

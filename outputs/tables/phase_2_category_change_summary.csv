@@ -1,0 +1,20 @@
+id,observation_count,first_date,last_date,category_path_count,level2_category_count,observed_level2_categories,observed_category_paths
+1f45e492accb2bdc3dc3adfb8b90453e,2,2023-04-27,2023-05-01,2,1,Health & Beauty,Shopee | Health & Beauty | Personal Care | Others || Shopee | Health & Beauty | Personal Pleasure | Adult Accessories & Others
+2cef2ecd1c114fd1209377241104a9dd,2,2023-05-06,2023-05-11,2,2,Baby & Toys || Automotive,Shopee | Baby & Toys | Baby Gear | Car Seats || Shopee | Automotive | Car Accessories | Seat Covers
+3b309403af78ffe525a596025ab330bf,2,2023-04-25,2023-05-02,2,1,Mobile & Accessories,Shopee | Mobile & Accessories | Powerbanks & Batteries | Others || Shopee | Mobile & Accessories | Powerbanks & Batteries | Powerbanks
+3f3402954755f98dda0162ae185a5ef8,4,2023-04-30,2023-05-13,3,2,Home & Living || Health & Beauty,Shopee | Home & Living | Housekeeping & Laundry | Plastic Bags & Trash Bags || Shopee | Health & Beauty | Brushes & Beauty Tools | Makeup Bags & Organiser || Shopee | Home & Living | Handmade | Gift Wrapping
+40540ddbf5a34979db588065f4716cf2,3,2023-04-26,2023-05-13,2,2,Home & Living || Women Clothes,Shopee | Home & Living | Fabric & Materials | Others || Shopee | Women Clothes | Outerwear | Coats & Jackets
+481b6869c8de13b7b82d34f129b70eee,2,2023-04-30,2023-05-12,2,1,Health & Beauty,Shopee | Health & Beauty | Supplements | Well-being || Shopee | Health & Beauty | Personal Pleasure | Adult Accessories & Others
+49b9e99bfa0990fb478ad856b2d6bb46,2,2023-04-25,2023-05-11,2,1,Groceries & Pets,Shopee | Groceries & Pets | Canned & Packed Food | Preserved Vegetables || Shopee | Groceries & Pets | Snacks | Others
+52f825884a809450dd4e1ba6b8c891c3,2,2023-05-01,2023-05-08,2,1,Automotive,Shopee | Automotive | Car Replacement Parts | Batteries || Shopee | Automotive | Car Replacement Parts | Automotive Tools & Equipment
+5414835efcee0a393e46aa15d03d6166,2,2023-04-27,2023-05-06,2,1,Health & Beauty,Shopee | Health & Beauty | Personal Care | Others || Shopee | Health & Beauty | Personal Care | Feminine Care
+630f690e4fb8394570defb041140b624,2,2023-05-08,2023-05-12,2,1,Health & Beauty,Shopee | Health & Beauty | Personal Pleasure | Adult Accessories & Others || Shopee | Health & Beauty | Personal Care | Others
+767a6a3001f0609a4aa067ef59c72bdf,3,2023-04-27,2023-05-12,2,2,Health & Beauty || Home & Living,Shopee | Health & Beauty | Others | Others || Shopee | Home & Living | Kitchen & Dining | Aprons & Kitchen Gloves
+915f59c39a249b25f722a2ae6c9e8300,2,2023-05-03,2023-05-10,2,2,Groceries & Pets || Baby & Toys,Shopee | Groceries & Pets | Beverages | Cordials & Syrup || Shopee | Baby & Toys | Feeding & Nursing | Breastmilk Storage Bags
+b047f1a762657be211dfe519ca9961eb,3,2023-04-26,2023-05-12,2,1,Men Clothes,Shopee | Men Clothes | Sets | Casual Set || Shopee | Men Clothes | Plus Size | Oversize T-Shirts
+d6cd929437a0c6a796cd0a16c61d6b45,2,2023-05-10,2023-05-12,2,1,Watches,Shopee | Watches | Women's Watches | Women's Business || Shopee | Watches | Women's Watches | Others
+e21d3194f78bc677ba73ea0db1dba5a9,2,2023-05-07,2023-05-13,2,2,Women Clothes || Baby & Toys,Shopee | Women Clothes | Maternity Wear | Set Wear || Shopee | Baby & Toys | Maternity Care | Abdominal Binder
+e44e7f575249cc8b9c9de2c3b6737c50,2,2023-05-01,2023-05-13,2,1,Health & Beauty,Shopee | Health & Beauty | Skincare | Gift Set || Shopee | Health & Beauty | Skincare | Sunscreen & Aftersun
+f13499b303673e5d6ace9a557d7047bc,3,2023-05-04,2023-05-13,2,1,Men Clothes,Shopee | Men Clothes | Sets | Casual Set || Shopee | Men Clothes | Shirts | Business & Casual Shirts
+f80d564100b69b55ecca6e3756c2c691,3,2023-04-27,2023-05-13,2,2,Women Clothes || Baby & Toys,Shopee | Women Clothes | Maternity Wear | Innerwear || Shopee | Baby & Toys | Maternity Care | Postnatal Care & Supplements
+fcc20f7f7453d5eead2733a99fc1fb50,2,2023-04-28,2023-05-12,2,2,Mobile & Accessories || Fashion Accessories,Shopee | Mobile & Accessories | Others | Others || Shopee | Fashion Accessories | More Accessories | Keychains & Lanyard
