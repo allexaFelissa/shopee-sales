@@ -1,0 +1,49 @@
+broad_product_category,evidence_sufficiency_tier,sensitivity_status,sensitivity_scenario,unit_of_analysis,eligible_unit_count,positive_unit_count,zero_unit_count,negative_unit_count,positive_favorite_movement_breadth,median_daily_favorite_movement,breadth_difference_from_primary_percentage_points,crosses_50_percent_reference_flag,median_direction_change_flag,breadth_difference_over_10pp_flag,material_conflict_flag,publishable_movement_flag,interpretation_note
+Automotive,MODERATE,ROBUST,PRIMARY_EXACT_PRODUCT,product,96,45,49,2,46.875,0,0,False,False,False,False,True,Primary governed KPI
+Automotive,MODERATE,ROBUST,COMPACT_INCLUSIVE_PRODUCT,product,126,52,72,2,41.26984127,0,-5.60515873,False,False,False,False,True,Sensitivity remains within Phase 6 conflict limits
+Automotive,MODERATE,ROBUST,OUTLIER_EXCLUDED_PRODUCT,product,96,45,49,2,46.875,0,0,False,False,False,False,True,Sensitivity remains within Phase 6 conflict limits
+Automotive,MODERATE,ROBUST,INTERVAL_WEIGHTED_EXACT,interval,118,49,67,2,41.52542373,0,-5.349576271,False,False,False,False,True,Sensitivity remains within Phase 6 conflict limits
+Baby & Kids,MODERATE,UNSTABLE,PRIMARY_EXACT_PRODUCT,product,148,77,69,2,52.02702703,0.1428571429,0,False,False,False,False,True,Primary governed KPI
+Baby & Kids,MODERATE,UNSTABLE,COMPACT_INCLUSIVE_PRODUCT,product,190,86,102,2,45.26315789,0,-6.763869132,True,True,False,True,True,Sensitivity has a Phase 6 material conflict
+Baby & Kids,MODERATE,UNSTABLE,OUTLIER_EXCLUDED_PRODUCT,product,148,77,69,2,52.02702703,0.1428571429,0,False,False,False,False,True,Sensitivity remains within Phase 6 conflict limits
+Baby & Kids,MODERATE,UNSTABLE,INTERVAL_WEIGHTED_EXACT,interval,163,84,77,2,51.53374233,0.1428571429,-0.4932846957,False,False,False,False,True,Sensitivity remains within Phase 6 conflict limits
+Entertainment & Hobbies,INSUFFICIENT,NOT_ASSESSABLE_INSUFFICIENT_EVIDENCE,PRIMARY_EXACT_PRODUCT,product,19,16,3,0,,,,,,,,False,Movement values suppressed because evidence is insufficient
+Entertainment & Hobbies,INSUFFICIENT,NOT_ASSESSABLE_INSUFFICIENT_EVIDENCE,COMPACT_INCLUSIVE_PRODUCT,product,22,16,6,0,,,,,,,,False,Movement values suppressed because evidence is insufficient
+Entertainment & Hobbies,INSUFFICIENT,NOT_ASSESSABLE_INSUFFICIENT_EVIDENCE,OUTLIER_EXCLUDED_PRODUCT,product,19,16,3,0,,,,,,,,False,Movement values suppressed because evidence is insufficient
+Entertainment & Hobbies,INSUFFICIENT,NOT_ASSESSABLE_INSUFFICIENT_EVIDENCE,INTERVAL_WEIGHTED_EXACT,interval,20,17,3,0,,,,,,,,False,Movement values suppressed because evidence is insufficient
+Fashion,HIGH,UNSTABLE,PRIMARY_EXACT_PRODUCT,product,881,463,394,24,52.553916,0.09090909091,0,False,False,False,False,True,Primary governed KPI
+Fashion,HIGH,UNSTABLE,COMPACT_INCLUSIVE_PRODUCT,product,1154,522,608,24,45.2339688,0,-7.3199472,True,True,False,True,True,Sensitivity has a Phase 6 material conflict
+Fashion,HIGH,UNSTABLE,OUTLIER_EXCLUDED_PRODUCT,product,881,463,394,24,52.553916,0.09090909091,0,False,False,False,False,True,Sensitivity remains within Phase 6 conflict limits
+Fashion,HIGH,UNSTABLE,INTERVAL_WEIGHTED_EXACT,interval,1077,525,519,33,48.74651811,0,-3.807397899,True,True,False,True,True,Sensitivity has a Phase 6 material conflict
+Groceries & Pets,HIGH,DIRECTIONALLY_STABLE,PRIMARY_EXACT_PRODUCT,product,112,72,35,5,64.28571429,0.2111111111,0,False,False,False,False,True,Primary governed KPI
+Groceries & Pets,HIGH,DIRECTIONALLY_STABLE,COMPACT_INCLUSIVE_PRODUCT,product,146,78,63,5,53.42465753,0.09545454545,-10.86105675,False,False,True,True,True,Sensitivity has a Phase 6 material conflict
+Groceries & Pets,HIGH,DIRECTIONALLY_STABLE,OUTLIER_EXCLUDED_PRODUCT,product,112,72,35,5,64.28571429,0.2111111111,0,False,False,False,False,True,Sensitivity remains within Phase 6 conflict limits
+Groceries & Pets,HIGH,DIRECTIONALLY_STABLE,INTERVAL_WEIGHTED_EXACT,interval,125,78,42,5,62.4,0.2,-1.885714286,False,False,False,False,True,Sensitivity remains within Phase 6 conflict limits
+Health & Beauty,MODERATE,ROBUST,PRIMARY_EXACT_PRODUCT,product,337,212,114,11,62.90801187,0.1666666667,0,False,False,False,False,True,Primary governed KPI
+Health & Beauty,MODERATE,ROBUST,COMPACT_INCLUSIVE_PRODUCT,product,436,234,191,11,53.66972477,0.09090909091,-9.238287099,False,False,False,False,True,Sensitivity remains within Phase 6 conflict limits
+Health & Beauty,MODERATE,ROBUST,OUTLIER_EXCLUDED_PRODUCT,product,337,212,114,11,62.90801187,0.1666666667,0,False,False,False,False,True,Sensitivity remains within Phase 6 conflict limits
+Health & Beauty,MODERATE,ROBUST,INTERVAL_WEIGHTED_EXACT,interval,411,239,160,12,58.15085158,0.1538461538,-4.757160288,False,False,False,False,True,Sensitivity remains within Phase 6 conflict limits
+Home,HIGH,UNSTABLE,PRIMARY_EXACT_PRODUCT,product,194,111,76,7,57.21649485,0.1715686275,0,False,False,False,False,True,Primary governed KPI
+Home,HIGH,UNSTABLE,COMPACT_INCLUSIVE_PRODUCT,product,323,150,166,7,46.43962848,0,-10.77686636,True,True,True,True,True,Sensitivity has a Phase 6 material conflict
+Home,HIGH,UNSTABLE,OUTLIER_EXCLUDED_PRODUCT,product,194,111,76,7,57.21649485,0.1715686275,0,False,False,False,False,True,Sensitivity remains within Phase 6 conflict limits
+Home,HIGH,UNSTABLE,INTERVAL_WEIGHTED_EXACT,interval,221,119,93,9,53.84615385,0.1333333333,-3.370340999,False,False,False,False,True,Sensitivity remains within Phase 6 conflict limits
+Mobile & Technology,HIGH,UNSTABLE,PRIMARY_EXACT_PRODUCT,product,304,159,131,14,52.30263158,0.08333333333,0,False,False,False,False,True,Primary governed KPI
+Mobile & Technology,HIGH,UNSTABLE,COMPACT_INCLUSIVE_PRODUCT,product,414,185,215,14,44.68599034,0,-7.616641241,True,True,False,True,True,Sensitivity has a Phase 6 material conflict
+Mobile & Technology,HIGH,UNSTABLE,OUTLIER_EXCLUDED_PRODUCT,product,304,159,131,14,52.30263158,0.08333333333,0,False,False,False,False,True,Sensitivity remains within Phase 6 conflict limits
+Mobile & Technology,HIGH,UNSTABLE,INTERVAL_WEIGHTED_EXACT,interval,373,184,173,16,49.32975871,0,-2.972872866,True,True,False,True,True,Sensitivity has a Phase 6 material conflict
+Others,INSUFFICIENT,NOT_ASSESSABLE_INSUFFICIENT_EVIDENCE,PRIMARY_EXACT_PRODUCT,product,0,0,0,0,,,,,,,,False,Movement values suppressed because evidence is insufficient
+Others,INSUFFICIENT,NOT_ASSESSABLE_INSUFFICIENT_EVIDENCE,COMPACT_INCLUSIVE_PRODUCT,product,0,0,0,0,,,,,,,,False,Movement values suppressed because evidence is insufficient
+Others,INSUFFICIENT,NOT_ASSESSABLE_INSUFFICIENT_EVIDENCE,OUTLIER_EXCLUDED_PRODUCT,product,0,0,0,0,,,,,,,,False,Movement values suppressed because evidence is insufficient
+Others,INSUFFICIENT,NOT_ASSESSABLE_INSUFFICIENT_EVIDENCE,INTERVAL_WEIGHTED_EXACT,interval,0,0,0,0,,,,,,,,False,Movement values suppressed because evidence is insufficient
+Sports & Outdoor,MODERATE,ROBUST,PRIMARY_EXACT_PRODUCT,product,67,31,35,1,46.26865672,0,0,False,False,False,False,True,Primary governed KPI
+Sports & Outdoor,MODERATE,ROBUST,COMPACT_INCLUSIVE_PRODUCT,product,87,34,52,1,39.08045977,0,-7.188196946,False,False,False,False,True,Sensitivity remains within Phase 6 conflict limits
+Sports & Outdoor,MODERATE,ROBUST,OUTLIER_EXCLUDED_PRODUCT,product,67,31,35,1,46.26865672,0,0,False,False,False,False,True,Sensitivity remains within Phase 6 conflict limits
+Sports & Outdoor,MODERATE,ROBUST,INTERVAL_WEIGHTED_EXACT,interval,71,33,37,1,46.47887324,0,0.210216523,False,False,False,False,True,Sensitivity remains within Phase 6 conflict limits
+Tickets & Vouchers,INSUFFICIENT,NOT_ASSESSABLE_INSUFFICIENT_EVIDENCE,PRIMARY_EXACT_PRODUCT,product,3,2,1,0,,,,,,,,False,Movement values suppressed because evidence is insufficient
+Tickets & Vouchers,INSUFFICIENT,NOT_ASSESSABLE_INSUFFICIENT_EVIDENCE,COMPACT_INCLUSIVE_PRODUCT,product,3,2,1,0,,,,,,,,False,Movement values suppressed because evidence is insufficient
+Tickets & Vouchers,INSUFFICIENT,NOT_ASSESSABLE_INSUFFICIENT_EVIDENCE,OUTLIER_EXCLUDED_PRODUCT,product,3,2,1,0,,,,,,,,False,Movement values suppressed because evidence is insufficient
+Tickets & Vouchers,INSUFFICIENT,NOT_ASSESSABLE_INSUFFICIENT_EVIDENCE,INTERVAL_WEIGHTED_EXACT,interval,3,2,1,0,,,,,,,,False,Movement values suppressed because evidence is insufficient
+Travel,INSUFFICIENT,NOT_ASSESSABLE_INSUFFICIENT_EVIDENCE,PRIMARY_EXACT_PRODUCT,product,8,2,6,0,,,,,,,,False,Movement values suppressed because evidence is insufficient
+Travel,INSUFFICIENT,NOT_ASSESSABLE_INSUFFICIENT_EVIDENCE,COMPACT_INCLUSIVE_PRODUCT,product,8,2,6,0,,,,,,,,False,Movement values suppressed because evidence is insufficient
+Travel,INSUFFICIENT,NOT_ASSESSABLE_INSUFFICIENT_EVIDENCE,OUTLIER_EXCLUDED_PRODUCT,product,8,2,6,0,,,,,,,,False,Movement values suppressed because evidence is insufficient
+Travel,INSUFFICIENT,NOT_ASSESSABLE_INSUFFICIENT_EVIDENCE,INTERVAL_WEIGHTED_EXACT,interval,8,2,6,0,,,,,,,,False,Movement values suppressed because evidence is insufficient

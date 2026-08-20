@@ -1,0 +1,5 @@
+qa_scope,status,result
+Page 1,PASS,"Titles, units, labels, scatter annotation, evidence semantics, N/A note, and non-priority safeguard reviewed."
+Page 2,PASS,"All 24 categories remain available through the single-select slicer; selecting one drives KPI cards and the separate breadth, difference, median, and eligible-unit sensitivity evidence."
+Page 3,PASS,"All-category evidence scale, neutral tier semantics, and unsupported-claim boundary reviewed."
+Power BI Desktop render,REVIEW REQUIRED,"Desktop 2.150.2455.0 accepted the repaired report root, calculated-column TMSL, and collision-free model namespace, reaching the named project window without a modal load error; visible render, refresh, and cross-filter QA remain for reviewer."

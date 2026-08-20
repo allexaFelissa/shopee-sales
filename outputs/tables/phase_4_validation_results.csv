@@ -7,13 +7,13 @@ SCH-category_daily_coverage,SCHEMA,CRITICAL,PASS,480x17; documented schema/hash,
 TAB-category_level2_summary,TABLE_INVENTORY,CRITICAL,PASS,exists,True,data/processed/shopee_category_level2_summary.csv
 SCH-category_level2_summary,SCHEMA,CRITICAL,PASS,24x39; documented schema/hash,24x39; schema=True; hash=True,Manifest reconciliation.
 TAB-daily_coverage,TABLE_INVENTORY,CRITICAL,PASS,exists,True,data/processed/shopee_daily_coverage.csv
-SCH-daily_coverage,SCHEMA,CRITICAL,PASS,20x15; documented schema/hash,20x15; schema=True; hash=True,Manifest reconciliation.
+SCH-daily_coverage,SCHEMA,CRITICAL,PASS,20x16; documented schema/hash,20x16; schema=True; hash=True,Manifest reconciliation.
 TAB-matched_observations,TABLE_INVENTORY,CRITICAL,PASS,exists,True,data/processed/shopee_matched_observations.csv
-SCH-matched_observations,SCHEMA,CRITICAL,PASS,3698x62; documented schema/hash,3698x62; schema=True; hash=True,Manifest reconciliation.
+SCH-matched_observations,SCHEMA,CRITICAL,PASS,3698x65; documented schema/hash,3698x65; schema=True; hash=True,Manifest reconciliation.
 TAB-product_coverage,TABLE_INVENTORY,CRITICAL,PASS,exists,True,data/processed/shopee_product_coverage.csv
-SCH-product_coverage,SCHEMA,CRITICAL,PASS,16614x35; documented schema/hash,16614x35; schema=True; hash=True,Manifest reconciliation.
+SCH-product_coverage,SCHEMA,CRITICAL,PASS,16614x39; documented schema/hash,16614x39; schema=True; hash=True,Manifest reconciliation.
 TAB-product_snapshots,TABLE_INVENTORY,CRITICAL,PASS,exists,True,data/processed/shopee_product_snapshots.csv
-SCH-product_snapshots,SCHEMA,CRITICAL,PASS,20312x65; documented schema/hash,20312x65; schema=True; hash=True,Manifest reconciliation.
+SCH-product_snapshots,SCHEMA,CRITICAL,PASS,20312x66; documented schema/hash,20312x66; schema=True; hash=True,Manifest reconciliation.
 KEY-product_snapshots,GRAIN_AND_KEYS,CRITICAL,PASS,0 duplicate / 0 missing,duplicates=0; missing=0,product_id+observation_date
 KEY-matched_observations,GRAIN_AND_KEYS,CRITICAL,PASS,0 duplicate / 0 missing,duplicates=0; missing=0,product_id+current_observation_date
 KEY-product_coverage,GRAIN_AND_KEYS,CRITICAL,PASS,0 duplicate / 0 missing,duplicates=0; missing=0,product_id

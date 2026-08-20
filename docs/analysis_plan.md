@@ -85,6 +85,8 @@ Momentum methodology remains unfinalized. Phase 3 must validate every derived fi
 
 ## Phase 4 transformation update
 
+Controlled taxonomy revision: Phase 4 now enriches the snapshot, matched-interval, product, and daily interfaces with the deterministic `broad_product_category` grouping while retaining every Level-2 field. The mapping covers all 24 observed Level-2 values with 12 broad groups and is independently validated. Level-2 and broad-category stability are separate diagnostics; the approved conservative Level-2-change exclusion remains unchanged. Downstream Phase 6-9 results must be recomputed from eligible observations at the new broad grain before they can be treated as current.
+
 Phase 4 created six governed analytical structures from the validated Phase 2 snapshot table:
 
 1. A product-snapshot interface retaining the source grain and quality/status fields.
@@ -134,3 +136,44 @@ Narrow the claim to listing-sample traction—or conclude that momentum is not s
 - Phase 3: validation checks and `reports/data_validation_report.md`
 - Phase 4: documented product-snapshot and matched-interval analytical tables
 - Phase 5 onward: governed facts tables, KPI definitions, charts, dashboard, and final report
+
+## Phase 7 execution update
+
+Controlled taxonomy recalculation (analysis version 2.0.0): all Phase 7 KPIs were recomputed from eligible intervals at the governed 12-group Broad Product Category grain. The primary cohort remains 2,590 exact-display, Level-2-stable intervals and 2,169 product summaries. Evidence is now 4 `HIGH`, 4 `MODERATE`, and 4 `INSUFFICIENT`; no group passes the complete further-investigation gate. Former Level-2 results remain historical comparison evidence and were not aggregated into the new values.
+
+Phase 7 executed the frozen Phase 6 definitions against unchanged Phase 4 tables.
+
+- Exact favorite filtering retains 2,603 of 3,489 valid intervals; excluding all Broad Product Category-changing products leaves 2,590 primary intervals.
+- Product-level aggregation produces 2,169 eligible product-category summaries across 24 categories.
+- Evidence results are 4 `HIGH`, 10 `MODERATE`, and 10 `INSUFFICIENT`; insufficient movement values are blank.
+- Compact-inclusive, outlier-excluded, and interval-weighted sensitivities are reported separately.
+- No category passes the complete formal further-investigation gate; no campaign recommendation is made.
+- No KPI definition, composite score, sales/revenue metric, or upstream analytical table was changed.
+
+The user explicitly approved Phase 8 visualization work after reviewing the Phase 7 gate.
+
+## Phase 8 visualization update
+
+Phase 8 transformed the frozen Phase 7 facts into a governed six-visual analytical layer and a three-page Power BI plan.
+
+- The executive scatter keeps breadth and median daily movement on separate axes; eligible product count controls size and evidence tier remains a separate grouping.
+- Evidence, eligible-product scale, breadth, and typical magnitude each have a dedicated view. All 24 categories remain visible where relevant.
+- The ten `INSUFFICIENT` categories appear as `N/A — insufficient evidence`, never as zero or ranked movement values.
+- Compact-inclusive, outlier-excluded, and interval-weighted sensitivities are shown in separate aligned panels with exact/product results fixed as primary.
+- Evidence tier uses neutral quality semantics and is explicitly separated from category performance.
+- Phase 9 is specified as three pages: Category Engagement Overview, Category Evidence Deep Dive, and Evidence & Limitations.
+
+All six exact PNG exports passed manual visual QA, and the independent Phase 8 gate passed 57 of 57 checks. Ten generated artifacts reproduced byte-for-byte with zero hash differences. No KPI, composite score, sales/revenue measure, dashboard, or campaign recommendation was created. Phase 9 requires explicit approval.
+
+## Phase 9 dashboard implementation update
+
+The user explicitly authorized Phase 9. A native source-controlled PBIP/PBIR project now implements the frozen three-page design using Phase 7 publication tables as the factual source.
+
+- Page 1 separates breadth, typical movement, eligible tracked-product scale, and evidence context.
+- Page 2 provides single-category exact-display primary KPIs with Wilson evidence and three separately labeled sensitivity specifications.
+- Page 3 exposes evidence gates, sampled scale, insufficient categories, and unsupported claims.
+- Only Broad Product Category, Evidence Sufficiency Tier, and Sensitivity Status are exposed as filters; the fixed 20-day window has no date slicer.
+- Independent validation passed 20 of 20 checks; offline PBIR validation passed with zero errors; three deterministic layout previews passed manual semantic/readability QA.
+- Native Desktop refresh/render/interaction QA remains required because Power BI Desktop is not installed in the execution environment.
+
+No KPI, composite score, sales/revenue/order/conversion metric, campaign recommendation, or Phase 10 analysis was added. Phase 9 is `REVIEW REQUIRED`; Phase 10 remains `NOT STARTED`.

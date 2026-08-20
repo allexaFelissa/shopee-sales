@@ -1,0 +1,28 @@
+check_id,status,expected,actual,detail
+P9-STRUCT-01,PASS,PBIP exists,True,Native Power BI project shortcut exists.
+P9-STRUCT-02,PASS,3 pages,3,Only the approved three-page architecture is present.
+P9-STRUCT-03,PASS,35 governed report visuals,35,"Visual inventory includes titles, slicers, cards, charts, tables, notes, and footers."
+P9-STRUCT-04,PASS,"scatter, bar, and table","['barChart', 'cardVisual', 'scatterChart', 'slicer', 'tableEx', 'textbox']",Required analytical visual families are implemented.
+P9-STRUCT-05,PASS,report/3.3.0 with required themeCollection and no legacy layoutOptimization,"['$schema', 'objects', 'themeCollection']",Report root matches the Power BI Desktop report/3.3.0 contract.
+P9-DATA-01,PASS,24 categories,24,All Broad Product Categories remain in the source fact.
+P9-DATA-02,PASS,HIGH=4; MODERATE=10; INSUFFICIENT=10,"{'MODERATE': 10, 'INSUFFICIENT': 10, 'HIGH': 4}",Evidence tiers reconcile to Phase 7.
+P9-DATA-03,PASS,all blank,0,Insufficient breadth is never converted to zero.
+P9-DATA-04,PASS,all blank,0,Insufficient magnitude is never converted to zero.
+P9-DATA-05,PASS,96 rows / 4 scenarios,96 / 4,Primary and three sensitivities are complete.
+P9-DATA-06,PASS,4 complete sensitivity rows for reference category,4,A publishable selected category has complete primary and sensitivity evidence.
+P9-RECON-01,PASS,"(112, 64.28571429, 0.2111111111, 'HIGH', 'DIRECTIONALLY_STABLE')","(112, np.float64(64.28571429), np.float64(0.2111111111), 'HIGH', 'DIRECTIONALLY_STABLE')",Published values reconcile for Groceries & Pets.
+P9-RECON-02,PASS,"(337, 62.90801187, 0.1666666667, 'MODERATE', 'ROBUST')","(337, np.float64(62.90801187), np.float64(0.1666666667), 'MODERATE', 'ROBUST')",Published values reconcile for Health & Beauty.
+P9-RECON-03,PASS,"(46, 58.69565217, 0.2792207792, 'MODERATE', 'ROBUST')","(46, np.float64(58.69565217), np.float64(0.2792207792), 'MODERATE', 'ROBUST')",Published values reconcile for Women's Bags.
+P9-MODEL-01,PASS,all expression columns explicitly use TMSL type=calculated,"[('Scenario Display', 'calculated'), ('Scenario Type', 'calculated')]",Calculated scenario labels are not parsed as imported source columns.
+P9-MODEL-02,PASS,no table-local column/measure name collisions,{},Approved measure names remain unique within their table namespace.
+P9-KPI-01,PASS,all four numeric governed KPI measures,"['Eligible Favorite-Movement Product Count', 'Median Daily Favorite Movement per Product', 'Observed Stable-Category Product Count', 'Positive Favorite-Movement Breadth']",Evidence tier is a governed categorical column.
+P9-KPI-02,PASS,explicit N/A display behavior,present,Deep-dive cards protect blanks from zero interpretation.
+P9-GOV-01,PASS,no forbidden measures,[],"No sales, revenue, order, AOV, conversion, composite, or campaign metric exists."
+P9-GOV-02,PASS,blocked fields absent,absent,Blocked counters are not loaded or exposed.
+P9-GOV-03,PASS,no free-form date field,absent,Fixed-window model has no user-facing date column or slicer.
+P9-FILTER-01,PASS,only 3 allowed fields,"['Broad Product Category', 'Evidence Sufficiency Tier', 'Sensitivity Status']",No ungoverned slicer is exposed.
+P9-FILTER-02,PASS,deep-dive category slicer has no domain-restricting filter and requires one category,True,All governed categories remain selectable; selecting one drives the category-dependent visuals.
+P9-FILTER-03,PASS,all filter names unique and 1–50 characters,[],PBIR filter identifiers satisfy the Desktop contract.
+P9-FILTER-04,PASS,24 governed category values available to slicer field,24,"The slicer-bound scorecard column retains the complete category domain, including insufficient-evidence categories."
+P9-LINEAGE-01,PASS,Phase 7 hashes unchanged,True,Dashboard build did not modify governed Phase 7 inputs.
+P9-QA-01,PASS,3 readable previews,"[217512, 175281, 231125]",Deterministic layout previews exist for manual QA.

@@ -1,0 +1,45 @@
+check_id,area,status,evidence
+P6-A-kpi_definitions,artifact,PASS,docs\kpi_definitions.md
+P6-A-business_question_governance,artifact,PASS,docs\business_question_governance.md
+P6-A-phase_6_kpi_specification,artifact,PASS,outputs\tables\phase_6_kpi_specification.csv
+P6-A-phase_6_kpi_validation_rules,artifact,PASS,outputs\tables\phase_6_kpi_validation_rules.csv
+P6-A-phase_6_kpi_dependency_map,artifact,PASS,outputs\tables\phase_6_kpi_dependency_map.csv
+P6-A-phase_6_category_eligibility_rules,artifact,PASS,outputs\tables\phase_6_category_eligibility_rules.csv
+P6-A-phase_6_kpi_design_report,artifact,PASS,reports\phase_6_kpi_design_report.md
+P6-A-build_phase_6_kpi_specs,artifact,PASS,src\analysis\build_phase_6_kpi_specs.py
+P6-A-phase_6_kpi_design_manifest,artifact,PASS,outputs\analysis_results\phase_6_kpi_design_manifest.json
+P6-S-schema,KPI specification,PASS,columns=30
+P6-S-count,KPI specification,PASS,rows=5
+P6-S-complete,KPI specification,PASS,required cells nonblank
+P6-S-formulas,KPI specification,PASS,five explicit formulas
+P6-S-grains,KPI specification,PASS,all grains state Broad Product Category
+P6-S-powerbi,KPI specification,PASS,measure names and notes complete
+P6-G-no-prohibited-kpi,safeguards,PASS,observed stable-category product count eligible favorite-movement product count positive favorite-movement breadth median daily favorite movement per product evidence sufficiency tier
+P6-G-no-blocked-source,safeguards,PASS,blocked counters absent from KPI source fields
+P6-G-no-composite,safeguards,PASS,no composite KPI
+P6-G-product-breadth,breadth governance,PASS,"All eligible products, including zero and negative product medians"
+P6-G-exact-primary,favorite governance,PASS,exact primary stated
+P6-G-category-change,category governance,PASS,every KPI has explicit category-change exclusion
+P6-G-outliers,outlier governance,PASS,every KPI has an outlier rule
+P6-G-missing,missing governance,PASS,every KPI has a missing-value rule
+P6-V-count,validation specification,PASS,rules=18
+P6-V-coverage,validation specification,PASS,uncovered=[]
+P6-V-zero,validation specification,PASS,zero-denominator behavior complete
+P6-V-examples,validation specification,PASS,breadth and median worked examples
+P6-D-count,dependency map,PASS,rows=14
+P6-D-blocked,dependency map,PASS,sold/rating dependency paths blocked
+P6-E-tier-rules,eligibility rules,PASS,three evidence tiers defined
+P6-E-no-recommendation,eligibility rules,PASS,campaign decision explicitly blocked
+P6-Q-65,question governance,PASS,A. “categories”
+P6-Q-66,question governance,PASS,B. “gaining momentum”
+P6-Q-67,question governance,PASS,C. “fastest”
+P6-Q-68,question governance,PASS,D. “on the platform”
+P6-Q-69,question governance,PASS,E. “prioritize featuring”
+P6-Q-70,question governance,PASS,F. “upcoming campaigns and collections”
+P6-Q-final,question governance,PASS,"Which Broad Product Categories show stronger observed favorite-engagement movement among eligible repeatedly tracked listings in this 20-day sampled dataset, when breadth, typical per-day movement, sampled scale, and evidence sufficiency are reported separately?"
+P6-Q-claims,question governance,PASS,allowed and prohibited claims documented
+P6-I-phase4-immutable,input integrity,PASS,changed=[]
+P6-R-manifest,reproducibility,PASS,hash mismatches=[]
+P6-R-safeguards,reproducibility,PASS,"{'campaign_recommendation_created': False, 'category_ranking_created': False, 'composite_score_created': False, 'phase_4_data_modified': False, 'revenue_kpi_created': False, 'sales_kpi_created': False, 'total_rating_blocked': True, 'total_sold_blocked': True}"
+P6-STATUS-6,phase status,PASS,Phase 6 COMPLETED after passing its gate
+P6-STATUS-7,phase status,PASS,Phase 7 REVIEW REQUIRED

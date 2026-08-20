@@ -1,0 +1,15 @@
+rule_id,scope,rule_type,condition,action,rationale
+P6-E01,primary movement interval,favorite validity,favorite_comparison_status = VALID_EXACT_DISPLAY_VALUES,Include,Avoid treating compact/rounded endpoints as exact changes
+P6-E02,primary movement interval,time,elapsed_days > 0 and both endpoints inside active date context,Include,Supports finite per-day normalization and consistent filter behavior
+P6-E03,primary movement interval,category,level2_category_changed_over_time_flag = FALSE,Include,Creates mutually attributable stable Level-2 cohorts
+P6-E04,product summary,weighting,At least one eligible interval in category/window,Compute median daily change once per product,Prevents products with more observations receiving more weight
+P6-E05,breadth,direction,product median > 0 / = 0 / < 0,Positive enters numerator; all three enter denominator,"Breadth measures participation, not net magnitude"
+P6-E06,primary values,outliers,Valid exact favorite endpoint is IQR-flagged,Retain in primary; exclude in mandatory sensitivity,IQR status is not proof of error; medians provide robustness
+P6-E07,sensitivity,approximate favorites,Valid comparison contains a compact/rounded endpoint,Include only in separately labeled all-valid product-level sensitivity,Preserves coverage evidence without false precision
+P6-E08,sensitivity,interval weighting,Eligible interval-level calculation,Compare with product-level primary,Detects dominance by frequently observed products
+P6-E09,sensitivity,material conflict,"Breadth differs by >10 percentage points, crosses 50%, or median direction changes under compact/outlier/interval sensitivity",Set SENSITIVITY_REVIEW_REQUIRED; do not resolve with weights,Makes consequential definition dependence visible
+P6-E10,HIGH evidence,tier,20 observed dates AND >=100 eligible products AND Wilson width <=20pp,Assign HIGH,At n=100 the worst-case Wilson width is about 19.25pp; full short-window presence is required
+P6-E11,MODERATE evidence,tier,Not HIGH; >=15 observed dates AND >=30 eligible products AND Wilson width <=35pp,Assign MODERATE,Allows coarse directional work with at least 75% calendar presence; n=30 worst-case width is about 33.7pp
+P6-E12,INSUFFICIENT evidence,tier,Fails any MODERATE gate or denominator is zero,Assign INSUFFICIENT; suppress movement KPIs,Prevents sparse categories being compared as equally reliable
+P6-E13,business follow-up,decision gate,HIGH evidence; Wilson lower bound >50%; median daily movement >0; no sensitivity conflict,May label for further investigation only,"Requires breadth, magnitude, precision, and robustness without creating a campaign recommendation"
+P6-E14,campaign decision,external evidence,Any category passes analytical follow-up gate,"Do not recommend campaign priority without conversion, margin, inventory, campaign fit, and causal/outcome evidence",Analytical traction proxy is insufficient for a campaign decision

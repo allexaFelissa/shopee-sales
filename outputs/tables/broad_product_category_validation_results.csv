@@ -1,0 +1,15 @@
+check_id,evidence,status
+BPC-MAP-01,24 unique Level-2 mappings,PASS
+BPC-MAP-02,12 governed broad groups,PASS
+BPC-MAP-03,mapping domain exactly equals validated source domain,PASS
+BPC-MAP-04,every validated source row maps,PASS
+BPC-DATA-01,row count unchanged after enrichment,PASS
+BPC-DATA-02,snapshot broad values independently reproduce,PASS
+BPC-DATA-03,no unexpected broad-category blanks,PASS
+BPC-DATA-04,Level-2 maps deterministically,PASS
+BPC-DATA-05,immutable raw hash unchanged,PASS
+BPC-DATA-06,validated Phase 2 source hash unchanged,PASS
+BPC-STAB-01,matched table exposes separate broad stability,PASS
+BPC-STAB-02,product table exposes separate broad stability,PASS
+BPC-STAB-03,Level-2 change governance retained; 0 same-broad changes remain identifiable,PASS
+BPC-SAFE-01,original Level-2 field retained,PASS

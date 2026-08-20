@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Shopee Category Engagement"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "0f08cfb9-4460-4b1a-a3cf-3bd08c8946d1"
+  }
+}

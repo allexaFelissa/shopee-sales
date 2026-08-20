@@ -1,0 +1,44 @@
+check_id,area,status,evidence
+P7-IN-phase4-hashes,input integrity,PASS,changed=[]
+P7-IN-phase6-hashes,input integrity,PASS,changed=[]
+P7-IN-approved-kpis,KPI contract,PASS,rows=5
+P7-IN-snapshot-shape,input structure,PASS,"(20312, 66)"
+P7-IN-matched-shape,input structure,PASS,"(3698, 65)"
+P7-IN-category-count,input structure,PASS,categories=12
+P7-IN-date-count,input structure,PASS,dates=20
+P7-IN-keys,input structure,PASS,snapshot and interval keys unique
+P7-EL-exact-all,eligibility,PASS,exact=2603
+P7-EL-valid-all,eligibility,PASS,valid=3489
+P7-EL-retention,eligibility,PASS,retention=74.605904%
+P7-EL-stable-exact,eligibility,PASS,primary intervals=2590
+P7-EL-category-change,eligibility,PASS,all primary products stable
+P7-EL-elapsed,eligibility,PASS,all elapsed days positive
+P7-OUT-business-rows,output structure,PASS,rows=12
+P7-OUT-comparison-rows,output structure,PASS,rows=12
+P7-OUT-sensitivity-rows,output structure,PASS,rows=48
+P7-OUT-findings,output structure,PASS,findings=5
+P7-OUT-figures,output structure,PASS,figures=6
+P7-KPI-counts,KPI reconciliation,PASS,errors=[]
+P7-KPI-values,KPI reconciliation,PASS,errors=[]
+P7-KPI-tiers,KPI reconciliation,PASS,errors=[]
+P7-KPI-blanks,KPI reconciliation,PASS,errors=[]
+P7-KPI-sensitivities,KPI reconciliation,PASS,errors=[]
+P7-KPI-tier-counts,KPI reconciliation,PASS,"{'HIGH': 4, 'MODERATE': 4, 'INSUFFICIENT': 4}"
+P7-KPI-no-candidate,decision gate,PASS,formal candidates=0
+P7-KPI-primary-grain,KPI reconciliation,PASS,eligible product-broad-category rows=2169
+P7-SEN-insufficient-blanks,sensitivity,PASS,insufficient sensitivity values blank
+P7-SEN-required-scenarios,sensitivity,PASS,"['COMPACT_INCLUSIVE_PRODUCT', 'INTERVAL_WEIGHTED_EXACT', 'OUTLIER_EXCLUDED_PRODUCT', 'PRIMARY_EXACT_PRODUCT']"
+P7-FIND-schema,business findings,PASS,required finding fields present
+P7-FIND-complete,business findings,PASS,finding fields complete
+P7-FIND-no-unsupported,business findings,PASS,no unsupported business claims
+P7-FIND-sample-size,business findings,PASS,all findings include sample size
+P7-FIND-sensitivity,business findings,PASS,all findings include sensitivity status
+P7-SAFE-no-sales,safeguards,PASS,no prohibited metric columns
+P7-SAFE-no-composite,safeguards,PASS,no composite score or rank
+P7-SAFE-broad-term,terminology,PASS,business-facing category terminology used
+P7-REP-output-hashes,reproducibility,PASS,mismatches=[]
+P7-REP-version,reproducibility,PASS,version=2.0.0; timestamp=2026-08-20T10:13:26+00:00
+P7-REP-safeguards,reproducibility,PASS,"{'campaign_effectiveness_metric_created': False, 'campaign_recommendation_created': False, 'composite_score_created': False, 'phase4_data_modified': False, 'phase6_kpis_changed': False, 'revenue_metric_created': False, 'sales_metric_created': False, 'total_rating_used': False, 'total_sold_used': False}"
+P7-FIG-files,visual validation,PASS,figure_count=6
+P7-STATUS-7,phase status,PASS,Phase 7 REVIEW REQUIRED
+P7-STATUS-8,phase status,PASS,Phase 8 NOT STARTED

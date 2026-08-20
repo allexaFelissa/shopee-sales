@@ -1,0 +1,236 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "d8eda90f41ac03f8366a",
+  "position": {
+    "x": 28,
+    "y": 238,
+    "z": 9000,
+    "height": 205,
+    "width": 520,
+    "tabOrder": 9
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Category Scorecard"
+                    }
+                  },
+                  "Property": "Broad Product Category"
+                }
+              },
+              "queryRef": "Category Scorecard.Broad Product Category",
+              "nativeQueryRef": "Broad Product Category"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Category Scorecard"
+                    }
+                  },
+                  "Property": "Observed Dates"
+                }
+              },
+              "queryRef": "Category Scorecard.Observed Dates",
+              "nativeQueryRef": "Observed Dates"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Category Scorecard"
+                    }
+                  },
+                  "Property": "Breadth Wilson 95% Lower"
+                }
+              },
+              "queryRef": "Category Scorecard.Breadth Wilson 95% Lower",
+              "nativeQueryRef": "Breadth Wilson 95% Lower"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Category Scorecard"
+                    }
+                  },
+                  "Property": "Breadth Wilson 95% Upper"
+                }
+              },
+              "queryRef": "Category Scorecard.Breadth Wilson 95% Upper",
+              "nativeQueryRef": "Breadth Wilson 95% Upper"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Category Scorecard"
+                    }
+                  },
+                  "Property": "Breadth Wilson 95% Width"
+                }
+              },
+              "queryRef": "Category Scorecard.Breadth Wilson 95% Width",
+              "nativeQueryRef": "Breadth Wilson 95% Width"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Category Scorecard"
+                    }
+                  },
+                  "Property": "Sensitivity Status"
+                }
+              },
+              "queryRef": "Category Scorecard.Sensitivity Status",
+              "nativeQueryRef": "Sensitivity Status"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#D9E0E6'"
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "6D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Primary evidence context'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#16324F'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'left'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

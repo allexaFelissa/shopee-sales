@@ -144,7 +144,8 @@ Detailed evidence is in `reports/data_profiling_report.md`, `reports/data_qualit
 | Field | Type | Definition | Source/transformation | Allowed values | Purpose |
 |---|---|---|---|---|---|
 | `category_level_1` | text | First trimmed path component | `item_category_detail` split on `|` | Raw-derived text/empty | Preserve hierarchy |
-| `category_level_2` | text | Second trimmed path component | Same | 24 observed broad categories/empty | Primary analytical category grain |
+| `category_level_2` | text | Second trimmed path component | Same | 24 observed detailed categories/empty | Preserved source-derived detail category; not overwritten by the analytical grouping |
+| `broad_product_category` | text | Deterministic mapping from `category_level_2` | `src/data/broad_product_category.py` | 12 governed analytical groups | Project-defined dashboard grouping, not an asserted official Shopee taxonomy |
 | `category_level_3` | text | Third trimmed path component | Same | Raw-derived text/empty | Retain subcategory detail |
 | `category_level_4` | text | Fourth trimmed path component | Same | Raw-derived text/empty | Retain detailed category where present |
 | `category_path_clean` | text | Path with trimmed components and controlled delimiter spacing | Rejoin split raw path | Derived path/empty | Consistent comparison without overwriting raw path |
@@ -287,7 +288,7 @@ Identifiers and time:
 `source_row_number`, `product_id`, `observation_date`, `observation_week_start`, `observation_month`, `observation_day_of_week`, `product_title`, `seller_name`, `product_url`.
 
 Category:
-`category_level_2`, `category_level_3`, `category_level_4`, `category_path`, `category_path_status`, `category_changed_over_time_flag`, `level2_category_changed_over_time_flag`, `category_changed_from_previous_observation_flag`, `level2_category_changed_from_previous_observation_flag`.
+`category_level_2`, `broad_product_category`, `category_level_3`, `category_level_4`, `category_path`, `category_path_status`, `category_changed_over_time_flag`, `level2_category_changed_over_time_flag`, `category_changed_from_previous_observation_flag`, `level2_category_changed_from_previous_observation_flag`.
 
 Price:
 `actual_price`, `actual_price_status`, `actual_price_valid_flag`, `actual_price_outlier_flag`, `original_price`, `original_price_status`, `original_price_valid_flag`, `original_price_outlier_flag`, `price_pair_status`, `discount_valid_flag`, `discount_amount`, `discount_percent`, `currency_status`. Clean price fields are populated only for Phase 2 `VALID` statuses; discount fields require a `VALID_COMPARABLE` pair.
@@ -304,7 +305,7 @@ Lineage and grain:
 `product_id`, `previous_observation_date`, `current_observation_date`, `previous_source_row_number`, `current_source_row_number`, `elapsed_days`, `current_observation_sequence`, `product_title`, `seller_name`, `product_url`.
 
 Category comparison:
-`previous_category_level_2`, `current_category_level_2`, `previous_category_level_3`, `current_category_level_3`, `previous_category_level_4`, `current_category_level_4`, `previous_category_path`, `current_category_path`, `category_path_stable_flag`, `level2_category_stable_flag`, `category_changed_over_time_flag`, `level2_category_changed_over_time_flag`.
+`previous_category_level_2`, `current_category_level_2`, `previous_broad_product_category`, `current_broad_product_category`, `previous_category_level_3`, `current_category_level_3`, `previous_category_level_4`, `current_category_level_4`, `previous_category_path`, `current_category_path`, `category_path_stable_flag`, `level2_category_stable_flag`, `broad_product_category_stable_flag`, `category_changed_over_time_flag`, `level2_category_changed_over_time_flag`.
 
 Price comparison:
 `previous_actual_price`, `current_actual_price`, `previous_actual_price_status`, `current_actual_price_status`, `actual_price_comparison_status`, `actual_price_change`, `actual_price_change_percent`, `previous_discount_amount`, `current_discount_amount`, `previous_discount_percent`, `current_discount_percent`, `discount_comparison_status`, `discount_amount_change`, `discount_percentage_point_change`. Changes exist only when both observations pass the relevant validity rule.
@@ -321,7 +322,7 @@ Identity/history:
 `product_id`, `product_url`, `latest_product_title`, `latest_seller_name`, `first_observation_date`, `last_observation_date`, `observation_count`, `observed_date_count`, `observation_span_days`, `observed_date_rate_percent`, `matched_interval_count`, `minimum_interval_days`, `median_interval_days`, `maximum_interval_days`, `repeated_product_flag`, `has_three_or_more_observations_flag`, `has_four_or_more_observations_flag`.
 
 Category and valid-field coverage:
-`first_category_level_2`, `latest_category_level_2`, `distinct_category_path_count`, `distinct_level2_category_count`, `category_path_stable_flag`, `level2_category_stable_flag`, `valid_actual_price_observation_count`, `valid_actual_price_observation_rate_percent`, `valid_discount_observation_count`, `valid_discount_observation_rate_percent`, `valid_favorite_observation_count`, `valid_favorite_observation_rate_percent`, `valid_average_rating_observation_count`, `valid_average_rating_observation_rate_percent`, `any_duplicate_review_flag`, `total_sold_metric_status`, `total_rating_metric_status`, `coverage_reliability_tier_status`.
+`first_category_level_2`, `latest_category_level_2`, `first_broad_product_category`, `latest_broad_product_category`, `distinct_category_path_count`, `distinct_level2_category_count`, `distinct_broad_product_category_count`, `category_path_stable_flag`, `level2_category_stable_flag`, `broad_product_category_stable_flag`, `valid_actual_price_observation_count`, `valid_actual_price_observation_rate_percent`, `valid_discount_observation_count`, `valid_discount_observation_rate_percent`, `valid_favorite_observation_count`, `valid_favorite_observation_rate_percent`, `valid_average_rating_observation_count`, `valid_average_rating_observation_rate_percent`, `any_duplicate_review_flag`, `total_sold_metric_status`, `total_rating_metric_status`, `coverage_reliability_tier_status`.
 
 ### `shopee_daily_coverage.csv`
 

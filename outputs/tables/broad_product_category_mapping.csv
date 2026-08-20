@@ -1,0 +1,25 @@
+category_level_2,broad_product_category,mapping_reason,mapping_version
+Automotive,Automotive,Distinct vehicle-related merchandise domain.,1.0.0
+Baby & Toys,Baby & Kids,Child- and baby-oriented merchandise grouped for dashboard readability.,1.0.0
+Cameras & Drones,Mobile & Technology,Consumer imaging devices and connected hardware.,1.0.0
+Computer & Accessories,Mobile & Technology,Computing devices and supporting accessories.,1.0.0
+Fashion Accessories,Fashion,Wearable accessories belong to the apparel and personal-style domain.,1.0.0
+"Games, Books & Hobbies",Entertainment & Hobbies,Source category already combines leisure media and hobby products.,1.0.0
+Gaming & Consoles,Mobile & Technology,Gaming hardware and its device ecosystem; kept separate from mixed hobby media at Level 2.,1.0.0
+Groceries & Pets,Groceries & Pets,Source Level-2 value already combines grocery and pet products; it cannot be split safely.,1.0.0
+Health & Beauty,Health & Beauty,Distinct personal-care and wellness merchandise domain.,1.0.0
+Home & Living,Home,Household living products.,1.0.0
+Home Appliances,Home,Household appliances.,1.0.0
+Men Clothes,Fashion,Apparel and personal-style merchandise.,1.0.0
+Men Shoes,Fashion,Footwear and personal-style merchandise.,1.0.0
+Men's Bags & Wallets,Fashion,Wearable and personal-style accessories.,1.0.0
+Mobile & Accessories,Mobile & Technology,Mobile devices and supporting accessories.,1.0.0
+Muslim Fashion,Fashion,Apparel and personal-style merchandise; source distinction remains available at Level 2.,1.0.0
+Others,Others,Unclassified source category retained without invented reassignment.,1.0.0
+Sports & Outdoor,Sports & Outdoor,Distinct activity and outdoor merchandise domain.,1.0.0
+Tickets & Vouchers,Tickets & Vouchers,Non-physical and heterogeneous entitlement products remain separate.,1.0.0
+Travel & Luggage,Travel,Travel-oriented luggage and accessories.,1.0.0
+Watches,Fashion,Wearable personal accessory; retained as its original Level-2 detail.,1.0.0
+Women Clothes,Fashion,Apparel and personal-style merchandise.,1.0.0
+Women Shoes,Fashion,Footwear and personal-style merchandise.,1.0.0
+Women's Bags,Fashion,Wearable and personal-style accessories.,1.0.0

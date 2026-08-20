@@ -15,6 +15,8 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
+from broad_product_category import MAPPING_VERSION, mapping_dict, mapping_frame
+
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE_PATH = ROOT / "data" / "processed" / "shopee_sales_cleaned.csv"
@@ -34,6 +36,7 @@ OUTPUTS = {
     "category_daily_coverage": ROOT / "data" / "processed" / "shopee_category_daily_coverage.csv",
     "category_level2_summary": ROOT / "data" / "processed" / "shopee_category_level2_summary.csv",
 }
+BROAD_MAPPING_PATH = ROOT / "outputs" / "tables" / "broad_product_category_mapping.csv"
 RECONCILIATION_PATH = ROOT / "outputs" / "tables" / "phase_4_table_reconciliation.csv"
 TRANSFORMATION_SUMMARY_PATH = ROOT / "outputs" / "tables" / "phase_4_transformation_summary.csv"
 MANIFEST_PATH = ROOT / "outputs" / "analysis_results" / "phase_4_transformation_manifest.json"
@@ -70,6 +73,15 @@ def write_csv(frame: pd.DataFrame, path: Path) -> None:
 
 
 def build_product_snapshots(source: pd.DataFrame) -> pd.DataFrame:
+    broad_lookup = mapping_dict()
+    source_categories = set(source["category_level_2"])
+    unmapped = sorted(source_categories - set(broad_lookup))
+    unused = sorted(set(broad_lookup) - source_categories)
+    if unmapped or unused:
+        raise RuntimeError(f"Broad category domain mismatch; unmapped={unmapped}, unused={unused}")
+    broad_category = source["category_level_2"].map(broad_lookup)
+    if broad_category.isna().any():
+        raise RuntimeError("One or more source rows have no Broad Product Category")
     favorite_valid = source["favorite_parse_status"].isin(
         ["PARSED_EXACT_DISPLAY", "PARSED_COMPACT_ROUNDED"]
     )
@@ -89,6 +101,7 @@ def build_product_snapshots(source: pd.DataFrame) -> pd.DataFrame:
         "seller_name": source["seller_name"],
         "product_url": source["link_ori"],
         "category_level_2": source["category_level_2"],
+        "broad_product_category": broad_category,
         "category_level_3": source["category_level_3"],
         "category_level_4": source["category_level_4"],
         "category_path": source["category_path_clean"],
@@ -152,7 +165,7 @@ def build_matched_observations(snapshots: pd.DataFrame) -> pd.DataFrame:
     ordered = snapshots.sort_values(["product_id", "observation_date", "source_row_number"]).copy()
     grouped = ordered.groupby("product_id", sort=False)
     shift_fields = [
-        "source_row_number", "observation_date", "category_level_2", "category_level_3",
+        "source_row_number", "observation_date", "category_level_2", "broad_product_category", "category_level_3",
         "category_level_4", "category_path", "actual_price", "actual_price_status",
         "discount_amount", "discount_percent", "discount_valid_flag", "favorite_count_approx",
         "favorite_status", "favorite_is_rounded_flag", "average_rating", "average_rating_status",
@@ -183,6 +196,7 @@ def build_matched_observations(snapshots: pd.DataFrame) -> pd.DataFrame:
     )
     same_path = intervals["category_path"].eq(intervals["previous__category_path"])
     same_level2 = intervals["category_level_2"].eq(intervals["previous__category_level_2"])
+    same_broad = intervals["broad_product_category"].eq(intervals["previous__broad_product_category"])
     favorite_rounded_present = (
         intervals["favorite_is_rounded_flag"].eq("TRUE")
         | intervals["previous__favorite_is_rounded_flag"].eq("TRUE")
@@ -201,6 +215,8 @@ def build_matched_observations(snapshots: pd.DataFrame) -> pd.DataFrame:
         "product_url": intervals["product_url"],
         "previous_category_level_2": intervals["previous__category_level_2"],
         "current_category_level_2": intervals["category_level_2"],
+        "previous_broad_product_category": intervals["previous__broad_product_category"],
+        "current_broad_product_category": intervals["broad_product_category"],
         "previous_category_level_3": intervals["previous__category_level_3"],
         "current_category_level_3": intervals["category_level_3"],
         "previous_category_level_4": intervals["previous__category_level_4"],
@@ -209,6 +225,7 @@ def build_matched_observations(snapshots: pd.DataFrame) -> pd.DataFrame:
         "current_category_path": intervals["category_path"],
         "category_path_stable_flag": boolean_text(same_path),
         "level2_category_stable_flag": boolean_text(same_level2),
+        "broad_product_category_stable_flag": boolean_text(same_broad),
         "category_changed_over_time_flag": intervals["category_changed_over_time_flag"],
         "level2_category_changed_over_time_flag": intervals["level2_category_changed_over_time_flag"],
         "previous_actual_price": intervals["previous__actual_price"],
@@ -304,10 +321,16 @@ def build_product_coverage(snapshots: pd.DataFrame) -> pd.DataFrame:
     coverage["has_four_or_more_observations_flag"] = boolean_text(coverage["observation_count"].ge(4))
     coverage["first_category_level_2"] = first_rows["category_level_2"]
     coverage["latest_category_level_2"] = last_rows["category_level_2"]
+    coverage["first_broad_product_category"] = first_rows["broad_product_category"]
+    coverage["latest_broad_product_category"] = last_rows["broad_product_category"]
     coverage["distinct_category_path_count"] = grouped["category_path"].nunique().astype("int64")
     coverage["distinct_level2_category_count"] = grouped["category_level_2"].nunique().astype("int64")
+    coverage["distinct_broad_product_category_count"] = grouped["broad_product_category"].nunique().astype("int64")
     coverage["category_path_stable_flag"] = boolean_text(coverage["distinct_category_path_count"].eq(1))
     coverage["level2_category_stable_flag"] = boolean_text(coverage["distinct_level2_category_count"].eq(1))
+    coverage["broad_product_category_stable_flag"] = boolean_text(
+        coverage["distinct_broad_product_category_count"].eq(1)
+    )
     coverage["valid_actual_price_observation_count"] = grouped["actual_price_valid_flag"].apply(lambda values: values.eq("TRUE").sum()).astype("int64")
     coverage["valid_actual_price_observation_rate_percent"] = percent(
         coverage["valid_actual_price_observation_count"], coverage["observation_count"]
@@ -339,6 +362,7 @@ def build_daily_coverage(snapshots: pd.DataFrame, matched: pd.DataFrame) -> pd.D
         sampled_snapshot_count=("product_id", "size"),
         sampled_unique_product_count=("product_id", "nunique"),
         sampled_category_level2_count=("category_level_2", "nunique"),
+        sampled_broad_product_category_count=("broad_product_category", "nunique"),
         sampled_seller_count=("seller_name", "nunique"),
     )
     daily["repeated_product_snapshot_count"] = grouped["repeated_product_flag"].apply(lambda x: x.eq("TRUE").sum())
@@ -565,6 +589,12 @@ def main() -> None:
     if source.duplicated(["id", "w_date"]).any():
         raise RuntimeError("Validated source key is not unique")
 
+    governed_mapping = mapping_frame()
+    if governed_mapping["category_level_2"].duplicated().any():
+        raise RuntimeError("Duplicate Level-2 value in governed broad category mapping")
+    if governed_mapping["mapping_version"].nunique() != 1 or governed_mapping["mapping_version"].iat[0] != MAPPING_VERSION:
+        raise RuntimeError("Broad category mapping version is inconsistent")
+
     snapshots = build_product_snapshots(source)
     matched = build_matched_observations(snapshots)
     products = build_product_coverage(snapshots)
@@ -592,6 +622,12 @@ def main() -> None:
         raise RuntimeError("Matched table sales safeguard failed")
     if not category_summary["performance_metric_status"].eq("NO_VERIFIED_SALES_OR_REVENUE_METRIC").all():
         raise RuntimeError("Category summary performance safeguard failed")
+    if snapshots["broad_product_category"].isna().any():
+        raise RuntimeError("Broad Product Category contains unexpected nulls")
+    if len(snapshots) != len(source):
+        raise RuntimeError("Broad Product Category enrichment changed the snapshot row count")
+    if snapshots.groupby("category_level_2")["broad_product_category"].nunique().ne(1).any():
+        raise RuntimeError("Level-2 to Broad Product Category is not deterministic")
 
     transformation_summary = pd.DataFrame([
         ("shopee_product_snapshots.csv", "Select and clearly rename analysis-useful validated fields", len(source), len(snapshots), "No rows filtered"),
@@ -604,6 +640,7 @@ def main() -> None:
 
     for name, frame in tables.items():
         write_csv(frame, OUTPUTS[name])
+    write_csv(governed_mapping, BROAD_MAPPING_PATH)
     write_csv(reconciliation, RECONCILIATION_PATH)
     write_csv(transformation_summary, TRANSFORMATION_SUMMARY_PATH)
 
@@ -624,6 +661,13 @@ def main() -> None:
             "sha256": raw_hash_after,
         },
         "study_window": {"first_date": "2023-04-24", "last_date": "2023-05-13", "date_count": 20},
+        "broad_product_category_mapping": {
+            "path": BROAD_MAPPING_PATH.relative_to(ROOT).as_posix(),
+            "sha256": sha256(BROAD_MAPPING_PATH),
+            "mapping_version": MAPPING_VERSION,
+            "level2_category_count": len(governed_mapping),
+            "broad_product_category_count": governed_mapping["broad_product_category"].nunique(),
+        },
         "tables": {
             name: {
                 "path": OUTPUTS[name].relative_to(ROOT).as_posix(),

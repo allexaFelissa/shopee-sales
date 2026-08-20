@@ -4,7 +4,7 @@ A portfolio Data Analytics project that turns raw Shopee sales data into validat
 
 ## Current status
 
-Phase 4 transformation is ready for review. Six reproducible analytical tables now provide clear snapshot, matched-observation, product, daily, Level-2 category-day, and Level-2 category grains. All reconciliations and 35 independent transformation checks pass. No EDA, category ranking, final KPI, or recommendation has started, and `total_sold` remains unusable as sales evidence. See [the project status](docs/project_status.md), [the Phase 4 report](reports/phase_4_transformation_report.md), and [the data dictionary](docs/data_dictionary.md).
+The controlled category-taxonomy revision is at its Phase 4 review gate. The pipeline now preserves `category_level_2` as detail and adds a governed 12-group `broad_product_category`; all 24 observed Level-2 values map exactly once. Downstream Phase 6-9 outputs have not yet been recalculated at the new grain and must not be treated as current broad-group results. See [the taxonomy governance](docs/broad_product_category_governance.md) and [the project status](docs/project_status.md).
 
 ## Project objective
 
@@ -38,7 +38,7 @@ The currently available raw file is `dataset/shopee_sales_data.csv`. It remains 
 
 `afed3932287c81df7eefcd7397b723cc2e2ca71d73690dc661ad250c7c78bc69`
 
-Cleaning, validation, and structural transformation are complete through their technical gates. No EDA, category ranking, final KPI, visualization, dashboard, or campaign recommendation has been performed.
+Cleaning, validation, transformation, EDA, KPI governance, governed business analysis, visualization, and the Phase 9 dashboard build have passed their available technical gates. The dashboard is a sampled favorite-engagement view, not verified sales or platform growth. No composite momentum score or campaign recommendation has been created; Phase 10 has not started.
 
 ## Reproducibility rules
 

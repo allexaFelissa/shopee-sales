@@ -164,3 +164,23 @@ Candidate Phase 6 questions are:
 6. Should the final output remain a multidimensional scorecard rather than a composite score or rank?
 
 These questions do not authorize campaign recommendations. Campaign prioritization requires business outcomes and decision inputs absent from the dataset.
+
+## Phase 6 governed decision
+
+Controlled taxonomy revision note: the original approved question and five KPI definitions are unchanged, but the future publication grain will be the project-defined `broad_product_category`. `category_level_2` remains available for detail. All denominators, Wilson intervals, evidence tiers, breadth, and median movement must be recomputed from underlying eligible observations; existing Level-2 results cannot be aggregated into broad results.
+
+Phase 6 formally rejects the original Big Question as unsupported and approves a narrower, sample-bound analytical question:
+
+> Which Level-2 product categories show stronger observed favorite-engagement movement among eligible repeatedly tracked listings in this 20-day sampled dataset, when breadth, typical per-day movement, sampled scale, and evidence sufficiency are reported separately?
+
+“Observed traction” is now governed as a non-composite scorecard, not sales momentum. Primary movement uses exact favorite displays, stable Level-2 products, positive elapsed intervals, and one product-level median before category aggregation. Compact/rounded displays are retained only in a separately labeled sensitivity. Categories failing the transparent evidence gates are not comparable and receive blank movement KPIs rather than zeroes.
+
+The approved definitions are in `docs/kpi_definitions.md`; the component-by-component decision and allowed claims are in `docs/business_question_governance.md`. No category result, rank, composite score, or campaign recommendation is made in Phase 6.
+
+## Phase 7 business-analysis result
+
+Phase 7 applied the governed scorecard to every Broad Product Category. Four categories have `HIGH` evidence, ten have `MODERATE` evidence, and ten have `INSUFFICIENT` evidence. Insufficient-category movement KPIs remain blank.
+
+No category meets the complete formal gate for a “candidate for further business investigation.” `Groceries & Pets` has the strongest high-evidence primary combination, but compact-inclusive breadth differs from primary by more than the governed 10-point limit. `Health & Beauty` has the strongest robust positive pattern but only `MODERATE` evidence because it appears on 19 of 20 dates. `Men Clothes`, `Mobile & Accessories`, and `Women Clothes` have `HIGH` evidence but sensitivity-unstable movement.
+
+These results answer only the sampled favorite-engagement question. They do not answer the original sales/platform-growth or campaign-priority question. See `reports/phase_7_business_analysis_report.md` and the Phase 7 category tables.

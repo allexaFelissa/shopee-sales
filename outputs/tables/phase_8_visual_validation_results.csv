@@ -1,0 +1,58 @@
+check_id,validation_area,status,expected,actual,validation_note
+P8-F01,Required artifacts,PASS,file exists,outputs\tables\phase_8_visual_specification.csv,visual_spec
+P8-F02,Required artifacts,PASS,file exists,outputs\tables\phase_8_dashboard_specification.csv,dashboard_spec
+P8-F03,Required artifacts,PASS,file exists,outputs\tables\phase_8_visual_qa.csv,visual_qa
+P8-F04,Required artifacts,PASS,file exists,outputs\tables\phase_7_category_business_analysis.csv,category
+P8-F05,Required artifacts,PASS,file exists,outputs\tables\phase_7_category_comparison.csv,comparison
+P8-F06,Required artifacts,PASS,file exists,outputs\tables\phase_7_sensitivity_analysis.csv,sensitivity
+P8-F07,Required artifacts,PASS,file exists,outputs\tables\phase_6_kpi_specification.csv,phase6_kpis
+P8-F08,Required artifacts,PASS,file exists,outputs\analysis_results\phase_8_visualization_manifest.json,manifest
+P8-F09,Required artifacts,PASS,file exists,outputs\analysis_results\phase_7_business_analysis_manifest.json,phase7_manifest
+P8-S01,Visual inventory,PASS,6 core visuals,6,One row per governed visual
+P8-S02,Visual inventory,PASS,"['V01', 'V02', 'V03', 'V04', 'V05', 'V06']","['V01', 'V02', 'V03', 'V04', 'V05', 'V06']",Stable visual identifiers
+P8-S03,Visual inventory,PASS,all required specification columns,"['business_question_answered', 'category_or_series', 'chart_type', 'design_safeguards', 'evidence_treatment', 'figure_file', 'filters', 'measures_used', 'missing_value_treatment', 'potential_misinterpretation', 'power_bi_visual', 'sorting', 'source_table', 'tooltip_fields', 'visual_id', 'visual_title', 'why_appropriate', 'x_axis', 'y_axis']",Formal chart contract completeness
+P8-S04,Visual inventory,PASS,6 unique figure files,6,No duplicate visual artifact
+P8-S05,Terminology,PASS,0 business-facing Level-2 titles,0,Use Broad Product Category terminology
+P8-K01,KPI governance,PASS,"['Eligible Favorite-Movement Product Count', 'Evidence Sufficiency Tier', 'Median Daily Favorite Movement per Product', 'Observed Stable-Category Product Count', 'Positive Favorite-Movement Breadth']","['Eligible Favorite-Movement Product Count', 'Evidence Sufficiency Tier', 'Median Daily Favorite Movement per Product', 'Observed Stable-Category Product Count', 'Positive Favorite-Movement Breadth']",Phase 6 KPI set remains frozen
+P8-K02,KPI governance,PASS,total_sold absent from visual measures,False,Blocked metric safeguard
+P8-K03,KPI governance,PASS,total_rating absent from visual measures,False,Blocked metric safeguard
+P8-K04,KPI governance,PASS,revenue absent from visual measures,False,Blocked metric safeguard
+P8-K05,KPI governance,PASS,orders absent from visual measures,False,Blocked metric safeguard
+P8-K06,KPI governance,PASS,conversion absent from visual measures,False,Blocked metric safeguard
+P8-K07,KPI governance,PASS,composite absent from visual measures,False,Blocked metric safeguard
+P8-K08,KPI governance,PASS,breadth included,True,Governed breadth KPI present
+P8-K09,KPI governance,PASS,median movement included,True,Governed magnitude KPI present
+P8-K10,KPI governance,PASS,no composite score title,False,No score framing
+P8-D01,Governed data,PASS,24 categories,24,All Broad Product Categories retained
+P8-D02,Governed data,PASS,HIGH=4; MODERATE=10; INSUFFICIENT=10,"{'MODERATE': 10, 'INSUFFICIENT': 10, 'HIGH': 4}",Evidence distribution
+P8-D03,Missing values,PASS,all insufficient movement values blank,0,No fake zero
+P8-D04,Missing values,PASS,10 N/A categories,10,Unranked universe
+P8-D05,Sensitivity,PASS,96 category-scenario rows,96,24 categories x 4 scenarios
+P8-D06,Sensitivity,PASS,"['COMPACT_INCLUSIVE_PRODUCT', 'INTERVAL_WEIGHTED_EXACT', 'OUTLIER_EXCLUDED_PRODUCT', 'PRIMARY_EXACT_PRODUCT']","['COMPACT_INCLUSIVE_PRODUCT', 'INTERVAL_WEIGHTED_EXACT', 'OUTLIER_EXCLUDED_PRODUCT', 'PRIMARY_EXACT_PRODUCT']",All governed scenarios represented
+P8-D07,Sensitivity,PASS,primary values reconcile,0.0,Primary exact result preserved
+P8-D08,Sensitivity,PASS,14 published categories unchanged under outlier exclusion,0,Phase 7 finding retained
+P8-M01,Missing values,PASS,explicit no-fake-zero rule,insufficient categories remain visible as n/a/blank and are never plotted as zero or ranked. missing wilson width is shown as n/a; zero eligible products remain,"Missingness is semantic, not formatting"
+P8-M02,Evidence semantics,PASS,evidence not performance safeguard,True,Evidence tier is not an outcome
+P8-M03,Primary treatment,PASS,primary explicitly foregrounded,True,Sensitivities cannot replace primary
+P8-M04,Breadth denominator,PASS,breadth meaning explicit,True,Breadth remains distinct from magnitude
+P8-M05,Magnitude meaning,PASS,two-stage median disclosed,True,Magnitude grain preserved
+P8-P01,Dashboard plan,PASS,3 pages,3,Concise Power BI architecture
+P8-P02,Dashboard plan,PASS,"['Category Engagement Overview', 'Category Evidence Deep Dive', 'Evidence & Limitations']","['Category Engagement Overview', 'Category Evidence Deep Dive', 'Evidence & Limitations']",Required page flow
+P8-P03,Dashboard plan,PASS,no indiscriminate slicers,0,Only useful interactions
+P8-P04,Dashboard plan,PASS,limitations on every page,True,Claim boundary remains visible
+P8-P05,Dashboard plan,PASS,single category deep-dive selector,True,Controlled denominator behavior
+P8-Q01,Visual QA,PASS,6 QA rows,6,One QA row per export
+P8-Q02,Visual QA,PASS,all applicable automated QA fields PASS,0,Structured visual review
+P8-Q03,Visual QA,PASS,all exports manually reviewed,{'PASS_VISUAL_QA': 6},Exact PNG inspection gate
+P8-Q04,Visual QA,PASS,N/A only outside sensitivity visual,True,QA semantics
+P8-Q05,Visual QA,PASS,V06 primary distinction PASS,True,Sensitivity legibility
+P8-R01,Rendered figures,PASS,all PNGs >= 1500x900 and >=50KB,all pass,Delivery-size export check
+P8-R02,Rendered figures,PASS,all PNG,['.png'],Stable raster handoff
+P8-G01,Manifest guardrails,PASS,all blocked actions false,"{'composite_score_created': False, 'sales_metric_created': False, 'revenue_metric_created': False, 'campaign_recommendation_created': False, 'insufficient_categories_plotted_as_zero': False, 'power_bi_dashboard_built': False, 'upstream_artifacts_modified': False}",Phase scope retained
+P8-G02,Manifest guardrails,PASS,primary exact remains primary,True,Primary KPI rule
+P8-G03,Manifest,PASS,6 visuals and 3 pages,"(6, 3)",Manifest inventory
+P8-G04,Manifest,PASS,PASS_VISUAL_QA,PASS_VISUAL_QA,Release review recorded
+P8-H01,Upstream integrity,PASS,all Phase 7 outputs unchanged,all hashes match,Phase 7 immutable input gate
+P8-H02,Upstream integrity,PASS,all Phase 4 analytical tables unchanged,all hashes match,Phase 4 immutability
+P8-H03,Upstream integrity,PASS,all Phase 6 specification inputs unchanged,all hashes match,KPI governance immutability
+P8-H04,Input lineage,PASS,all manifest inputs hash-match,True,Phase 8 provenance

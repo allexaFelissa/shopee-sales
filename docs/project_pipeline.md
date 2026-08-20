@@ -62,7 +62,7 @@ Only create a notebook, script, report, or configuration file when a phase actua
 | EDA | Analytical tables | Facts tables and EDA artifacts | Modify code/notebooks and generated outputs only | Phase 4 |
 | KPI/business analysis | Validated facts | KPI tables, answers, limitations | Definitions require review; calculations reproducible | Phases 5–6 |
 | Visualization | Validated facts | Reviewed figures/specifications | Never manually alter source facts | Phase 7 |
-| Dashboard | Validated model + visuals | `.pbix` and reconciliation evidence | Dashboard calculations must match source definitions | Phase 8 |
+| Dashboard | Validated model + visuals | Native `.pbip`/PBIR project and reconciliation evidence | Dashboard calculations must match source definitions | Phase 8 |
 | Insights/reporting | Reviewed evidence | Reports and README updates | Claims must retain caveats | Phases 9–10 |
 
 ## Phase workflow
@@ -158,9 +158,9 @@ Phase 4 analytical tables are `shopee_product_snapshots.csv`, `shopee_matched_ob
 - **Goal:** convert available evidence into measurable business questions and governed KPIs.
 - **Inputs:** Phase 0 scope, validated schema, and Phase 5 facts.
 - **Work:** define each question and KPI with business meaning, source fields, grain, formula, numerator, denominator, filters, time behavior, aggregation rules, comparison, caveats, and falsifiers.
-- **Outputs:** `docs/business_questions.md` and `docs/kpi_definitions.md`.
+- **Outputs:** governed question documentation in `docs/business_questions.md` and `docs/business_question_governance.md`; `docs/kpi_definitions.md`; KPI, validation, dependency, and eligibility specifications in `outputs/tables/`; reusable specification code; a deterministic manifest; an independent validation gate; and `reports/phase_6_kpi_design_report.md`.
 - **Skills:** `karthik-analysis-planner`, then `kpi-tracker`.
-- **Validation:** no KPI is accepted without computable source fields and test cases; avoid misleading denominators and double counting.
+- **Validation:** no KPI is accepted without computable source fields and test cases; approximate favorite values, category changes, missing values, outliers, date filters, zero denominators, and evidence suppression are explicit; no unsupported metric, composite score, rank, or recommendation exists.
 - **Complete when:** definitions are reviewed and frozen for Phase 7.
 
 ### Phase 7 — Business Analysis
@@ -168,9 +168,9 @@ Phase 4 analytical tables are `shopee_product_snapshots.csv`, `shopee_matched_ob
 - **Goal:** answer approved questions with reproducible evidence and business meaning.
 - **Inputs:** governed KPI definitions and validated analytical tables.
 - **Work:** question -> metric -> analysis -> finding -> implication -> evidence-bound recommendation candidate.
-- **Outputs:** analysis code, facts tables, and `reports/analysis_report.md`.
+- **Outputs:** reusable analysis code; governed category analysis, comparison, sensitivity, findings, validation, and figure-review tables; analytical figures; a deterministic manifest; an independent validation gate; and `reports/phase_7_business_analysis_report.md`.
 - **Skills:** `sql-analyst` and/or `pandas-helper`; `data-storyteller` only after facts are stable.
-- **Validation:** peer-style recomputation of important totals; distinguish description, association, and causation.
+- **Validation:** independent reconstruction of every governed KPI, evidence tier, blank, and sensitivity; Phase 4 and Phase 6 hashes unchanged; distinguish description, association, and causation; no composite score or campaign recommendation.
 - **Complete when:** every answer traces to evidence, definitions, and limitations.
 
 ### Phase 8 — Visualization
@@ -178,20 +178,26 @@ Phase 4 analytical tables are `shopee_product_snapshots.csv`, `shopee_matched_ob
 - **Goal:** communicate approved findings accurately and clearly.
 - **Inputs:** validated facts tables, question, audience, and intended takeaway.
 - **Work:** define each chart's question; select, implement, inspect, critique, and revise the exact rendered artifact.
-- **Outputs:** reviewed charts in `outputs/figures/`, reproducible chart code, and chart specifications/takeaways.
+- **Outputs:** six reviewed charts in `outputs/figures/`; `docs/phase_8_visualization_specification.md`; `docs/phase_8_powerbi_handoff.md`; reproducible code in `src/visualization/`; visual, dashboard, QA, and validation tables; deterministic manifest; and `reports/phase_8_visualization_report.md`.
 - **Skills:** coordinate with `dataviz-orchestrator`; route selection to `dataviz-selector`, execution to `karthik-data-visualization`, and review to `dataviz-critique`.
-- **Validation:** correct encodings, labels, denominators, axes, comparisons, accessibility, and delivery-size legibility; no decorative or purposeless chart.
+- **Validation:** correct encodings, labels, denominators, axes, comparisons, accessibility, and delivery-size legibility; N/A is never encoded as zero; exact/product results remain primary; input hashes remain unchanged; no decorative, purposeless, sales, composite-score, or recommendation visual.
 - **Complete when:** each delivered chart passes critique and matches its source facts.
+
+Phase 8 implements a six-visual story: breadth-versus-magnitude scatter, evidence sufficiency, eligible tracked products, breadth comparison, median-movement comparison, and a three-panel sensitivity summary. It defines a three-page Power BI handoff without building the dashboard. The final gate passed 57 of 57 independent checks; six of six exports passed manual visual QA; ten generated artifacts reproduced byte-for-byte; and Phase 4, Phase 6, and Phase 7 inputs remained hash-identical. Phase 8 remains `REVIEW REQUIRED` until user approval.
+
+The user explicitly authorized Phase 9 after the Phase 8 gate, so Phase 8 is recorded as `COMPLETED` for sequential progression.
 
 ### Phase 9 — Power BI Dashboard
 
 - **Goal:** build a concise interactive decision view from governed metrics.
 - **Inputs:** validated model, KPIs, visual specifications, and facts-table benchmarks.
 - **Work:** executive overview first; add product, customer/geography, or promotion pages only when supported and useful.
-- **Outputs:** `dashboard/shopee_sales_dashboard.pbix`, dashboard notes, and reconciliation evidence.
+- **Outputs:** native source-controlled PBIP/PBIR project, dashboard notes, and reconciliation evidence; a `.pbix` export is optional when Desktop is available.
 - **Skills:** `dashboard-builder`; use visualization skills for dashboard visuals as needed.
 - **Validation:** displayed values, filters, relationships, totals, time context, and KPI definitions reconcile to benchmarks.
 - **Complete when:** all pages serve a defined audience question and pass value reconciliation.
+
+Phase 9 produced `dashboard/Shopee_Category_Engagement.pbip`, a native PBIP/PBIR project with a local semantic model and the approved overview, deep-dive, and evidence/limitations pages. The model imports frozen Phase 7 publication facts, exposes only the three approved slicer fields, and preserves N/A for insufficient movement. Desktop compatibility review repaired the invalid report/3.3.0 root, two semantic-model DAX columns that lacked the required TMSL `type: calculated` discriminator, and five imported-column/measure name collisions. The backing columns now use internal `Value` aliases while approved measure names, DAX meaning, source mappings, and report bindings remain unchanged. Independent validation passes 23 of 23 checks and offline PBIR validation reports zero errors. Installed Power BI Desktop 2.150.2455.0 reaches the named `Shopee_Category_Engagement` project window with no modal project-load error, while visible refresh/render/interaction screenshot QA remains a review action. Three deterministic page previews passed manual layout/semantic QA. Phase 9 is `REVIEW REQUIRED` and Phase 10 is `NOT STARTED`.
 
 ### Phase 10 — Business Insights & Recommendations
 
