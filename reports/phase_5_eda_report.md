@@ -218,8 +218,8 @@ Phase 6 must also decide whether favorite movement is an acceptable proxy at all
 Run:
 
 ```powershell
-C:\Python314\python.exe src\analysis\run_phase_5_eda.py
-C:\Python314\python.exe tests\data_validation\validate_phase_5_eda.py
+python src\analysis\run_phase_5_eda.py
+python tests\data_validation\validate_phase_5_eda.py
 ```
 
 Phase 5 stops here. Phase 6 remains `NOT STARTED` pending review and explicit approval.

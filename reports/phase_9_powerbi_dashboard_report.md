@@ -1,89 +1,62 @@
-# Phase 9 — Power BI Dashboard Report
+# Phase 9 — Broad Product Category Power BI Dashboard
 
-## Desktop compatibility repair
+Status: `REVIEW REQUIRED`
+Version: `2.0.0`
+Publication grain: 12 Broad Product Categories
 
-The report targets PBIR report schema `3.3.0`. Its generated root previously mixed that contract with a legacy `layoutOptimization` property and omitted the required `themeCollection`, causing Power BI Desktop to reject `definition/report.json` and open a blank report. The generator and project now use an empty `themeCollection` (delegating the default theme to Desktop) and omit `layoutOptimization`. Power BI Desktop `2.150.2455.0` accepted the repaired root without the prior schema diagnostic. Visible refresh, render, and interaction review remains required.
+## Outcome
 
-The next Desktop load exposed a separate TMSL issue in `model.bim`. `Sensitivity[Scenario Display]` and the adjacent `Sensitivity[Scenario Type]` were intended as DAX calculated columns but omitted the required `type: calculated` discriminator, so Desktop interpreted them as imported columns and rejected `expression`. Both now use the supported calculated-column representation. Their DAX expressions, visual bindings, model relationships, and analytical meaning are unchanged. Desktop subsequently created the local Analysis Services workspace and registered both fields without a project-load schema error.
+The existing PBIP/PBIR project was regenerated in place from the current Phase 7 broad-category facts and the approved Phase 8 handoff. No former Level-2 publication result was aggregated, relabeled, or retained in active dashboard logic.
 
-A subsequent native load exposed five table-local namespace collisions in `Category Scorecard`: imported backing columns shared names with measures for the two count KPIs and three Wilson evidence measures. The backing columns were renamed with an internal `Value` suffix while preserving each original CSV `sourceColumn`; only the dependent DAX references changed. All public measure names and report bindings remain unchanged. A native Desktop retry reached the named project window with no modal load error.
+The semantic model contains:
 
-The native deep-dive review then found a category-domain interaction defect rather than a metric defect. A visual-level categorical filter intended to persist `Health & Beauty` as a default instead restricted the slicer itself to that single value. That filter has been removed from visual `72bdab00c9b6b6435845`. The slicer remains bound to `Category Scorecard[Broad Product Category]`, remains single-select, and now exposes all 24 governed categories, including insufficient-evidence categories. Selecting one category filters the scorecard and sensitivity fact through the existing relationship. The sensitivity table shows eligible units, positive breadth, difference from primary, and median movement for the primary, compact-inclusive, outlier-excluded, and interval-weighted specifications.
+- `Category Scorecard`: 12 rows, one per Broad Product Category.
+- `Sensitivity`: 48 rows, 12 categories across primary exact/product, compact-inclusive, outlier-excluded, and interval-weighted scenarios.
+- one single-direction category relationship.
 
-The Phase 9 gate now verifies the 24-value slicer domain, absence of domain-restricting filters on the deep-dive slicer, and valid names for any remaining report-, page-, or visual-level filters.
+Evidence reconciles to 4 `HIGH`, 4 `MODERATE`, and 4 `INSUFFICIENT`. The four insufficient groups retain counts and evidence context while breadth and median movement remain blank/N/A.
 
-Status: `REVIEW REQUIRED`  
-Version: `1.0.0`
+## Dashboard pages
 
-## Executive summary
+1. **Category Engagement Overview** separates breadth, typical movement, eligible-product scale, and evidence. It explicitly states that top-right is not campaign priority.
+2. **Category Evidence Deep Dive** uses a single Broad Product Category selector and keeps exact-display primary values distinct from all three sensitivities.
+3. **Evidence & Limitations** shows all 12 groups, evidence gates, sampling constraints, and unsupported claims.
 
-Phase 9 produced a native, source-controlled Power BI Project with a local semantic model and the three approved report pages. It uses the frozen Phase 7 publication tables and implements the governed KPIs without a composite score, sales metric, ranking, or campaign recommendation.
+Only Broad Product Category, Evidence Sufficiency Tier, and Sensitivity Status are exposed as slicers. There is no date or Level-2 slicer.
 
-The independent dashboard gate passed **20 of 20 checks**. Microsoft’s offline PBIR validator reported **zero errors**; seven warnings were limited to remote JSON schemas being unreachable from the restricted environment. Three deterministic page previews passed manual readability and semantic review. Power BI Desktop is not installed, so native Desktop rendering, refresh, cross-filter behavior, and screenshot QA remain required during review.
+## Redesign implementation
 
-## Dashboard built
+1. **Category Engagement Overview** retains the bubble chart as the main comparison, with two descending horizontal bars for breadth and typical movement. Four compact cards show evidence-sufficient categories, maximum breadth, maximum median movement, and eligible tracked products.
+2. **Category Evidence Deep Dive** uses a single category selector and five governed KPI concepts. Evidence coverage, Wilson bounds, date/observation coverage, and sensitivity scenarios are visually separate.
+3. **Evidence & Limitations** replaces the category evidence table with an all-category horizontal coverage bar chart, retains the four insufficient categories as reason cards, and uses two concise methodological-boundary cards.
 
-1. **Category Engagement Overview** — breadth-versus-magnitude scatter, eligible-product scale, evidence availability, guarded analytical callouts, and Evidence Tier / Sensitivity Status filters.
-2. **Category Evidence Deep Dive** — category selector, primary KPI cards, observed dates, Wilson uncertainty, and separate compact-inclusive, outlier-excluded, and interval-weighted sensitivity results.
-3. **Evidence & Limitations** — all-category evidence scale, evidence gates, sensitivity status, insufficient categories, and explicit unsupported claims.
+The display system is a light-gray canvas with white rounded containers, navy primary text (`#0C1F39`), orange highlights (`#F96722`), soft blue-gray secondary marks, teal stability, and muted rose insufficient-evidence status. These are display conventions only; they do not alter governed tiers, stability classifications, measures, or conclusions.
 
-## Data used
+## KPI and source reconciliation
 
-- `outputs/tables/phase_7_category_comparison.csv` — primary category scorecard and evidence context.
-- `outputs/tables/phase_7_sensitivity_analysis.csv` — category-by-scenario sensitivity fact.
-- `outputs/tables/phase_7_category_business_analysis.csv` — independent publication reconciliation.
-- `outputs/tables/phase_7_business_findings.csv` — approved wording source for callouts.
+The dashboard implements the five approved KPIs without recomputing governed cohort logic in DAX. Reference values reconcile for Groceries & Pets, Health & Beauty, and Fashion. Insufficient movement values are not coerced to zero. The model contains no `total_sold`, `total_rating`, sales, revenue, order, conversion, composite score, platform-growth, or campaign-effectiveness measure.
 
-The semantic model does not load raw data, `total_sold`, or `total_rating`. Phase 7 source hashes reconcile to the Phase 8 manifest and remained unchanged.
+## Portability
 
-## KPI implementation
+The former machine-specific Power Query paths were removed. The generator now embeds the two small publication facts as Base64 CSV consumed by standard Power Query M functions. Another analyst refreshes the PBIP by running:
 
-The model implements:
+```powershell
+python src/dashboard/build_phase_9_powerbi_project.py
+```
 
-1. Observed Stable-Category Product Count
-2. Eligible Favorite-Movement Product Count
-3. Positive Favorite-Movement Breadth
-4. Median Daily Favorite Movement per Product
-5. Evidence Sufficiency Tier
+and then opening and refreshing `dashboard/Shopee_Category_Engagement.pbip` in Power BI Desktop. All analytical computation remains upstream in Python.
 
-Movement measures return blank for insufficient categories. Deep-dive display measures translate those blanks to `N/A — insufficient evidence`. Evidence tier is never encoded as performance, and the scatter keeps breadth and magnitude on separate axes.
+## Validation
 
-## Reconciliation
+- Phase 8: 58/58 checks passed and six exact exports passed rendered review.
+- Phase 9 Python gate: 33/33 checks passed after regeneration, including the redesigned visual inventory and evidence-story safeguards.
+- PBIR structural validation: passed with 0 errors; 7 warnings only report unreachable remote schemas.
+- Deterministic regeneration: required before release.
+- Native Desktop project/model load: passed in the installed Desktop build.
+- Native page-render, slicer, cross-filter, and N/A-display walkthrough: manual review remains; Phase 9 therefore stays `REVIEW REQUIRED`.
 
-All 24 category rows are present. Tier totals reconcile to **4 HIGH, 10 MODERATE, and 10 INSUFFICIENT**. All 10 insufficient categories have blank breadth and median movement. The sensitivity fact contains **96 rows across four scenarios**.
+## Interpretation boundary
 
-Spot reconciliation passed exactly for:
+The dashboard describes observed favorite-display engagement movement among eligible repeatedly tracked listings in sampled data. It cannot determine sales, revenue, orders, conversion, customer demand, market share, platform growth, campaign effectiveness, causal effects, or future performance. No category passes the complete formal further-investigation gate.
 
-- Groceries & Pets: 112 eligible products, 64.28571429% breadth, 0.2111111111 favorites/day, HIGH, DIRECTIONALLY_STABLE.
-- Health & Beauty: 337, 62.90801187%, 0.1666666667, MODERATE, ROBUST.
-- Women's Bags: 46, 58.69565217%, 0.2792207792, MODERATE, ROBUST.
-
-See `outputs/tables/phase_9_kpi_reconciliation.csv` and `outputs/tables/phase_9_validation_results.csv`.
-
-## Filters and fixed-window behavior
-
-Only Broad Product Category, Evidence Sufficiency Tier, and Sensitivity Status are exposed. No date slicer or date field is exposed because the published KPIs represent a fixed 20-day window and cannot be safely recomputed by arbitrary date filtering.
-
-## Visual QA
-
-The three design previews were inspected at rendered resolution. Titles, units, category terminology, label legibility, spacing, evidence semantics, primary/sensitivity distinction, N/A wording, and limitations were acceptable. No red/green performance convention or leaderboard presentation is used.
-
-The PBIR validator also confirmed the visual roles and layout with zero errors. Native Desktop rendering could not be inspected because Desktop is unavailable. This unresolved item is explicitly retained as `REVIEW REQUIRED` in `outputs/tables/phase_9_visual_qa.csv`.
-
-## Reproducibility
-
-The project is rebuilt with `src/dashboard/build_phase_9_powerbi_project.py`; deterministic previews come from `src/dashboard/render_phase_9_previews.py`; independent checks run from `tests/data_validation/validate_phase_9_dashboard.py`. The PBIP model points directly to the governed Phase 7 CSV locations in this workspace.
-
-## Limitations
-
-The dashboard describes observed displayed-favorite engagement among eligible repeatedly tracked listings in sampled data. It cannot determine sales, revenue, orders, conversion, customer demand, platform-wide category growth, market share, campaign effectiveness, causal effects, or future category performance.
-
-## Review actions
-
-1. Open `dashboard/Shopee_Category_Engagement.pbip` in a current Power BI Desktop version.
-2. Allow the two local Phase 7 CSV queries to refresh.
-3. Confirm all three pages render and the permitted slicers filter as specified.
-4. Test an insufficient category and confirm both movement cards show `N/A — insufficient evidence`.
-5. Export or screenshot each page and complete the native-render row in `phase_9_visual_qa.csv`.
-
-Phase 10 remains `NOT STARTED`.
+Phase 10 recruiter-facing communication is `REVIEW REQUIRED`; it does not introduce a campaign or commercial recommendation.

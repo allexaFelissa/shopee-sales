@@ -1,10 +1,10 @@
 check_id,area,status,evidence
 P5-IN-category_daily_coverage,Phase 4 input integrity,PASS,data/processed/shopee_category_daily_coverage.csv SHA-256=943aadf0d5d57834071b97788ddce529a6f787e808e6a657b979d38b1e719aba
 P5-IN-category_level2_summary,Phase 4 input integrity,PASS,data/processed/shopee_category_level2_summary.csv SHA-256=6b3a100d49160513e1d1cb6de129f658fdb5cb6bdcdd266e7929aa009ad62cfb
-P5-IN-daily_coverage,Phase 4 input integrity,PASS,data/processed/shopee_daily_coverage.csv SHA-256=578acae330b70d059e11dcdb84c9893d7bce9cafc41ad514546ac9ef67236661
-P5-IN-matched_observations,Phase 4 input integrity,PASS,data/processed/shopee_matched_observations.csv SHA-256=2d3d99460710163833dad739fae0e4096061f62ca6b1038d5420325d92e967d6
-P5-IN-product_coverage,Phase 4 input integrity,PASS,data/processed/shopee_product_coverage.csv SHA-256=6b1795a57376325f35b68a8a044cef35bf4b9ec8ef705d3e532f33981a50be79
-P5-IN-product_snapshots,Phase 4 input integrity,PASS,data/processed/shopee_product_snapshots.csv SHA-256=95920ed94dbcaafce08971540e86e4d0e55a57639891f6e1fd6a16c7864213ea
+P5-IN-daily_coverage,Phase 4 input integrity,PASS,data/processed/shopee_daily_coverage.csv SHA-256=381fc062ef65da8fff2a24011b4de015529884e1a384dbc7da7adf8a147fc97f
+P5-IN-matched_observations,Phase 4 input integrity,PASS,data/processed/shopee_matched_observations.csv SHA-256=7c5e45e2f9f4991c43ad005ad6a1cb20ce3f18721aeddbbfe26b7d6672640914
+P5-IN-product_coverage,Phase 4 input integrity,PASS,data/processed/shopee_product_coverage.csv SHA-256=5498f09b177da0f81cf3a528e5296cde8d805bf2b8f9440f79af774fc3d9d945
+P5-IN-product_snapshots,Phase 4 input integrity,PASS,data/processed/shopee_product_snapshots.csv SHA-256=d8bea40d4a0842d0e5411dd43904c22c1f1e54d66414ace7bbdde86b5b48b730
 P5-OUT-big_question_feasibility,Output table integrity,PASS,"rows=7, columns=5, SHA-256=de4b727796e4647fee770de6ee764884277e9ffdc99bc37e18693ca163d4dbfb"
 P5-OUT-category_change_impact,Output table integrity,PASS,"rows=4, columns=12, SHA-256=9b945b0ff015308720a16a0a7361cfe02dc1ee2281141b9e8b3ba9e9d2eddb18"
 P5-OUT-category_evidence,Output table integrity,PASS,"rows=24, columns=76, SHA-256=90b7045d738114146901811b4627e11b43be1d5eac73c18835fd22d876978b51"

@@ -1,0 +1,60 @@
+{
+  "source_path": "dataset/shopee_sales_data.csv",
+  "source_sha256": "afed3932287c81df7eefcd7397b723cc2e2ca71d73690dc661ad250c7c78bc69",
+  "source_rows": 20312,
+  "source_columns": 20,
+  "processed_path": "data/processed/shopee_sales_cleaned.csv",
+  "processed_sha256": "407c6f5e654283461c8eba20a3a1721f5105650212e92ae99206ea6dbadd199d",
+  "processed_rows": 20312,
+  "processed_columns": 111,
+  "rows_removed": 0,
+  "raw_columns_preserved": [
+    "price_ori",
+    "delivery",
+    "item_category_detail",
+    "specification",
+    "title",
+    "w_date",
+    "link_ori",
+    "item_rating",
+    "seller_name",
+    "idElastic",
+    "price_actual",
+    "sitename",
+    "idHash",
+    "total_rating",
+    "id",
+    "total_sold",
+    "pict_link",
+    "favorite",
+    "timestamp",
+    "desc"
+  ],
+  "verified_sales_metric_created": false,
+  "total_sold_metric_status": "UNVERIFIED_UNUSABLE_AS_SALES_METRIC",
+  "total_rating_metric_status": "UNVERIFIED_DUPLICATES_TOTAL_SOLD",
+  "price_iqr_fences": {
+    "price_ori_clean": [
+      -129.125,
+      221.315
+    ],
+    "price_actual_clean": [
+      -101.0,
+      171.0
+    ]
+  },
+  "other_iqr_fences": {
+    "unverified_counter": [
+      -1407.5,
+      2444.5
+    ],
+    "favorite": [
+      -1365.0,
+      2379.0
+    ],
+    "item_rating": [
+      4.750000000000001,
+      5.1499999999999995
+    ]
+  }
+}

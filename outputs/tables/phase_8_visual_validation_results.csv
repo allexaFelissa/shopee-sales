@@ -23,14 +23,15 @@ P8-K07,KPI governance,PASS,composite absent from visual measures,False,Blocked m
 P8-K08,KPI governance,PASS,breadth included,True,Governed breadth KPI present
 P8-K09,KPI governance,PASS,median movement included,True,Governed magnitude KPI present
 P8-K10,KPI governance,PASS,no composite score title,False,No score framing
-P8-D01,Governed data,PASS,24 categories,24,All Broad Product Categories retained
-P8-D02,Governed data,PASS,HIGH=4; MODERATE=10; INSUFFICIENT=10,"{'MODERATE': 10, 'INSUFFICIENT': 10, 'HIGH': 4}",Evidence distribution
+P8-D01,Governed data,PASS,12 governed Broad Product Categories,"['Automotive', 'Baby & Kids', 'Entertainment & Hobbies', 'Fashion', 'Groceries & Pets', 'Health & Beauty', 'Home', 'Mobile & Technology', 'Others', 'Sports & Outdoor', 'Tickets & Vouchers', 'Travel']",All broad groups retained; no Level-2 publication rows
+P8-D02,Governed data,PASS,HIGH=4; MODERATE=4; INSUFFICIENT=4,"{'HIGH': 4, 'MODERATE': 4, 'INSUFFICIENT': 4}",Evidence distribution
 P8-D03,Missing values,PASS,all insufficient movement values blank,0,No fake zero
-P8-D04,Missing values,PASS,10 N/A categories,10,Unranked universe
-P8-D05,Sensitivity,PASS,96 category-scenario rows,96,24 categories x 4 scenarios
+P8-D04,Missing values,PASS,4 N/A categories,4,Unranked universe
+P8-D05,Sensitivity,PASS,48 category-scenario rows,48,12 categories x 4 scenarios
 P8-D06,Sensitivity,PASS,"['COMPACT_INCLUSIVE_PRODUCT', 'INTERVAL_WEIGHTED_EXACT', 'OUTLIER_EXCLUDED_PRODUCT', 'PRIMARY_EXACT_PRODUCT']","['COMPACT_INCLUSIVE_PRODUCT', 'INTERVAL_WEIGHTED_EXACT', 'OUTLIER_EXCLUDED_PRODUCT', 'PRIMARY_EXACT_PRODUCT']",All governed scenarios represented
 P8-D07,Sensitivity,PASS,primary values reconcile,0.0,Primary exact result preserved
-P8-D08,Sensitivity,PASS,14 published categories unchanged under outlier exclusion,0,Phase 7 finding retained
+P8-D07B,Sensitivity,PASS,primary medians reconcile,0.0,Primary exact median preserved
+P8-D08,Sensitivity,PASS,8 published categories unchanged under outlier exclusion,0,Phase 7 finding retained
 P8-M01,Missing values,PASS,explicit no-fake-zero rule,insufficient categories remain visible as n/a/blank and are never plotted as zero or ranked. missing wilson width is shown as n/a; zero eligible products remain,"Missingness is semantic, not formatting"
 P8-M02,Evidence semantics,PASS,evidence not performance safeguard,True,Evidence tier is not an outcome
 P8-M03,Primary treatment,PASS,primary explicitly foregrounded,True,Sensitivities cannot replace primary

@@ -33,6 +33,11 @@ EXPECTED_SCENARIOS = {
     "OUTLIER_EXCLUDED_PRODUCT",
     "INTERVAL_WEIGHTED_EXACT",
 }
+EXPECTED_CATEGORIES = {
+    "Automotive", "Baby & Kids", "Entertainment & Hobbies", "Fashion",
+    "Groceries & Pets", "Health & Beauty", "Home", "Mobile & Technology",
+    "Others", "Sports & Outdoor", "Tickets & Vouchers", "Travel",
+}
 
 
 def sha256(path: Path) -> str:
@@ -106,26 +111,28 @@ def main() -> None:
     check("P8-K09", "KPI governance", spec["measures_used"].str.contains("Median Daily Favorite Movement per Product").any(), "median movement included", True, "Governed magnitude KPI present")
     check("P8-K10", "KPI governance", not spec["visual_title"].str.contains("momentum score", case=False, na=False).any(), "no composite score title", False, "No score framing")
 
-    check("P8-D01", "Governed data", len(category) == 24, "24 categories", len(category), "All Broad Product Categories retained")
+    check("P8-D01", "Governed data", len(category) == 12 and set(category["broad_product_category"]) == EXPECTED_CATEGORIES, "12 governed Broad Product Categories", sorted(category["broad_product_category"]), "All broad groups retained; no Level-2 publication rows")
     tier_counts = category["evidence_sufficiency_tier"].value_counts().to_dict()
-    check("P8-D02", "Governed data", tier_counts == {"MODERATE": 10, "INSUFFICIENT": 10, "HIGH": 4}, "HIGH=4; MODERATE=10; INSUFFICIENT=10", tier_counts, "Evidence distribution")
+    check("P8-D02", "Governed data", tier_counts == {"MODERATE": 4, "INSUFFICIENT": 4, "HIGH": 4}, "HIGH=4; MODERATE=4; INSUFFICIENT=4", tier_counts, "Evidence distribution")
     insufficient = category["evidence_sufficiency_tier"].eq("INSUFFICIENT")
     movement_fields = ["positive_favorite_movement_breadth", "median_daily_favorite_movement_per_product"]
     check("P8-D03", "Missing values", category.loc[insufficient, movement_fields].isna().all().all(), "all insufficient movement values blank", int(category.loc[insufficient, movement_fields].notna().sum().sum()), "No fake zero")
-    check("P8-D04", "Missing values", int(insufficient.sum()) == 10, "10 N/A categories", int(insufficient.sum()), "Unranked universe")
-    check("P8-D05", "Sensitivity", len(sensitivity) == 96, "96 category-scenario rows", len(sensitivity), "24 categories x 4 scenarios")
+    check("P8-D04", "Missing values", int(insufficient.sum()) == 4, "4 N/A categories", int(insufficient.sum()), "Unranked universe")
+    check("P8-D05", "Sensitivity", len(sensitivity) == 48, "48 category-scenario rows", len(sensitivity), "12 categories x 4 scenarios")
     check("P8-D06", "Sensitivity", set(sensitivity["sensitivity_scenario"]) == EXPECTED_SCENARIOS, str(sorted(EXPECTED_SCENARIOS)), sorted(sensitivity["sensitivity_scenario"].unique()), "All governed scenarios represented")
-    primary = sensitivity.loc[sensitivity["sensitivity_scenario"].eq("PRIMARY_EXACT_PRODUCT"), ["broad_product_category", "positive_favorite_movement_breadth"]]
-    merged = category[["broad_product_category", "positive_favorite_movement_breadth"]].merge(primary, on="broad_product_category", suffixes=("_category", "_sensitivity"))
+    primary = sensitivity.loc[sensitivity["sensitivity_scenario"].eq("PRIMARY_EXACT_PRODUCT"), ["broad_product_category", "positive_favorite_movement_breadth", "median_daily_favorite_movement"]]
+    merged = category[["broad_product_category", "positive_favorite_movement_breadth", "median_daily_favorite_movement_per_product"]].merge(primary, on="broad_product_category", suffixes=("_category", "_sensitivity"))
     differences = (merged["positive_favorite_movement_breadth_category"] - merged["positive_favorite_movement_breadth_sensitivity"]).abs()
     check("P8-D07", "Sensitivity", differences.dropna().le(1e-9).all(), "primary values reconcile", float(differences.dropna().max()), "Primary exact result preserved")
+    median_differences = (merged["median_daily_favorite_movement_per_product"] - merged["median_daily_favorite_movement"]).abs()
+    check("P8-D07B", "Sensitivity", median_differences.dropna().le(1e-9).all(), "primary medians reconcile", float(median_differences.dropna().max()), "Primary exact median preserved")
     outlier = sensitivity.loc[sensitivity["sensitivity_scenario"].eq("OUTLIER_EXCLUDED_PRODUCT"), ["broad_product_category", "positive_favorite_movement_breadth"]]
     outlier_compare = primary.merge(outlier, on="broad_product_category", suffixes=("_primary", "_outlier"))
     outlier_diff = (outlier_compare["positive_favorite_movement_breadth_primary"] - outlier_compare["positive_favorite_movement_breadth_outlier"]).abs()
     published_names = set(category.loc[~insufficient, "broad_product_category"])
     unchanged = outlier_compare.loc[outlier_compare["broad_product_category"].isin(published_names)]
     unchanged_diff = (unchanged["positive_favorite_movement_breadth_primary"] - unchanged["positive_favorite_movement_breadth_outlier"]).abs()
-    check("P8-D08", "Sensitivity", unchanged_diff.le(1e-9).all(), "14 published categories unchanged under outlier exclusion", int(unchanged_diff.gt(1e-9).sum()), "Phase 7 finding retained")
+    check("P8-D08", "Sensitivity", unchanged_diff.le(1e-9).all(), "8 published categories unchanged under outlier exclusion", int(unchanged_diff.gt(1e-9).sum()), "Phase 7 finding retained")
 
     missing_notes = " ".join(spec["missing_value_treatment"].astype(str)).lower()
     check("P8-M01", "Missing values", "never plotted as zero" in missing_notes or "never plotted" in missing_notes, "explicit no-fake-zero rule", missing_notes[:160], "Missingness is semantic, not formatting")

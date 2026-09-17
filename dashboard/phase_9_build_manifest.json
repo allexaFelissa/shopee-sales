@@ -1,6 +1,9 @@
 {
   "phase": 9,
-  "analysis_version": "1.0.0",
+  "analysis_version": "2.0.0",
+  "publication_grain": "Broad Product Category",
+  "category_count": 12,
+  "portable_import_strategy": "Base64-embedded governed Phase 7 publication facts; rebuild with the generator to refresh",
   "project": "dashboard/Shopee_Category_Engagement.pbip",
   "source_tables": [
     "outputs/tables/phase_7_category_comparison.csv",
@@ -30,193 +33,243 @@
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection0a1b2c3d4e5f60718293a4b5/page.json",
-      "sha256": "a7d905ead9293cfaaf0cfe53c8b8069e835e80355fea8ef3dc7da91fc544a4ec",
-      "bytes": 291
+      "sha256": "f53b8e7daf33dd84185ba6076f705b0b8adaedb3e31a6818817d8b38383bfc92",
+      "bytes": 810
+    },
+    {
+      "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection0a1b2c3d4e5f60718293a4b5/visuals/14a4345e15faf88962b0/visual.json",
+      "sha256": "6892c078b2f84d7f277d628347a39b196a0869c5f426f201449654d374de3b5c",
+      "bytes": 6052
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection0a1b2c3d4e5f60718293a4b5/visuals/1a054dc3d8e530ae7b09/visual.json",
-      "sha256": "7f8ab50634cab20473d0dd1345c7b157471d8d7678b4cada6b1f2f01c008fced",
-      "bytes": 4609
+      "sha256": "6d2f797af88e5fb209821796ba045c7ef6f0beb12f2704bfb153e96109505b8f",
+      "bytes": 4625
+    },
+    {
+      "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection0a1b2c3d4e5f60718293a4b5/visuals/238260db8ccb36b23d9f/visual.json",
+      "sha256": "fb87fb54781f8402a6b4dc16f845d5e07495afdc1bf0601f90673f465cbe0904",
+      "bytes": 3029
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection0a1b2c3d4e5f60718293a4b5/visuals/27da26b24135393698df/visual.json",
-      "sha256": "a13b82098449d1cb639cc2d28c3e96a4758e9377c4dc0993f7922c65f0247497",
-      "bytes": 3935
+      "sha256": "b4fcb5ea28d2b7b4ebb5f85b4fccbc1e53c81f2600b76870c931913ec26314a1",
+      "bytes": 3953
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection0a1b2c3d4e5f60718293a4b5/visuals/2ae6bcbdb80c890c25fc/visual.json",
-      "sha256": "b5595848ff3e9fca7ecb9984d3ecf82f9c309c59f914563affffd20ef2678ad5",
-      "bytes": 4624
+      "sha256": "784fbad6e2be5ea8382ab003e59627a43fd8b28b1867bc4c673192afe4bbc3f5",
+      "bytes": 4625
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection0a1b2c3d4e5f60718293a4b5/visuals/2c90ea162720474fd520/visual.json",
-      "sha256": "a882dd5415706f7f8f382c456dac9a07df7c74e6a5f5ef7b6bffa7189733ef39",
-      "bytes": 3926
+      "sha256": "670c86326cc2c8709315c3bcbeda472c5cc4341aef1e1f601807eaf093f6132b",
+      "bytes": 3945
+    },
+    {
+      "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection0a1b2c3d4e5f60718293a4b5/visuals/5d8c4c277b107e5385d7/visual.json",
+      "sha256": "1a59bd3a1fa34f7ac5d9186d86295d9a9acbae6bb064dba87fdf413ff418873e",
+      "bytes": 6024
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection0a1b2c3d4e5f60718293a4b5/visuals/79e843b4deda63210a9e/visual.json",
-      "sha256": "aebbcdef7d641a906a5808a36d9e0c31d62a1936d279d6584318f92b59649bbc",
-      "bytes": 2280
+      "sha256": "9957fbe93bb7c0747a316585e92fb5a7d5a92dc49898c97efea55c3880552449",
+      "bytes": 3008
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection0a1b2c3d4e5f60718293a4b5/visuals/99388cc5cf83b85fc14f/visual.json",
-      "sha256": "e549afc8ccc6a920a5724394521bc69f0613854e1be833484793c95ac94facc7",
-      "bytes": 2550
+      "sha256": "6cb0f21f89b199d97a63c4b781aaee21cadcffe568353f1e1b2429702222188a",
+      "bytes": 3941
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection0a1b2c3d4e5f60718293a4b5/visuals/9db56249453e4dc7e875/visual.json",
-      "sha256": "7e3d0f56fe88faeadabf4b30fd4d0d85d090e61d53c1d9bb98e41c164132812c",
-      "bytes": 2324
+      "sha256": "5919eb7482604028b95ff8978a2812f7843218ebb943a08bcd1f35be3ad52e5e",
+      "bytes": 3076
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection0a1b2c3d4e5f60718293a4b5/visuals/adb949c8b5b864b6244b/visual.json",
-      "sha256": "cdef1d1e79c85cf7734e749b52b4ab3d529ecb1013543678dac87b2f56ee06f4",
-      "bytes": 7296
+      "sha256": "71d01bc5738f07f4d35b3e5ddbaabf20d4d77113b4554782850d6e31a8811162",
+      "bytes": 4610
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection0a1b2c3d4e5f60718293a4b5/visuals/df622240d6782bb4398f/visual.json",
-      "sha256": "c6f97c2c82892626aedb4749507c1e92b5f0535687ac3e2c7cd25310c064c03b",
-      "bytes": 4486
+      "sha256": "77277524248b5f1fb592ffd666a5c52587946f1fbecbad26992cc2ecdbce74d8",
+      "bytes": 3948
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection0a1b2c3d4e5f60718293a4b5/visuals/ef749e717d92d831bfac/visual.json",
-      "sha256": "15a742c433b86c77daaf4051bf1011a64505e0e9076e22ad9e726c740c73753f",
-      "bytes": 2310
+      "sha256": "2969fc44a49403cb0c1ffdc4492f841f8654e1abaa24b5b8998ab3161556a637",
+      "bytes": 3020
+    },
+    {
+      "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection0a1b2c3d4e5f60718293a4b5/visuals/f54086c5101ac3d9acd3/visual.json",
+      "sha256": "91619d8f8fc89c30cc565bcf316f78791c364385aa4d5221000c2f98201fd49d",
+      "bytes": 2992
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection0a1b2c3d4e5f60718293a4b5/visuals/f9d1f51435c85661e3c3/visual.json",
-      "sha256": "219e75c0c7823b164361d4a4331edd0998df0236b3cf45d92fa21128af843970",
-      "bytes": 2366
+      "sha256": "42ae26fa1df8f1c9a39702052f9dd7f6f17f4fbe05f0443b360f3274e67993e9",
+      "bytes": 7569
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection1b2c3d4e5f60718293a4b5c6/page.json",
-      "sha256": "78bab90f17c6e0c735c4159be2bc8febf8a2e5cd3f997a2184bf84baac80ec4c",
-      "bytes": 290
+      "sha256": "9b3bf31aef4127f3ead2b711464cce658aa1bc4e364021465712c06ae428ae74",
+      "bytes": 809
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection1b2c3d4e5f60718293a4b5c6/visuals/09960b51354c2b9c3cab/visual.json",
-      "sha256": "8b169f4657c7bebc5918e5f5442f368d5db1c1b79fd1646d2982df5c80b3b62c",
-      "bytes": 3925
+      "sha256": "136d1c9a894fea32d39bcd8f476bfb810e1a9de0667d62824f44ca52c6ae5249",
+      "bytes": 3941
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection1b2c3d4e5f60718293a4b5c6/visuals/15f9904c8f6f97cf75bc/visual.json",
-      "sha256": "cf99850c4d8913713ddaa67884e51e5c8076eb3a70830b44d6829cbc335e02de",
-      "bytes": 2279
+      "sha256": "8250137fe8b72fd56eea5b76556505bfd9596938e842f8f20d0085c18f885e0e",
+      "bytes": 3007
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection1b2c3d4e5f60718293a4b5c6/visuals/30b55628c17558766c4b/visual.json",
-      "sha256": "b3126df9dbefe66a372960b46d1fb37458d4b3c6062250abb39f41c14a69ea7e",
-      "bytes": 2315
+      "sha256": "005f7ee5523e6d68f231d40f3f6f4bd3167ecf716601fdd210c709c3e5ac564f",
+      "bytes": 3026
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection1b2c3d4e5f60718293a4b5c6/visuals/3a2639e8c0fac02ced21/visual.json",
-      "sha256": "64a69ae7a544a0be1521ba9ae475ba1c1637d5c4d72f3c3265e37e91d49d64dc",
-      "bytes": 5499
+      "sha256": "4b89b15495099b4f938a97319ad3447073c076325e9bc0a14b9166ed3fa1c9d3",
+      "bytes": 6125
+    },
+    {
+      "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection1b2c3d4e5f60718293a4b5c6/visuals/44bebe40c2ebebde801d/visual.json",
+      "sha256": "204bad9c083601de3e54bc7017721779487d2680816a5a98004c6faaba3c2262",
+      "bytes": 6033
+    },
+    {
+      "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection1b2c3d4e5f60718293a4b5c6/visuals/47463490000ebe5e079b/visual.json",
+      "sha256": "7ffe15770d807acf48a0786106d524cb56b27c0d7e47c304d402595b3b9fb01e",
+      "bytes": 3078
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection1b2c3d4e5f60718293a4b5c6/visuals/514fb373d4ea82c54b39/visual.json",
-      "sha256": "5ba5201437b483c30fc22367e27252d05181ae2dbd69feed6fe3576f3c68875b",
-      "bytes": 3951
+      "sha256": "4b3e689cb4bf41fa7e4076f516e459921321ea477dda6317998a44db7bc9da80",
+      "bytes": 3945
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection1b2c3d4e5f60718293a4b5c6/visuals/72bdab00c9b6b6435845/visual.json",
-      "sha256": "a2e2787c046f103cfee2bf9b7f69d1a99b892fccba2daef15321ba371b7c249c",
-      "bytes": 4624
+      "sha256": "dccfa19343e9e08fcdcef5637194d0e166c9db1609815d1a9298f9367eb8e60a",
+      "bytes": 4620
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection1b2c3d4e5f60718293a4b5c6/visuals/7d3fd60a0182fd65a7f9/visual.json",
-      "sha256": "b09a572b5526b8ddc162139456e77e59753bd2d24ed9f8162af350c21d8160f3",
-      "bytes": 2450
+      "sha256": "e28f4bf3b9a6096e90972329e34e365e5b7c96e8622e76948cf438ae14aa58d0",
+      "bytes": 3895
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection1b2c3d4e5f60718293a4b5c6/visuals/c12e95ee7864f3fba3ea/visual.json",
-      "sha256": "060585a6d34210dd4c17e54cd027b0dc508b13d8f1ae333441692e16eb714eed",
-      "bytes": 3898
+      "sha256": "13aee6edc81f6a95e17f52477b874f4d26c551f2f2a7193037379d8c82d72ffc",
+      "bytes": 3937
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection1b2c3d4e5f60718293a4b5c6/visuals/c1bcfeb6a632a9fb34c3/visual.json",
-      "sha256": "e8ffe1398a3a588d1f08fd59f61b18bd25c3a1f17973427b299d35f5091fb2d2",
-      "bytes": 2324
+      "sha256": "23d2cdd072137fad8bbab1dab62201a59c1822ef3f9c1013e02daa07a8078efc",
+      "bytes": 3065
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection1b2c3d4e5f60718293a4b5c6/visuals/d3adcc895a178e7a1c0c/visual.json",
-      "sha256": "d0008a46920d72e9304e7b1fc183f8761782067396d5619cab53055b9236cf66",
-      "bytes": 3921
+      "sha256": "15d9623adf5a6360a49a3758560d23631b3ddd758c20f71ba11aac2d3677a467",
+      "bytes": 3938
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection1b2c3d4e5f60718293a4b5c6/visuals/d8eda90f41ac03f8366a/visual.json",
-      "sha256": "8ed1c06d29d79b2aeb9dd30d5b5659b5ab1ae46b4aeae6884f11a47fe6c9f623",
-      "bytes": 6273
+      "sha256": "06fd2d4f009524391d7e026eac45081063a51a7df3674672adedfa8dec64d20d",
+      "bytes": 3922
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection1b2c3d4e5f60718293a4b5c6/visuals/db5bd51c05294bcc1355/visual.json",
-      "sha256": "0c3ecd95b8d71c8dc015e9507dbd8c92e727c1789d346da67e0c9e5ae724d590",
-      "bytes": 5760
+      "sha256": "01899bc051fc3057cfdd93786a680302ae32f1f20714afe51c33a0b62557b8e1",
+      "bytes": 6275
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection1b2c3d4e5f60718293a4b5c6/visuals/dc04777a578c32f4fc14/visual.json",
-      "sha256": "b10ae245ca5a436faf659d8696ef1888146486c93dbf38966dae3f9afa1df8e3",
-      "bytes": 2368
+      "sha256": "d14ccdde1803a83de4e0c9f1a3489c84ed08ffe0e76cf2f4a5e56613735aa87d",
+      "bytes": 3941
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection2c3d4e5f60718293a4b5c6d7/page.json",
-      "sha256": "aaaf8181427844b1d6d5b833d41fc905e1b284e29960cc204721c13250c3682a",
-      "bytes": 285
+      "sha256": "d10d7c68b00115796a05ca9fe92a338fd803f5ed80c64a37e202dbaaeb76f830",
+      "bytes": 804
+    },
+    {
+      "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection2c3d4e5f60718293a4b5c6d7/visuals/0ad4e5e12768a89a4ec2/visual.json",
+      "sha256": "c63080a7490859c0a9869508373a034cb10042e2275f6f30ba281b32b9ece04e",
+      "bytes": 3112
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection2c3d4e5f60718293a4b5c6d7/visuals/0b4bf25aafab3a0126ec/visual.json",
-      "sha256": "d6bdba77cde347a72e1d0bddca71e0b4db8268c32d186cbffdbf3b2813b2dc0a",
-      "bytes": 3915
+      "sha256": "014ef31afb075a54af950f02f4d461471cef9eeb061adb25c695bedb8ad964e7",
+      "bytes": 3088
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection2c3d4e5f60718293a4b5c6d7/visuals/109646895044e2a3dc8d/visual.json",
-      "sha256": "2800be4aaf13d75052a3fa9d945e546b381c21e77bd9da8e6df28cd2b4c14da7",
-      "bytes": 6337
+      "sha256": "6cccd54d70c1b14a09680854e2f048064c87ef85f07bc83f5766672519b47e4b",
+      "bytes": 5377
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection2c3d4e5f60718293a4b5c6d7/visuals/3347b92ecd7ea28d12d1/visual.json",
-      "sha256": "92472c15e4316e70995a471dd8d45d959ee5eafdb0e9c74f20656301fbd2cb03",
-      "bytes": 4609
+      "sha256": "2ff1cc2ecdfa49827b25600687efba9aa8cff154d73b954d1f1bbe227cf0f4e8",
+      "bytes": 4610
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection2c3d4e5f60718293a4b5c6d7/visuals/6379c576810dc78a75cf/visual.json",
-      "sha256": "38db9285ec3360ad71fcbe467af4562bae2083580a0c673dc83d708d05bc3343",
-      "bytes": 3928
+      "sha256": "dac4ca8d32336c86040e2f968006161721b7aebb835d1fdfcb62df7a0f13518d",
+      "bytes": 3072
+    },
+    {
+      "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection2c3d4e5f60718293a4b5c6d7/visuals/65c70e83e538b648769f/visual.json",
+      "sha256": "03ba9e77741b8436b2c22aa1660bff9ed7f4390c2573194c3b23b597d6e461ef",
+      "bytes": 3073
+    },
+    {
+      "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection2c3d4e5f60718293a4b5c6d7/visuals/7661ba47821d51d149b1/visual.json",
+      "sha256": "e795dde1d4e09b1c4067d27e8482085da6ea99721d5756b96029b98a70d0ce93",
+      "bytes": 3129
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection2c3d4e5f60718293a4b5c6d7/visuals/877c90bf5f766889ea39/visual.json",
-      "sha256": "6ad35e4da53115d29a5a91346e5b03997269953272da7ebe3377771b4f9c9480",
-      "bytes": 4624
+      "sha256": "3ff34e50394b1ff6bbd330c37d1bcb4a24b399c5cf1ca3e1ddec13c53acc2dc6",
+      "bytes": 4625
+    },
+    {
+      "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection2c3d4e5f60718293a4b5c6d7/visuals/8eaafdfa670778d4d817/visual.json",
+      "sha256": "40fa612485bcaa6302558bab2668efbf556afbe1f647097de43d6b77c34b33a2",
+      "bytes": 3044
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection2c3d4e5f60718293a4b5c6d7/visuals/9c33b8f326067f9be76c/visual.json",
-      "sha256": "3d74dd2df8e729e75f2a939889d11b2561cc0962bac3e4d6b7f40a01cec1008d",
-      "bytes": 2277
+      "sha256": "6a0fffe0fdcc2707461de9568ed2eb260ade89aea686a1bf36f5df8541d9a5ce",
+      "bytes": 2994
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection2c3d4e5f60718293a4b5c6d7/visuals/a1ac2198515d2a163e3a/visual.json",
-      "sha256": "126004587cff7d2165635e9cacf5c2483064810903809023644b3645b5c9a6f7",
-      "bytes": 2274
+      "sha256": "19e8805f5a6c436a3ab468bbc4c5ac34d626578a01fbb5881155697b95f85f07",
+      "bytes": 3002
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection2c3d4e5f60718293a4b5c6d7/visuals/a687ab75590c7eb713be/visual.json",
-      "sha256": "10c74f538c146a88034d1f93d70f1ff37876ef35c0649ccaa1c9a930ed0f7d4f",
-      "bytes": 2339
+      "sha256": "d92e8ff66b85c75a0ca510a4f54650e9012a0e0530614bebcf4a42e8730a07e4",
+      "bytes": 3084
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection2c3d4e5f60718293a4b5c6d7/visuals/b31e33c952e0c363cf50/visual.json",
-      "sha256": "6e23ebebee88e91a5b55f36923772c55327bf3912c030168c617e2aad2fd815f",
-      "bytes": 2324
+      "sha256": "f39fbd56bb007c1663df643e3238c291689f650d9d594627ca8afe9df395d760",
+      "bytes": 3042
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection2c3d4e5f60718293a4b5c6d7/visuals/c51575f709c1d326c920/visual.json",
-      "sha256": "d024785f3e4eec1687f4cbea9daacf9d76651d144335746d643d4b1769e59da3",
-      "bytes": 5616
+      "sha256": "3cf5e151fb9eef927c4542ed03ba874ea5771aef65eddb372c74b1e8301db897",
+      "bytes": 5035
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/pages/ReportSection2c3d4e5f60718293a4b5c6d7/visuals/e912c9791f670b68b0e0/visual.json",
-      "sha256": "7c0f9f4fdb233a0e86bbe912d0042ce49aaf14a1533416fb2f024478bde10bf7",
-      "bytes": 2782
+      "sha256": "7c1564de3e4c65226e444057ab6ec98fcb78ada6f71e3378db26e59d758225f4",
+      "bytes": 6572
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.Report/definition/report.json",
@@ -245,8 +298,8 @@
     },
     {
       "path": "dashboard/Shopee_Category_Engagement.SemanticModel/model.bim",
-      "sha256": "ed3842e99a6afb0e7ce7544a60d25cab07b3f6ac85ea84ce7688fe23c978ec1f",
-      "bytes": 14899
+      "sha256": "8c938b94f23196f173848de93312a575409cfd1db322848fb852c167fa62ac19",
+      "bytes": 36496
     }
   ]
 }

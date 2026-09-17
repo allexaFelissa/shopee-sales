@@ -40,5 +40,5 @@ P7-REP-output-hashes,reproducibility,PASS,mismatches=[]
 P7-REP-version,reproducibility,PASS,version=2.0.0; timestamp=2026-08-20T10:13:26+00:00
 P7-REP-safeguards,reproducibility,PASS,"{'campaign_effectiveness_metric_created': False, 'campaign_recommendation_created': False, 'composite_score_created': False, 'phase4_data_modified': False, 'phase6_kpis_changed': False, 'revenue_metric_created': False, 'sales_metric_created': False, 'total_rating_used': False, 'total_sold_used': False}"
 P7-FIG-files,visual validation,PASS,figure_count=6
-P7-STATUS-7,phase status,PASS,Phase 7 REVIEW REQUIRED
-P7-STATUS-8,phase status,PASS,Phase 8 NOT STARTED
+P7-STATUS-7,phase status,PASS,Phase 7 COMPLETED after downstream authorization
+P7-STATUS-8,phase status,PASS,Phase 8 COMPLETED after its gate and Phase 9 authorization

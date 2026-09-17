@@ -1,0 +1,175 @@
+{
+  "figures": {
+    "actual_price_distribution": {
+      "bytes": 66396,
+      "path": "outputs/figures/phase_5_actual_price_distribution.png",
+      "sha256": "0c569be81267490888dfa50da23de5412b87a59a3d839d232452f613e445e52a"
+    },
+    "category_coverage_heatmap": {
+      "bytes": 170253,
+      "path": "outputs/figures/phase_5_category_coverage_heatmap.png",
+      "sha256": "9535cfd9598d3077ecfeb8e817001a031e0ef668d528ab763c60421e193c0050"
+    },
+    "category_evidence_coverage": {
+      "bytes": 153628,
+      "path": "outputs/figures/phase_5_category_evidence_coverage.png",
+      "sha256": "906d921513bdaac298e3b1b89e659f9ba3bec36d54aa595f84ee0b95ed2a2fcb"
+    },
+    "category_observation_distribution": {
+      "bytes": 148736,
+      "path": "outputs/figures/phase_5_category_observation_distribution.png",
+      "sha256": "d5f81ec0552c7564b2e3fcb9e64da1325fb0e3be9860e3d6d0a37b8243dfe2c8"
+    },
+    "daily_observation_volume": {
+      "bytes": 125152,
+      "path": "outputs/figures/phase_5_daily_observation_volume.png",
+      "sha256": "7d0e433854248724903a5a20353218c4286ee9298583fc8dbfb701f75ad690be"
+    },
+    "discount_distribution": {
+      "bytes": 60511,
+      "path": "outputs/figures/phase_5_discount_distribution.png",
+      "sha256": "97477f4daf852076d0a4aded0bd216c3ab7bada84eb3da8ca4da958cf74840cb"
+    },
+    "favorite_distribution": {
+      "bytes": 69948,
+      "path": "outputs/figures/phase_5_favorite_distribution.png",
+      "sha256": "6eecbe799b3ebd569151504a6a6dea2852d2e53bf201fbb19aeed9945fa4a495"
+    },
+    "favorite_movement": {
+      "bytes": 175187,
+      "path": "outputs/figures/phase_5_favorite_movement_by_category.png",
+      "sha256": "f44930e54b004ffe8cf823a0adcc9465eac4d03cf604418613546f02404889d0"
+    },
+    "favorite_positive_breadth": {
+      "bytes": 184215,
+      "path": "outputs/figures/phase_5_favorite_positive_breadth_by_category.png",
+      "sha256": "e6fafe625112a15f9dbdddf421fa1a34246161788e91516bf8747d1228ec315b"
+    },
+    "observation_interval_distribution": {
+      "bytes": 53317,
+      "path": "outputs/figures/phase_5_observation_interval_distribution.png",
+      "sha256": "e0330afef538bc135a23d35fa5d21c2215c9b96b0215b263e7884398ea6407bb"
+    },
+    "price_mean_median": {
+      "bytes": 158394,
+      "path": "outputs/figures/phase_5_price_mean_vs_median_by_category.png",
+      "sha256": "1beacab08dcfede51a0fde6a43cd8161bfb75c84ebf4a1700275dd630ae79eab"
+    },
+    "product_observation_distribution": {
+      "bytes": 49664,
+      "path": "outputs/figures/phase_5_product_observation_distribution.png",
+      "sha256": "2187c257b0d6f7cfa9921c1388e7bc28f86dfbfe3c0926062f2b86f1203d192c"
+    }
+  },
+  "input_tables": {
+    "category_daily_coverage": {
+      "columns": 17,
+      "path": "data/processed/shopee_category_daily_coverage.csv",
+      "rows": 480,
+      "sha256": "943aadf0d5d57834071b97788ddce529a6f787e808e6a657b979d38b1e719aba"
+    },
+    "category_level2_summary": {
+      "columns": 39,
+      "path": "data/processed/shopee_category_level2_summary.csv",
+      "rows": 24,
+      "sha256": "6b3a100d49160513e1d1cb6de129f658fdb5cb6bdcdd266e7929aa009ad62cfb"
+    },
+    "daily_coverage": {
+      "columns": 15,
+      "path": "data/processed/shopee_daily_coverage.csv",
+      "rows": 20,
+      "sha256": "578acae330b70d059e11dcdb84c9893d7bce9cafc41ad514546ac9ef67236661"
+    },
+    "matched_observations": {
+      "columns": 62,
+      "path": "data/processed/shopee_matched_observations.csv",
+      "rows": 3698,
+      "sha256": "2d3d99460710163833dad739fae0e4096061f62ca6b1038d5420325d92e967d6"
+    },
+    "product_coverage": {
+      "columns": 35,
+      "path": "data/processed/shopee_product_coverage.csv",
+      "rows": 16614,
+      "sha256": "6b1795a57376325f35b68a8a044cef35bf4b9ec8ef705d3e532f33981a50be79"
+    },
+    "product_snapshots": {
+      "columns": 65,
+      "path": "data/processed/shopee_product_snapshots.csv",
+      "rows": 20312,
+      "sha256": "95920ed94dbcaafce08971540e86e4d0e55a57639891f6e1fd6a16c7864213ea"
+    }
+  },
+  "output_tables": {
+    "big_question_feasibility": {
+      "columns": 5,
+      "path": "outputs/tables/phase_5_big_question_feasibility.csv",
+      "rows": 7,
+      "sha256": "de4b727796e4647fee770de6ee764884277e9ffdc99bc37e18693ca163d4dbfb"
+    },
+    "category_change_impact": {
+      "columns": 12,
+      "path": "outputs/tables/phase_5_category_change_impact.csv",
+      "rows": 4,
+      "sha256": "9b945b0ff015308720a16a0a7361cfe02dc1ee2281141b9e8b3ba9e9d2eddb18"
+    },
+    "category_evidence": {
+      "columns": 76,
+      "path": "outputs/tables/phase_5_category_evidence.csv",
+      "rows": 24,
+      "sha256": "90b7045d738114146901811b4627e11b43be1d5eac73c18835fd22d876978b51"
+    },
+    "daily_coverage_diagnostics": {
+      "columns": 19,
+      "path": "outputs/tables/phase_5_daily_coverage_diagnostics.csv",
+      "rows": 20,
+      "sha256": "72d2454848d777669f182f9c06af3127b1fdd1e6404e39d2f3f350a17e43dd90"
+    },
+    "descriptive_statistics": {
+      "columns": 19,
+      "path": "outputs/tables/phase_5_descriptive_statistics.csv",
+      "rows": 14,
+      "sha256": "b384fc2744ed7e414008bbae37e840450b18482834248180bb8c9ec5a7dd65c7"
+    },
+    "engagement_sensitivity_by_category": {
+      "columns": 20,
+      "path": "outputs/tables/phase_5_engagement_sensitivity_by_category.csv",
+      "rows": 120,
+      "sha256": "58be4989061cefaa0db08ec36b4480e60227d4b790bbae109271b8cc92bfb60c"
+    },
+    "figure_review": {
+      "columns": 9,
+      "path": "outputs/tables/phase_5_figure_review.csv",
+      "rows": 12,
+      "sha256": "01edfb99d26238471938838c47ba5cc7cdd0e6e22ce2b1441d4cf1c708f6a302"
+    },
+    "interval_distribution": {
+      "columns": 4,
+      "path": "outputs/tables/phase_5_interval_distribution.csv",
+      "rows": 19,
+      "sha256": "7c820dc048f56b53bb03e24e9bd1406822ff952e4da0733642ba07fab589b0bd"
+    },
+    "price_sensitivity_by_category": {
+      "columns": 20,
+      "path": "outputs/tables/phase_5_price_sensitivity_by_category.csv",
+      "rows": 24,
+      "sha256": "eba87b115e107f674d818d06b9b1971cc1599de14fb0671f4b8e6df9e83ae754"
+    },
+    "product_observation_distribution": {
+      "columns": 5,
+      "path": "outputs/tables/phase_5_product_observation_distribution.csv",
+      "rows": 5,
+      "sha256": "67cf3addd427f27f9049d1918a8b590fb659031594fb0c5743b0a4aee963c064"
+    }
+  },
+  "phase4_manifest_sha256": "108c829c2e7f0d34334749421a1a30be516aa04a3de9cabe3409816b87789ac2",
+  "safeguards": {
+    "campaign_recommendation_created": false,
+    "category_ranking_created": false,
+    "final_kpi_created": false,
+    "momentum_score_created": false,
+    "reframing_approved": false,
+    "revenue_metric_created": false,
+    "total_sold_status": "UNVERIFIED_UNUSABLE_AS_SALES_METRIC",
+    "verified_sales_metric_created": false
+  }
+}

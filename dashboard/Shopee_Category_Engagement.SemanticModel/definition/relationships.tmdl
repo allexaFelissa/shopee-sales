@@ -1,0 +1,4 @@
+relationship CategoryScorecard_to_Sensitivity
+	fromColumn: Sensitivity.'Broad Product Category'
+	toColumn: 'Category Scorecard'.'Broad Product Category'
+

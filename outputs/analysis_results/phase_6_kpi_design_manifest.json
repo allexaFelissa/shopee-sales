@@ -1,0 +1,54 @@
+{
+  "final_governed_question": "Which Broad Product Categories show stronger observed favorite-engagement movement among eligible repeatedly tracked listings in this 20-day sampled dataset, when breadth, typical per-day movement, sampled scale, and evidence sufficiency are reported separately?",
+  "outputs": {
+    "dependency_map": {
+      "columns": 8,
+      "path": "outputs/tables/phase_6_kpi_dependency_map.csv",
+      "rows": 14,
+      "sha256": "b13415a5dd7d0603158e0d5687e75b8e37b03c5c81ba2a1891608c0aa6a1830b"
+    },
+    "eligibility_rules": {
+      "columns": 6,
+      "path": "outputs/tables/phase_6_category_eligibility_rules.csv",
+      "rows": 14,
+      "sha256": "4409bad9c0ebde8928fa93ac447adcc5f85d113ea6e2a35672322c9188022148"
+    },
+    "kpi_specification": {
+      "columns": 30,
+      "path": "outputs/tables/phase_6_kpi_specification.csv",
+      "rows": 5,
+      "sha256": "6d94e5747d13a13abf2c800361b168113520d19a39fda7c79173c54b5c1b1ac3"
+    },
+    "validation_rules": {
+      "columns": 9,
+      "path": "outputs/tables/phase_6_kpi_validation_rules.csv",
+      "rows": 18,
+      "sha256": "f14f9b69277ba4250d16381df8fcadcad470881fbc7d8fc04d0d7d11366af5ff"
+    }
+  },
+  "phase": 6,
+  "phase_5_evidence": {
+    "all_valid_interval_count": 3489,
+    "category_count": 24,
+    "exact_interval_count": 2603,
+    "exact_interval_retention_percent": 74.605904,
+    "phase_5_failed_checks": 0,
+    "phase_5_sources": {
+      "outputs/tables/phase_5_category_evidence.csv": "90b7045d738114146901811b4627e11b43be1d5eac73c18835fd22d876978b51",
+      "outputs/tables/phase_5_engagement_sensitivity_by_category.csv": "58be4989061cefaa0db08ec36b4480e60227d4b790bbae109271b8cc92bfb60c",
+      "outputs/tables/phase_5_validation_results.csv": "b0b7e12bedd1c21fa8cbeec13a1504d67b8326c9a905a4e9720e9ee20cce7fb5"
+    },
+    "product_level_all_valid_count": 2919
+  },
+  "safeguards": {
+    "campaign_recommendation_created": false,
+    "category_ranking_created": false,
+    "composite_score_created": false,
+    "phase_4_data_modified": false,
+    "revenue_kpi_created": false,
+    "sales_kpi_created": false,
+    "total_rating_blocked": true,
+    "total_sold_blocked": true
+  },
+  "status": "REVIEW_REQUIRED_AFTER_VALIDATION"
+}

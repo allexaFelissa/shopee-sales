@@ -1,13 +1,13 @@
-"""Render deterministic Phase 9 design previews from governed Phase 7 facts.
+"""Render deterministic previews of the three Power BI Phase 9 pages.
 
-These PNGs support layout/readability QA when Power BI Desktop is unavailable.
-They are not substitutes for Desktop-rendered screenshots.
+The previews verify information hierarchy and text density. They do not replace
+native Power BI rendering or interactive QA.
 """
 
 from pathlib import Path
+import textwrap
 
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 
 
@@ -15,122 +15,142 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "outputs/figures"
 SCORE = pd.read_csv(ROOT / "outputs/tables/phase_7_category_comparison.csv")
 SENS = pd.read_csv(ROOT / "outputs/tables/phase_7_sensitivity_analysis.csv")
-NAVY, BLUE, ORANGE, PURPLE, GRAY = "#16324F", "#3E6B89", "#D97706", "#6D5BD0", "#737B84"
-TIER = {"HIGH": NAVY, "MODERATE": BLUE, "INSUFFICIENT": "#AEB5BC"}
+
+NAVY, ORANGE, BLUE_GRAY, TEAL, ROSE = "#0C1F39", "#F96722", "#6E8BA6", "#2D7A70", "#C55A6A"
+PAGE, WHITE, BORDER, MUTED, INK = "#F5F7FA", "#FFFFFF", "#DDE3EA", "#687586", "#172535"
+TIER = {"HIGH": NAVY, "MODERATE": BLUE_GRAY, "INSUFFICIENT": ROSE}
 
 
-def frame(title, subtitle):
-    fig = plt.figure(figsize=(16, 9), facecolor="white")
-    fig.text(.035, .955, title, fontsize=23, weight="bold", color=NAVY, va="top")
-    fig.text(.035, .905, subtitle, fontsize=11, color="#5C6773", va="top")
-    fig.text(.965, .955, "20-day sample  |  Favorite engagement, not sales", fontsize=10,
-             color=ORANGE, ha="right", va="top", weight="bold")
-    return fig
+def frame(title: str, subtitle: str, methodology: str) -> plt.Figure:
+    figure = plt.figure(figsize=(16, 9), facecolor=PAGE)
+    figure.text(.035, .955, title, fontsize=23, weight="bold", color=NAVY, va="top")
+    figure.text(.035, .913, subtitle, fontsize=11, color=MUTED, va="top")
+    figure.text(.035, .885, methodology, fontsize=9.5, color=ORANGE, va="top", weight="bold")
+    return figure
 
 
-def footer(fig, text):
-    fig.text(.035, .025, text, fontsize=8.5, color="#5C6773")
+def card(figure: plt.Figure, left: float, bottom: float, width: float, height: float,
+         value: str, label: str, value_color: str = NAVY) -> None:
+    axes = figure.add_axes([left, bottom, width, height], facecolor=WHITE)
+    for spine in axes.spines.values():
+        spine.set_color(BORDER)
+        spine.set_linewidth(.9)
+    axes.set_xticks([]); axes.set_yticks([])
+    axes.text(.06, .63, value, color=value_color, fontsize=19, weight="bold", transform=axes.transAxes)
+    axes.text(.06, .24, label, color=MUTED, fontsize=8.5, transform=axes.transAxes)
 
 
-def overview():
-    fig = frame("Category Engagement Overview", "Breadth, typical movement, sampled scale, and evidence remain separate.")
-    pub = SCORE[SCORE.evidence_sufficiency_tier != "INSUFFICIENT"].copy()
-    ax = fig.add_axes([.055, .18, .59, .64])
-    for tier, group in pub.groupby("evidence_sufficiency_tier"):
-        ax.scatter(group.positive_favorite_movement_breadth,
-                   group.median_daily_favorite_movement_per_product,
-                   s=35 + group.eligible_favorite_movement_product_count * .75,
-                   c=TIER[tier], alpha=.78, edgecolor="white", linewidth=1.2, label=f"{tier} evidence")
-    for cat in ["Groceries & Pets", "Health & Beauty", "Women's Bags", "Men Clothes"]:
-        row = pub[pub.broad_product_category == cat].iloc[0]
-        ax.annotate(cat, (row.positive_favorite_movement_breadth, row.median_daily_favorite_movement_per_product),
-                    xytext=(5, 6), textcoords="offset points", fontsize=8.5, color="#17202A")
-    ax.axvline(50, color="#C8CDD2", lw=1, ls="--")
-    ax.axhline(0, color="#C8CDD2", lw=1)
-    ax.set_xlabel("Positive Favorite-Movement Breadth (%)")
-    ax.set_ylabel("Median Daily Favorite Movement per Product (favorites/day)")
-    ax.set_title("Breadth vs typical displayed-favorite movement", loc="left", color=NAVY, weight="bold")
-    ax.grid(alpha=.16)
-    ax.legend(frameon=False, loc="upper left")
-    ax2 = fig.add_axes([.69, .57, .27, .25])
-    counts = SCORE.evidence_sufficiency_tier.value_counts().reindex(["HIGH", "MODERATE", "INSUFFICIENT"])
-    ax2.barh(counts.index[::-1], counts.values[::-1], color=[TIER[x] for x in counts.index[::-1]])
-    ax2.set_title("Evidence availability — not performance", loc="left", fontsize=11, weight="bold", color=NAVY)
-    ax2.spines[:].set_visible(False); ax2.tick_params(axis="x", bottom=False, labelbottom=False)
-    for y, v in enumerate(counts.values[::-1]): ax2.text(v + .2, y, str(v), va="center", fontsize=10)
-    fig.text(.69, .50, f"{int(pub.eligible_favorite_movement_product_count.sum()):,}", fontsize=25, weight="bold", color=NAVY)
-    fig.text(.69, .465, "eligible tracked products in published categories", fontsize=9, color="#5C6773")
-    fig.text(.84, .50, "14 / 24", fontsize=25, weight="bold", color=NAVY)
-    fig.text(.84, .465, "categories with published movement", fontsize=9, color="#5C6773")
-    note = ("READ WITH CONTEXT\n\nGroceries & Pets: strongest HIGH-evidence primary pattern; directionally stable.\n\n"
-            "Health & Beauty: strongest robust positive pattern; MODERATE evidence.\n\n"
-            "Women's Bags: largest published median; n=46 across 17 dates.\n\nTop-right is not a campaign-priority map.")
-    fig.text(.69, .405, note, fontsize=10, va="top", color="#17202A",
-             bbox=dict(boxstyle="round,pad=.8", facecolor="#F5F7F9", edgecolor="#D9E0E6"))
-    footer(fig, "Source: governed Phase 7 outputs, fixed 2023-04-24 to 2023-05-13. Ten insufficient categories remain N/A and unranked.")
-    fig.savefig(OUT / "phase_9_page_1_category_engagement_overview_preview.png", dpi=160, bbox_inches="tight")
-    plt.close(fig)
+def footer(figure: plt.Figure, text: str) -> None:
+    figure.text(.035, .025, text, fontsize=8.5, color=MUTED)
 
 
-def deep_dive(category="Health & Beauty"):
-    fig = frame("Category Evidence Deep Dive", f"Illustrative selected category: {category}  |  PRIMARY is exact-display product analysis.")
-    row = SCORE[SCORE.broad_product_category == category].iloc[0]
-    labels = ["Positive Breadth", "Median Favorites / Day", "Eligible Tracked Products", "Evidence Tier"]
-    vals = [f"{row.positive_favorite_movement_breadth:.1f}%", f"{row.median_daily_favorite_movement_per_product:.3f}",
-            f"{int(row.eligible_favorite_movement_product_count):,}", row.evidence_sufficiency_tier]
-    for j, (label, val) in enumerate(zip(labels, vals)):
-        x = .055 + j*.225
-        fig.text(x, .79, val, fontsize=22, weight="bold", color=NAVY)
-        fig.text(x, .75, label, fontsize=9, color="#5C6773")
-    ax = fig.add_axes([.055, .22, .57, .45])
-    subset = SENS[SENS.broad_product_category == category].copy()
+def overview() -> None:
+    figure = frame(
+        "Category Engagement Overview",
+        "How do observed favorite-engagement movement patterns differ across broad categories?",
+        "Observed favorite-display engagement | Sales metrics excluded | Fixed sampled observation window",
+    )
+    sufficient = SCORE.query("evidence_sufficiency_tier != 'INSUFFICIENT'")
+    card(figure, .035, .705, .21, .105, f"{len(sufficient)} / {len(SCORE)}", "Evidence-sufficient categories")
+    card(figure, .262, .705, .21, .105, f"{sufficient.positive_favorite_movement_breadth.max():.1f}%", "Maximum observed breadth", ORANGE)
+    card(figure, .489, .705, .21, .105, f"{sufficient.median_daily_favorite_movement_per_product.max():.3f}", "Maximum typical movement", ORANGE)
+    card(figure, .716, .705, .245, .105, f"{int(SCORE.eligible_favorite_movement_product_count.sum()):,}", "Eligible / tracked products")
+
+    scatter = figure.add_axes([.05, .16, .49, .47], facecolor=WHITE)
+    for tier, group in sufficient.groupby("evidence_sufficiency_tier"):
+        scatter.scatter(group.positive_favorite_movement_breadth, group.median_daily_favorite_movement_per_product, s=35 + group.eligible_favorite_movement_product_count * .65, color=TIER[tier], alpha=.84, edgecolor=WHITE, linewidth=1.3, label=tier)
+    label_offsets = {"Fashion": (5, 10), "Mobile & Technology": (5, -9), "Automotive": (7, 4), "Sports & Outdoor": (5, 12)}
+    for _, row in sufficient.iterrows():
+        scatter.annotate(row.broad_product_category, (row.positive_favorite_movement_breadth, row.median_daily_favorite_movement_per_product), xytext=label_offsets.get(row.broad_product_category, (4, 5)), textcoords="offset points", fontsize=6.8, color=INK)
+    scatter.axvline(50, color=BORDER, lw=.8, ls="--"); scatter.axhline(0, color=BORDER, lw=.8)
+    scatter.grid(alpha=.12); scatter.legend(frameon=False, fontsize=7, title="Evidence tier", title_fontsize=7)
+    scatter.set_title("Category Engagement Movement", loc="left", color=NAVY, weight="bold", fontsize=12)
+    scatter.set_xlabel("Positive Favorite-Movement Breadth (%)", fontsize=8)
+    scatter.set_ylabel("Median Daily Favorite Movement per Product", fontsize=8)
+    figure.text(.06, .175, "Farther right and higher = more positive observed movement | Bubble size = eligible products", fontsize=7.5, color=MUTED)
+
+    for bottom, column, title, xlabel in [(.43, "positive_favorite_movement_breadth", "Positive Favorite-Movement Breadth", "Breadth (%)"), (.12, "median_daily_favorite_movement_per_product", "Median Daily Favorite Movement", "Favorites / day")]:
+        axes = figure.add_axes([.62, bottom, .33, .20], facecolor=WHITE)
+        ordered = sufficient.sort_values(column)
+        axes.barh(ordered.broad_product_category, ordered[column], color=[TIER[tier] for tier in ordered.evidence_sufficiency_tier])
+        axes.set_title(title, loc="left", color=NAVY, weight="bold", fontsize=11)
+        axes.set_xlabel(xlabel, fontsize=7); axes.tick_params(axis="y", labelsize=6.5); axes.grid(axis="x", alpha=.12)
+        for spine in axes.spines.values(): spine.set_color(BORDER)
+    footer(figure, "Observed favorite engagement is not sales performance.")
+    figure.savefig(OUT / "phase_9_page_1_category_engagement_overview_preview.png", dpi=160, bbox_inches="tight", facecolor=PAGE)
+    plt.close(figure)
+
+
+def deep_dive(category: str = "Health & Beauty") -> None:
+    row = SCORE.loc[SCORE.broad_product_category.eq(category)].iloc[0]
+    figure = frame("Category Evidence Deep Dive", "Inspect the strength, coverage, and stability of the selected category's engagement signal.", "Selected Category: Health & Beauty | Primary result: exact favorite display | Sensitivity views test measurement stability")
+    values = [(f"{row.positive_favorite_movement_breadth:.1f}%", "Positive-movement breadth", ORANGE), (f"{row.median_daily_favorite_movement_per_product:.3f}", "Median daily favorite movement", ORANGE), (f"{int(row.eligible_favorite_movement_product_count):,}", "Eligible product count", NAVY), (f"{int(row.positive_product_count):,}", "Positive-movement products", NAVY), (row.evidence_sufficiency_tier, "Evidence sufficiency tier", TIER[row.evidence_sufficiency_tier])]
+    for index, (value, label, color) in enumerate(values):
+        card(figure, .035 + index * .187, .705, .17, .105, value, label, color)
+
+    coverage = figure.add_axes([.05, .38, .38, .23], facecolor=WHITE)
+    coverage.barh(["Eligible products", "Positive products", "Relevant intervals"], [row.eligible_favorite_movement_product_count, row.positive_product_count, row.eligible_exact_interval_count], color=[NAVY, ORANGE, BLUE_GRAY])
+    coverage.set_title("Evidence Coverage", loc="left", color=NAVY, weight="bold", fontsize=11)
+    coverage.tick_params(axis="y", labelsize=8); coverage.grid(axis="x", alpha=.12)
+
+    bounds = figure.add_axes([.47, .42, .48, .19], facecolor=WHITE); bounds.set_xlim(0, 100); bounds.set_ylim(0, 1); bounds.axis("off")
+    lower, estimate, upper = row.positive_breadth_wilson_95_lower_percent, row.positive_favorite_movement_breadth, row.positive_breadth_wilson_95_upper_percent
+    bounds.hlines(.48, lower, upper, color=BLUE_GRAY, lw=5); bounds.vlines([lower, upper], .38, .58, color=BLUE_GRAY, lw=2); bounds.scatter(estimate, .48, s=100, color=ORANGE, zorder=3)
+    bounds.text(0, .90, "Wilson Evidence Bounds", color=NAVY, weight="bold", fontsize=11)
+    bounds.text(lower, .17, f"Lower {lower:.1f}%", ha="center", color=MUTED, fontsize=8)
+    bounds.text(estimate, .75, f"Estimate {estimate:.1f}%", ha="center", color=NAVY, fontsize=8, weight="bold")
+    bounds.text(upper, .17, f"Upper {upper:.1f}%", ha="center", color=MUTED, fontsize=8)
+    card(figure, .47, .305, .22, .075, f"{int(row.observed_date_count)} observed", "Sampled dates")
+    card(figure, .72, .305, .23, .075, f"{int(row.eligible_exact_interval_count):,}", "Relevant observation count")
+
+    subset = SENS[SENS.broad_product_category.eq(category)].copy()
     order = ["PRIMARY_EXACT_PRODUCT", "COMPACT_INCLUSIVE_PRODUCT", "OUTLIER_EXCLUDED_PRODUCT", "INTERVAL_WEIGHTED_EXACT"]
-    subset.sensitivity_scenario = pd.Categorical(subset.sensitivity_scenario, order, ordered=True)
-    subset = subset.sort_values("sensitivity_scenario")
-    names = ["PRIMARY — exact", "SENS — compact", "SENS — outlier", "SENS — interval"]
-    colors = [NAVY, ORANGE, PURPLE, GRAY]
-    ax.barh(names[::-1], subset.positive_favorite_movement_breadth.values[::-1], color=colors[::-1])
-    ax.set_xlim(0, 100); ax.set_xlabel("Positive breadth (%)")
-    ax.set_title("Primary breadth versus governed sensitivities", loc="left", weight="bold", color=NAVY)
-    ax.grid(axis="x", alpha=.16)
-    for y, v in enumerate(subset.positive_favorite_movement_breadth.values[::-1]): ax.text(v+1, y, f"{v:.1f}%", va="center")
-    ax2 = fig.add_axes([.67, .24, .29, .42]); ax2.axis("off")
-    context = (f"PRIMARY EVIDENCE CONTEXT\n\nObserved dates: {int(row.observed_date_count)} / 20\n"
-               f"Wilson 95% interval: {row.positive_breadth_wilson_95_lower_percent:.1f}%–{row.positive_breadth_wilson_95_upper_percent:.1f}%\n"
-               f"Wilson width: {row.positive_breadth_wilson_95_width_percentage_points:.1f} pp\n"
-               f"Sensitivity status: {row.sensitivity_status}\n\n"
-               "N/A — insufficient evidence is distinct from zero. Sensitivities do not replace the primary KPI.")
-    ax2.text(0, 1, context, va="top", fontsize=11, color="#17202A",
-             bbox=dict(boxstyle="round,pad=.9", facecolor="#F5F7F9", edgecolor="#D9E0E6"))
-    footer(fig, "The production page uses a Broad Product Category selector; no date slicer is exposed because the KPI window is fixed.")
-    fig.savefig(OUT / "phase_9_page_2_category_evidence_deep_dive_preview.png", dpi=160, bbox_inches="tight")
-    plt.close(fig)
+    labels = ["Primary exact", "Compact-inclusive", "Outlier-excluded", "Interval-weighted"]
+    subset = subset.set_index("sensitivity_scenario").loc[order].reset_index()
+    axes = figure.add_axes([.05, .095, .90, .16], facecolor=WHITE)
+    axes.barh(labels[::-1], subset.positive_favorite_movement_breadth.iloc[::-1], color=[TEAL, BLUE_GRAY, ORANGE, NAVY])
+    axes.set_xlim(0, 100); axes.grid(axis="x", alpha=.12); axes.tick_params(axis="y", labelsize=8)
+    axes.set_title("Sensitivity Scenario Comparison", loc="left", color=NAVY, weight="bold", fontsize=11)
+    axes.set_xlabel("Positive favorite-movement breadth (%)", fontsize=7)
+    footer(figure, "Sensitivity scenarios test stability; they do not replace the primary exact-display KPI. N/A indicates insufficient evidence, not zero.")
+    figure.savefig(OUT / "phase_9_page_2_category_evidence_deep_dive_preview.png", dpi=160, bbox_inches="tight", facecolor=PAGE)
+    plt.close(figure)
 
 
-def evidence():
-    fig = frame("Evidence & Limitations", "Evidence tier describes analytical support, not category performance.")
-    ordered = SCORE.sort_values(["evidence_sufficiency_tier", "eligible_favorite_movement_product_count"], ascending=[True, True])
-    ax = fig.add_axes([.055, .14, .50, .70])
-    y = np.arange(len(ordered))
-    ax.barh(y, ordered.eligible_favorite_movement_product_count, color=[TIER[x] for x in ordered.evidence_sufficiency_tier])
-    ax.set_yticks(y, ordered.broad_product_category, fontsize=7.5)
-    ax.set_xlabel("Eligible tracked products (evidence scale, not market size)")
-    ax.set_title("Eligible evidence by Broad Product Category", loc="left", weight="bold", color=NAVY)
-    ax.grid(axis="x", alpha=.15)
-    ax2 = fig.add_axes([.60, .50, .36, .34]); ax2.axis("off")
-    tiers = ("EVIDENCE GATES\n\nHIGH — 20 dates, n≥100, Wilson width≤20pp\n"
-             "MODERATE — ≥15 dates, n≥30, width≤35pp\n"
-             "INSUFFICIENT — any moderate gate fails\n\n"
-             "Counts: 4 HIGH  •  10 MODERATE  •  10 INSUFFICIENT")
-    ax2.text(0, 1, tiers, va="top", fontsize=11, bbox=dict(boxstyle="round,pad=.8", facecolor="#F5F7F9", edgecolor="#D9E0E6"))
-    ax3 = fig.add_axes([.60, .13, .36, .31]); ax3.axis("off")
-    limits = ("LIMITATIONS\n\nSampled listing snapshots over 20 days; only a minority of products repeat; daily sampling is uneven; favorites can be compact/rounded.\n\n"
-              "DOES NOT ESTABLISH\nSales/revenue/orders • conversion • customer demand • platform growth/market share • campaign effectiveness • future performance")
-    ax3.text(0, 1, limits, va="top", fontsize=10.5, color="#17202A",
-             bbox=dict(boxstyle="round,pad=.8", facecolor="#FFF8EB", edgecolor="#E8C98C"))
-    footer(fig, "Exact-display results are primary. Compact-inclusive, outlier-excluded, and interval-weighted results are sensitivity analyses.")
-    fig.savefig(OUT / "phase_9_page_3_evidence_and_limitations_preview.png", dpi=160, bbox_inches="tight")
-    plt.close(fig)
+def evidence() -> None:
+    figure = frame("Evidence & Limitations", "How strong is the evidence behind each category comparison?", "Evidence evaluates confidence in the signal - not performance.")
+    tiers = SCORE.evidence_sufficiency_tier.value_counts().reindex(["HIGH", "MODERATE", "INSUFFICIENT"])
+    axes = figure.add_axes([.05, .57, .28, .20], facecolor=WHITE)
+    axes.barh(tiers.index[::-1], tiers.values[::-1], color=[TIER[tier] for tier in tiers.index[::-1]])
+    axes.set_title("Categories by Evidence Tier", loc="left", color=NAVY, weight="bold", fontsize=11); axes.grid(axis="x", alpha=.12); axes.tick_params(axis="y", labelsize=8)
+    stable = SCORE.sensitivity_status.map(lambda value: "Stable" if value in {"ROBUST", "DIRECTIONALLY_STABLE"} else "Unstable").value_counts().reindex(["Stable", "Unstable"], fill_value=0)
+    axes = figure.add_axes([.36, .57, .28, .20], facecolor=WHITE)
+    axes.barh(stable.index[::-1], stable.values[::-1], color=[ORANGE, TEAL])
+    axes.set_title("Signal Stability", loc="left", color=NAVY, weight="bold", fontsize=11); axes.grid(axis="x", alpha=.12); axes.tick_params(axis="y", labelsize=8)
+    ordered = SCORE.sort_values("eligible_favorite_movement_product_count")
+    axes = figure.add_axes([.68, .42, .27, .35], facecolor=WHITE)
+    axes.barh(ordered.broad_product_category, ordered.eligible_favorite_movement_product_count, color=[TIER[tier] for tier in ordered.evidence_sufficiency_tier])
+    axes.set_title("Evidence Coverage by Category", loc="left", color=NAVY, weight="bold", fontsize=11); axes.grid(axis="x", alpha=.12); axes.tick_params(axis="y", labelsize=5.5)
+    axes.set_xlabel("Eligible evidence/product count", fontsize=7)
+
+    insufficient = SCORE.query("evidence_sufficiency_tier == 'INSUFFICIENT'").reset_index(drop=True)
+    positions = [(.05, .33), (.27, .33), (.05, .20), (.27, .20)]
+    for row, (left, bottom) in zip(insufficient.itertuples(), positions, strict=True):
+        axes = figure.add_axes([left, bottom, .20, .10], facecolor="#FFF6F5")
+        for spine in axes.spines.values(): spine.set_color(BORDER)
+        axes.axis("off")
+        axes.text(.05, .76, f"INSUFFICIENT | {row.broad_product_category}", fontsize=7.2, color=ROSE, weight="bold", transform=axes.transAxes)
+        axes.text(.05, .10, textwrap.fill(row.business_interpretation, 45), fontsize=5.8, color=INK, va="bottom", transform=axes.transAxes)
+
+    can_support = "What this analysis can support\n• Compare patterns across sufficiently\n  observed categories\n• Compare breadth and typical movement\n• Assess evidence and sensitivity"
+    cannot_support = "What this analysis cannot support\n• Sales performance or growth claims\n• Causal campaign impact\n• Campaign prioritization or generalization\n  beyond the sampled window"
+    for left, text, color in [(.50, can_support, WHITE), (.73, cannot_support, "#FFF9F4")]:
+        axes = figure.add_axes([left, .17, .20, .18], facecolor=color)
+        for spine in axes.spines.values(): spine.set_color(BORDER)
+        axes.axis("off"); axes.text(.06, .90, text, fontsize=7, color=INK, va="top", linespacing=1.55, transform=axes.transAxes)
+    footer(figure, "Four insufficient-evidence categories remain visible by design; movement KPIs are blank rather than zero.")
+    figure.savefig(OUT / "phase_9_page_3_evidence_and_limitations_preview.png", dpi=160, bbox_inches="tight", facecolor=PAGE)
+    plt.close(figure)
 
 
 if __name__ == "__main__":

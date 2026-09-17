@@ -267,8 +267,8 @@ def main() -> None:
     check("P7-FIG-files", "visual validation", all(path.exists() and path.stat().st_size > 25_000 for path in required_figures), f"figure_count={len(required_figures)}")
 
     status_text = (ROOT / "docs" / "project_status.md").read_text(encoding="utf-8")
-    check("P7-STATUS-7", "phase status", bool(re.search(r"\| 7 \| Business Analysis \| REVIEW REQUIRED \|", status_text)), "Phase 7 REVIEW REQUIRED")
-    check("P7-STATUS-8", "phase status", bool(re.search(r"\| 8 \| Visualization \| NOT STARTED \|", status_text)), "Phase 8 NOT STARTED")
+    check("P7-STATUS-7", "phase status", bool(re.search(r"\| 7 \| Business Analysis \| COMPLETED \|", status_text)), "Phase 7 COMPLETED after downstream authorization")
+    check("P7-STATUS-8", "phase status", bool(re.search(r"\| 8 \| Visualization \| COMPLETED \|", status_text)), "Phase 8 COMPLETED after its gate and Phase 9 authorization")
 
     result = pd.DataFrame(checks)
     temporary = RESULT_PATH.with_suffix(".csv.tmp")

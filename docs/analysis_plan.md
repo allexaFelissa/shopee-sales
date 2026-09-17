@@ -144,7 +144,7 @@ Controlled taxonomy recalculation (analysis version 2.0.0): all Phase 7 KPIs wer
 Phase 7 executed the frozen Phase 6 definitions against unchanged Phase 4 tables.
 
 - Exact favorite filtering retains 2,603 of 3,489 valid intervals; excluding all Broad Product Category-changing products leaves 2,590 primary intervals.
-- Product-level aggregation produces 2,169 eligible product-category summaries across 24 categories.
+- Product-level aggregation produces 2,169 eligible product summaries across 12 Broad Product Categories.
 - Evidence results are 4 `HIGH`, 10 `MODERATE`, and 10 `INSUFFICIENT`; insufficient movement values are blank.
 - Compact-inclusive, outlier-excluded, and interval-weighted sensitivities are reported separately.
 - No category passes the complete formal further-investigation gate; no campaign recommendation is made.
@@ -154,16 +154,18 @@ The user explicitly approved Phase 8 visualization work after reviewing the Phas
 
 ## Phase 8 visualization update
 
+Controlled revision (version 2.0.0): Phase 8 now consumes the recalculated 12-group Phase 7 facts. Six canonical figures were regenerated in place; all 12 broad groups appear in evidence/count views, while the four insufficient groups remain N/A in movement views. The sensitivity summary now separates breadth and median into two rows across the three alternatives. Independent validation passes 58/58, all six exact PNGs pass rendered semantic QA, and no Power BI artifact was touched. This paragraph supersedes the historical 24-category Phase 8 summary below for the active taxonomy revision.
+
 Phase 8 transformed the frozen Phase 7 facts into a governed six-visual analytical layer and a three-page Power BI plan.
 
 - The executive scatter keeps breadth and median daily movement on separate axes; eligible product count controls size and evidence tier remains a separate grouping.
-- Evidence, eligible-product scale, breadth, and typical magnitude each have a dedicated view. All 24 categories remain visible where relevant.
-- The ten `INSUFFICIENT` categories appear as `N/A — insufficient evidence`, never as zero or ranked movement values.
+- Evidence, eligible-product scale, breadth, and typical magnitude each have a dedicated view. All 12 Broad Product Categories remain visible where relevant.
+- The four `INSUFFICIENT` categories appear as `N/A — insufficient evidence`, never as zero or ranked movement values.
 - Compact-inclusive, outlier-excluded, and interval-weighted sensitivities are shown in separate aligned panels with exact/product results fixed as primary.
 - Evidence tier uses neutral quality semantics and is explicitly separated from category performance.
 - Phase 9 is specified as three pages: Category Engagement Overview, Category Evidence Deep Dive, and Evidence & Limitations.
 
-All six exact PNG exports passed manual visual QA, and the independent Phase 8 gate passed 57 of 57 checks. Ten generated artifacts reproduced byte-for-byte with zero hash differences. No KPI, composite score, sales/revenue measure, dashboard, or campaign recommendation was created. Phase 9 requires explicit approval.
+All six exact PNG exports passed manual visual QA, and the current independent Phase 8 gate passed 58 of 58 checks. No KPI, composite score, sales/revenue measure, or campaign recommendation was created. The user then authorized Phase 9.
 
 ## Phase 9 dashboard implementation update
 
@@ -173,7 +175,8 @@ The user explicitly authorized Phase 9. A native source-controlled PBIP/PBIR pro
 - Page 2 provides single-category exact-display primary KPIs with Wilson evidence and three separately labeled sensitivity specifications.
 - Page 3 exposes evidence gates, sampled scale, insufficient categories, and unsupported claims.
 - Only Broad Product Category, Evidence Sufficiency Tier, and Sensitivity Status are exposed as filters; the fixed 20-day window has no date slicer.
-- Independent validation passed 20 of 20 checks; offline PBIR validation passed with zero errors; three deterministic layout previews passed manual semantic/readability QA.
-- Native Desktop refresh/render/interaction QA remains required because Power BI Desktop is not installed in the execution environment.
+- The regenerated semantic model contains 12 category rows and 48 sensitivity rows, with a 4/4/4 evidence distribution.
+- Machine-specific source paths were replaced by portable Base64-embedded governed facts generated from the current Phase 7 CSVs.
+- Structural, analytical, preview, deterministic, and native Desktop validation results are recorded in the Phase 9 report and QA table.
 
-No KPI, composite score, sales/revenue/order/conversion metric, campaign recommendation, or Phase 10 analysis was added. Phase 9 is `REVIEW REQUIRED`; Phase 10 remains `NOT STARTED`.
+No KPI, composite score, sales/revenue/order/conversion metric, or campaign recommendation was added. Phase 9 remains `REVIEW REQUIRED`; Phase 10 recruiter-facing communication is also `REVIEW REQUIRED` and remains bounded by the governed evidence.

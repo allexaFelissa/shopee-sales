@@ -24,7 +24,7 @@ TABLE_DIR = ROOT / "outputs" / "tables"
 FIGURE_DIR = ROOT / "outputs" / "figures"
 MANIFEST_PATH = ROOT / "outputs" / "analysis_results" / "phase_8_visualization_manifest.json"
 
-VISUALIZATION_VERSION = "1.0.0"
+VISUALIZATION_VERSION = "2.0.0"
 MANUAL_QA_STATUS = "PASS_VISUAL_QA"
 PERIOD = "2023-04-24 to 2023-05-13 (20-day sampled window)"
 SOURCE_NOTE = (
@@ -102,8 +102,15 @@ def load_inputs() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     category = pd.read_csv(INPUTS["category_analysis"])
     comparison = pd.read_csv(INPUTS["category_comparison"])
     sensitivity = pd.read_csv(INPUTS["sensitivity"])
-    if len(category) != 24 or len(comparison) != 24:
-        raise AssertionError("Phase 8 expects all 24 governed Broad Product Categories.")
+    expected = {
+        "Automotive", "Baby & Kids", "Entertainment & Hobbies", "Fashion",
+        "Groceries & Pets", "Health & Beauty", "Home", "Mobile & Technology",
+        "Others", "Sports & Outdoor", "Tickets & Vouchers", "Travel",
+    }
+    if len(category) != 12 or len(comparison) != 12 or set(category["broad_product_category"]) != expected:
+        raise AssertionError("Phase 8 expects the 12 governed Broad Product Categories.")
+    if len(sensitivity) != 48 or sensitivity.groupby("broad_product_category").size().ne(4).any():
+        raise AssertionError("Phase 8 expects 12 categories x 4 governed sensitivity scenarios.")
     if set(category["evidence_sufficiency_tier"]) != {"HIGH", "MODERATE", "INSUFFICIENT"}:
         raise AssertionError("Unexpected evidence-tier universe.")
     return category, comparison, sensitivity
@@ -187,16 +194,14 @@ def plot_breadth_vs_magnitude(comparison: pd.DataFrame) -> None:
         )
 
     label_positions = {
-        "Groceries & Pets": (6, 5, "left"),
+        "Groceries & Pets": (7, 7, "left"),
         "Health & Beauty": (-8, 8, "right"),
-        "Women's Bags": (7, 8, "left"),
-        "Home & Living": (-8, -13, "right"),
-        "Women Shoes": (7, 6, "left"),
-        "Mobile & Accessories": (7, 6, "left"),
-        "Baby & Toys": (7, -13, "left"),
-        "Home Appliances": (7, 5, "left"),
-        "Automotive": (7, 5, "left"),
-        "Sports & Outdoor": (-7, 5, "right"),
+        "Home": (7, 7, "left"),
+        "Fashion": (7, 7, "left"),
+        "Mobile & Technology": (7, -14, "left"),
+        "Baby & Kids": (-8, 8, "right"),
+        "Automotive": (7, 7, "left"),
+        "Sports & Outdoor": (-8, 7, "right"),
     }
     for row in sufficient.itertuples(index=False):
         if row.broad_product_category in label_positions:
@@ -210,32 +215,10 @@ def plot_breadth_vs_magnitude(comparison: pd.DataFrame) -> None:
                 ha=align,
             )
 
-    disagree = sufficient.loc[
-        sufficient["broad_product_category"].isin(["Men Clothes", "Men's Bags & Wallets", "Watches"])
-    ].sort_values("median_daily_favorite_movement_per_product", ascending=False)
-    for idx, row in enumerate(disagree.itertuples(index=False)):
-        ax.annotate(
-            row.broad_product_category,
-            (row.positive_favorite_movement_breadth, row.median_daily_favorite_movement_per_product),
-            xytext=(-12, 14 + idx * 2),
-            textcoords="offset points",
-            ha="right",
-            fontsize=8.1,
-            arrowprops={"arrowstyle": "-", "color": "#AEB8BE", "linewidth": 0.8},
-        )
-    ax.annotate(
-        "Breadth and magnitude disagree:\npositive median, but no product majority",
-        xy=(50.0, 0.073),
-        xytext=(46.2, 0.170),
-        fontsize=8.4,
-        color="#4E5960",
-        arrowprops={"arrowstyle": "->", "color": GREY, "linewidth": 1},
-        bbox={"boxstyle": "round,pad=0.35", "facecolor": WHITE, "edgecolor": LIGHT_GREY},
-    )
     ax.axvline(50, color=GREY, linestyle="--", linewidth=1.1)
     ax.axhline(0, color=DARK, linewidth=1)
-    ax.set_xlim(45.5, 66.2)
-    ax.set_ylim(-0.012, 0.305)
+    ax.set_xlim(44.5, 66.2)
+    ax.set_ylim(-0.012, 0.235)
     ax.set_xlabel("Eligible tracked products with positive favorite movement (%)")
     ax.set_ylabel("Median displayed-favorite movement per product per day")
     ax.grid(color=LIGHT_GREY, linewidth=0.8, zorder=0)
@@ -255,8 +238,8 @@ def plot_breadth_vs_magnitude(comparison: pd.DataFrame) -> None:
     notes = [
         ("Groceries & Pets", "HIGH evidence; strongest HIGH primary pattern; directionally stable."),
         ("Health & Beauty", "Robust positive pattern; MODERATE because 19/20 dates."),
-        ("Women's Bags", "Largest published median; MODERATE n=46, 17/20 dates."),
-        ("10 categories", "N/A: insufficient evidence; not plotted at zero and not ranked."),
+        ("Fashion / Home / Mobile & Technology", "HIGH evidence, but sensitivity-unstable patterns."),
+        ("4 categories", "N/A: insufficient evidence; not plotted at zero and not ranked."),
     ]
     y = 0.86
     for heading, detail in notes:
@@ -294,7 +277,7 @@ def plot_evidence_sufficiency(comparison: pd.DataFrame) -> None:
     fig.text(
         0.125,
         0.948,
-        "Tier is evidence availability—not category performance. All 24 categories remain visible.",
+        "Tier is evidence availability—not category performance. All 12 broad categories remain visible.",
         fontsize=9.2,
         color="#59636A",
     )
@@ -431,12 +414,9 @@ def plot_sensitivity_summary(comparison: pd.DataFrame, sensitivity: pd.DataFrame
         comparison["evidence_sufficiency_tier"].isin(["HIGH", "MODERATE"]),
         ["broad_product_category", "evidence_sufficiency_tier", "sensitivity_status"],
     ]
-    pivot = sensitivity.pivot(
-        index="broad_product_category",
-        columns="sensitivity_scenario",
-        values="positive_favorite_movement_breadth",
-    ).reset_index()
-    frame = sufficient.merge(pivot, on="broad_product_category", how="left")
+    breadth = sensitivity.pivot(index="broad_product_category", columns="sensitivity_scenario", values="positive_favorite_movement_breadth")
+    median = sensitivity.pivot(index="broad_product_category", columns="sensitivity_scenario", values="median_daily_favorite_movement")
+    frame = sufficient.merge(breadth.reset_index(), on="broad_product_category", how="left")
     order = {"HIGH": 0, "MODERATE": 1}
     frame = frame.assign(_tier=frame["evidence_sufficiency_tier"].map(order)).sort_values(["_tier", "broad_product_category"]).iloc[::-1].reset_index(drop=True)
     y = np.arange(len(frame))
@@ -445,8 +425,9 @@ def plot_sensitivity_summary(comparison: pd.DataFrame, sensitivity: pd.DataFrame
         ("OUTLIER_EXCLUDED_PRODUCT", "Outlier-excluded", PURPLE, "s"),
         ("INTERVAL_WEIGHTED_EXACT", "Interval-weighted", GREY, "^"),
     ]
-    fig, axes = plt.subplots(1, 3, figsize=(15, 8.8), sharey=True)
-    for ax, (scenario, title, color, marker) in zip(axes, scenarios):
+    fig, axes = plt.subplots(2, 3, figsize=(15.5, 11.2), sharey="row")
+    for col, (scenario, title, color, marker) in enumerate(scenarios):
+        ax = axes[0, col]
         for i, row in frame.iterrows():
             primary = row["PRIMARY_EXACT_PRODUCT"]
             alternative = row[scenario]
@@ -458,16 +439,29 @@ def plot_sensitivity_summary(comparison: pd.DataFrame, sensitivity: pd.DataFrame
         ax.set_xlabel("Positive breadth (%)")
         ax.set_title(title, fontsize=12)
         ax.grid(axis="x", color=LIGHT_GREY, linewidth=0.8)
-    axes[0].set_yticks(y, [textwrap.fill(x, 24) for x in frame["broad_product_category"]])
-    axes[0].set_ylabel("Broad Product Category")
+        med_primary = frame["broad_product_category"].map(median["PRIMARY_EXACT_PRODUCT"])
+        med_alternative = frame["broad_product_category"].map(median[scenario])
+        med_ax = axes[1, col]
+        for i, (primary_value, alternative_value) in enumerate(zip(med_primary, med_alternative)):
+            med_ax.hlines(i, min(primary_value, alternative_value), max(primary_value, alternative_value), color=LIGHT_GREY, linewidth=3, zorder=1)
+        med_ax.scatter(med_primary, y, facecolor=WHITE, edgecolor=NAVY, linewidth=2.0, s=78, marker="o", zorder=3)
+        med_ax.scatter(med_alternative, y, color=color, s=34, marker=marker, zorder=4)
+        med_ax.axvline(0, color=GREY, linestyle="--", linewidth=1)
+        med_ax.set_xlim(-0.012, 0.235)
+        med_ax.set_xlabel("Median favorites/day")
+        med_ax.grid(axis="x", color=LIGHT_GREY, linewidth=0.8)
+    axes[0, 0].set_yticks(y, [textwrap.fill(x, 24) for x in frame["broad_product_category"]])
+    axes[1, 0].set_yticks(y, [textwrap.fill(x, 24) for x in frame["broad_product_category"]])
+    axes[0, 0].set_ylabel("Breadth — Broad Product Category")
+    axes[1, 0].set_ylabel("Median — Broad Product Category")
     for i, row in frame.iterrows():
-        axes[-1].text(81.2, i, row["sensitivity_status"].replace("_", " "), va="center", fontsize=7.2, color="#4E5960", clip_on=False)
-    axes[-1].text(81.2, len(frame) - 0.15, "Sensitivity status", va="bottom", fontsize=8.2, fontweight="bold", clip_on=False)
-    fig.suptitle("Primary exact-display breadth remains the reference across all sensitivities", fontsize=18, fontweight="bold", y=0.985)
+        axes[0, -1].text(81.2, i, row["sensitivity_status"].replace("_", " "), va="center", fontsize=7.2, color="#4E5960", clip_on=False)
+    axes[0, -1].text(81.2, len(frame) - 0.15, "Sensitivity status", va="bottom", fontsize=8.2, fontweight="bold", clip_on=False)
+    fig.suptitle("Primary exact-display breadth and median remain the sensitivity reference", fontsize=18, fontweight="bold", y=0.99)
     fig.text(
         0.125,
         0.932,
-        "Compact displays are the main source of instability; outlier exclusion leaves all 14 published category KPIs unchanged.",
+        "Primary is the larger hollow circle. Compact inclusion and interval weighting expose instability; outlier exclusion leaves all 8 published categories unchanged.",
         fontsize=9.2,
         color="#59636A",
     )
@@ -477,7 +471,7 @@ def plot_sensitivity_summary(comparison: pd.DataFrame, sensitivity: pd.DataFrame
         for _, title, color, marker in scenarios
     )
     fig.legend(handles=legend_handles, frameon=False, loc="upper center", bbox_to_anchor=(0.52, 0.905), ncol=4, fontsize=8.2)
-    fig.subplots_adjust(top=0.82, right=0.89, wspace=0.20)
+    fig.subplots_adjust(top=0.84, right=0.89, wspace=0.20, hspace=0.32)
     finish_figure(fig, FIGURES["V06"], bottom=0.105)
 
 
@@ -497,7 +491,7 @@ def build_visual_specification() -> pd.DataFrame:
             "filters": common_filters + "; publishable tiers only on quantitative axes",
             "sorting": "Not ranked; plotted by governed coordinates",
             "tooltip_fields": "Broad Product Category; breadth; median movement; eligible products; tier; dates; sensitivity status",
-            "evidence_treatment": "Tier uses color plus marker shape; point size is eligible products; side panel names 10 N/A categories collectively",
+            "evidence_treatment": "Tier uses color plus marker shape; point size is eligible products; side panel names 4 N/A categories collectively",
             "missing_value_treatment": common_note,
             "why_appropriate": "Position reveals breadth and magnitude together while keeping them separate; size adds evidence scale without a score.",
             "potential_misinterpretation": "Top-right could be read as an automatic priority or category ranking.",
@@ -515,7 +509,7 @@ def build_visual_specification() -> pd.DataFrame:
             "y_axis": "Broad Product Category",
             "category_or_series": "Evidence Sufficiency Tier",
             "measures_used": "Eligible Favorite-Movement Product Count; Evidence Sufficiency Tier; observed date count; Wilson width",
-            "filters": "All 24 categories; fixed governed window",
+            "filters": "All 12 Broad Product Categories; fixed governed window",
             "sorting": "Tier group then Broad Product Category; not movement performance",
             "tooltip_fields": "Tier; eligible products; observed dates; Wilson lower/upper/width; failed evidence gate",
             "evidence_treatment": "Neutral blue/grey tier semantics plus direct tier/date/precision labels and 30/100 product guides",
@@ -536,7 +530,7 @@ def build_visual_specification() -> pd.DataFrame:
             "y_axis": "Broad Product Category",
             "category_or_series": "Evidence Sufficiency Tier",
             "measures_used": "Eligible Favorite-Movement Product Count; Evidence Sufficiency Tier",
-            "filters": "All 24 categories; exact-display primary eligibility",
+            "filters": "All 12 Broad Product Categories; exact-display primary eligibility",
             "sorting": "Tier group then Broad Product Category",
             "tooltip_fields": "Eligible products; Observed Stable-Category Product Count; eligible share; tier",
             "evidence_treatment": "Tier grouping and labeled count; zero eligible products remains zero only for this count KPI",
@@ -560,7 +554,7 @@ def build_visual_specification() -> pd.DataFrame:
             "filters": common_filters,
             "sorting": "Tier group then Broad Product Category; not a momentum ranking",
             "tooltip_fields": "Positive/zero/negative products; denominator; breadth; Wilson interval; tier; sensitivity status",
-            "evidence_treatment": "Wilson interval and tier marker; 10 insufficient rows have no quantitative mark",
+            "evidence_treatment": "Wilson interval and tier marker; 4 insufficient rows have no quantitative mark",
             "missing_value_treatment": common_note,
             "why_appropriate": "An aligned percentage scale answers breadth; interval context makes precision visible.",
             "potential_misinterpretation": "A 50% reference could be read as a business target or proof of demand.",
@@ -592,19 +586,19 @@ def build_visual_specification() -> pd.DataFrame:
         },
         {
             "visual_id": "V06",
-            "visual_title": "Primary exact-display breadth remains the reference across all sensitivities",
-            "business_question_answered": "Do published category breadth patterns remain similar under compact-inclusive, outlier-excluded, and interval-weighted specifications?",
-            "chart_type": "Three-panel paired-dot comparison",
-            "x_axis": "Positive movement breadth (%)",
+            "visual_title": "Primary exact-display breadth and median remain the sensitivity reference",
+            "business_question_answered": "Do published category breadth and typical-movement patterns remain similar under compact-inclusive, outlier-excluded, and interval-weighted specifications?",
+            "chart_type": "Two-row, three-column paired-dot small multiples",
+            "x_axis": "Positive movement breadth (%) and median favorites/day in separate rows",
             "y_axis": "Broad Product Category",
             "category_or_series": "Primary exact/product versus each labeled sensitivity",
-            "measures_used": "Positive Favorite-Movement Breadth; Evidence Sufficiency Tier; Sensitivity Status",
+            "measures_used": "Positive Favorite-Movement Breadth; Median Daily Favorite Movement per Product; Evidence Sufficiency Tier; Sensitivity Status",
             "filters": "HIGH and MODERATE categories; all four governed sensitivity scenarios",
             "sorting": "Tier group then Broad Product Category; same row order in every panel",
             "tooltip_fields": "Primary value; alternative value; percentage-point difference; median direction change; status; tier",
             "evidence_treatment": "Primary is the same navy circle in every panel; alternative has scenario-specific color and shape; status is directly labeled",
             "missing_value_treatment": "Insufficient categories are omitted from quantitative sensitivity panels and disclosed as not assessable.",
-            "why_appropriate": "Small multiples preserve each alternative definition and make divergence from the governed primary easy to inspect.",
+            "why_appropriate": "Small multiples preserve each alternative definition and expose breadth and median divergence without combining them.",
             "potential_misinterpretation": "Alternative scenarios could be mistaken for co-equal KPIs or corrected truth.",
             "design_safeguards": "Primary is consistently foregrounded and named; each alternative is labeled sensitivity; no averaging across scenarios.",
             "power_bi_visual": "Small-multiple dumbbell custom visual or three aligned dot plots",
@@ -628,8 +622,8 @@ def build_dashboard_specification() -> pd.DataFrame:
             "filters": "Evidence Sufficiency Tier; Sensitivity Status; Broad Product Category highlight (not exclusion by default)",
             "interactions": "Tier/status filters cross-highlight V01 and finding callouts; category selection opens tooltip and can navigate to Page 2",
             "drill_through": "Broad Product Category to Page 2 only",
-            "explanatory_text": "Broad Product Category = source category_level_2. Favorite engagement is a sampled listing-display proxy, not sales.",
-            "limitations_footnote": "No sales, demand, platform-growth, causal, or campaign-priority claim. Ten insufficient categories are N/A and unranked.",
+            "explanatory_text": "Broad Product Category is the governed analytical grouping; Category Level 2 remains available for lineage and detail. Favorite engagement is a sampled listing-display proxy, not sales.",
+            "limitations_footnote": "No sales, demand, platform-growth, causal, or campaign-priority claim. Four insufficient categories are N/A and unranked.",
         },
         {
             "page_number": 2,
@@ -651,7 +645,7 @@ def build_dashboard_specification() -> pd.DataFrame:
             "purpose": "Make evidence gates, sensitivity, and unsupported interpretations impossible to overlook.",
             "target_audience": "Reviewer; analyst; governance stakeholder",
             "key_question": "Which results can be compared, which are sensitivity-dependent, and what can this dataset not establish?",
-            "kpi_cards": "HIGH categories: 4; MODERATE: 10; INSUFFICIENT: 10; formal further-investigation gate passes: 0",
+            "kpi_cards": "HIGH categories: 4; MODERATE: 4; INSUFFICIENT: 4; formal further-investigation gate passes: 0",
             "charts": "V02 evidence sufficiency; V03 eligible evidence; full V06 sensitivity summary; N/A category list",
             "filters": "Evidence Sufficiency Tier; Sensitivity Status",
             "interactions": "Tier/status filters cross-highlight only; prevent date slicing that would silently change evidence gates unless all governed measures recalculate",

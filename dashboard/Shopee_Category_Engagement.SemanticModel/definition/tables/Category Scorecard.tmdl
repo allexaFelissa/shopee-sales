@@ -1,0 +1,244 @@
+table 'Category Scorecard'
+	lineageTag: b02aeba2-b33e-4412-a312-319a8e915bb5
+
+	measure 'Observed Stable-Category Product Count' = SUM('Category Scorecard'[Observed Stable-Category Product Count Value])
+		formatString: #,0
+		lineageTag: fd299127-e0e2-4348-bd11-36cb299d9f23
+
+	measure 'Eligible Favorite-Movement Product Count' = SUM('Category Scorecard'[Eligible Favorite-Movement Product Count Value])
+		formatString: #,0
+		lineageTag: 32e458bd-fcf6-4667-9eae-2c0c4f6305f6
+
+	measure 'Positive Favorite-Movement Breadth' = IF(HASONEVALUE('Category Scorecard'[Broad Product Category]), SELECTEDVALUE('Category Scorecard'[Positive Favorite-Movement Breadth Value]), BLANK())
+		formatString: 0.0"%"
+		lineageTag: 957f6f99-7624-4ab9-bfa7-491d18c151da
+
+	measure 'Median Daily Favorite Movement per Product' = IF(HASONEVALUE('Category Scorecard'[Broad Product Category]), SELECTEDVALUE('Category Scorecard'[Median Daily Favorite Movement Value]), BLANK())
+		formatString: 0.000
+		lineageTag: 7a3005c8-f310-4347-a0c4-4703f7cd0b9e
+
+	measure 'Observed Dates' = SELECTEDVALUE('Category Scorecard'[Observed Date Count])
+		formatString: 0
+		lineageTag: c4298655-e8e6-436a-bc0e-c9efd53d4e8c
+
+	measure 'Breadth Wilson 95% Lower' = SELECTEDVALUE('Category Scorecard'[Breadth Wilson 95% Lower Value])
+		formatString: 0.0"%"
+		lineageTag: 48b62111-ae1b-4452-b746-18e1bf5189f4
+
+	measure 'Breadth Wilson 95% Upper' = SELECTEDVALUE('Category Scorecard'[Breadth Wilson 95% Upper Value])
+		formatString: 0.0"%"
+		lineageTag: 9e3949b4-7557-4ad8-a0e1-5c04e23fec6e
+
+	measure 'Breadth Wilson 95% Width' = SELECTEDVALUE('Category Scorecard'[Breadth Wilson 95% Width Value])
+		formatString: 0.0" pp"
+		lineageTag: 1018c78e-efee-48fa-a44d-ce21df3e979a
+
+	measure 'Broad Product Category Count' = DISTINCTCOUNT('Category Scorecard'[Broad Product Category])
+		formatString: 0
+		lineageTag: f87562dd-03e8-434b-ac39-1067d85d214d
+
+	measure 'Publishable Broad Product Category Count' = CALCULATE(DISTINCTCOUNT('Category Scorecard'[Broad Product Category]), 'Category Scorecard'[Evidence Sufficiency Tier] <> "INSUFFICIENT")
+		formatString: 0
+		lineageTag: 8b2c7ff1-35e9-4267-95e0-81a8c002b537
+
+	measure 'Insufficient Broad Product Category Count' = CALCULATE(DISTINCTCOUNT('Category Scorecard'[Broad Product Category]), 'Category Scorecard'[Evidence Sufficiency Tier] = "INSUFFICIENT")
+		formatString: 0
+		lineageTag: 49526dec-c17e-4dd1-8203-9e8e5a030068
+
+	measure 'Positive Favorite-Movement Breadth Display' = VAR v=[Positive Favorite-Movement Breadth] RETURN IF(ISBLANK(v), "N/A — insufficient evidence", FORMAT(v/100, "0.0%"))
+		lineageTag: 0cc0ef01-4e02-42c2-b7c9-57fb6fa81565
+
+	measure 'Median Daily Favorite Movement Display' = VAR v=[Median Daily Favorite Movement per Product] RETURN IF(ISBLANK(v), "N/A — insufficient evidence", FORMAT(v, "0.000"))
+		lineageTag: 4aa3b117-82dd-40a0-8cd3-150e1c994f46
+
+	measure 'Eligible Favorite-Movement Product Count Display' = FORMAT([Eligible Favorite-Movement Product Count], "#,0")
+		lineageTag: f7414f05-04fe-4839-9afa-7b0e2b46c812
+
+	measure 'Evidence Sufficiency Tier Display' = SELECTEDVALUE('Category Scorecard'[Evidence Sufficiency Tier], "Select one category")
+		lineageTag: a899bc7f-4ab5-4ab1-a914-6259b2c8002e
+
+	measure 'Best Category by Breadth' = VAR Ranked = FILTER(ALL('Category Scorecard'[Broad Product Category], 'Category Scorecard'[Evidence Sufficiency Tier], 'Category Scorecard'[Positive Favorite-Movement Breadth Value]), 'Category Scorecard'[Evidence Sufficiency Tier] <> "INSUFFICIENT") VAR TopRow = TOPN(1, Ranked, 'Category Scorecard'[Positive Favorite-Movement Breadth Value], DESC) RETURN CONCATENATEX(TopRow, 'Category Scorecard'[Broad Product Category], ", ")
+		lineageTag: 1a2b3c4d-5e6f-4071-8192-a3b4c5d6e7f8
+
+	measure 'Best Category Evidence Strength' = VAR Ranked = FILTER(ALL('Category Scorecard'[Broad Product Category], 'Category Scorecard'[Evidence Sufficiency Tier], 'Category Scorecard'[Positive Favorite-Movement Breadth Value]), 'Category Scorecard'[Evidence Sufficiency Tier] <> "INSUFFICIENT") VAR TopRow = TOPN(1, Ranked, 'Category Scorecard'[Positive Favorite-Movement Breadth Value], DESC) RETURN CONCATENATEX(TopRow, 'Category Scorecard'[Evidence Sufficiency Tier], ", ")
+		lineageTag: 2b3c4d5e-6f70-4182-93a4-b5c6d7e8f901
+
+	column 'Broad Product Category'
+		dataType: string
+		lineageTag: 7f741b0c-4cec-470e-b265-778dc4e4741e
+		sourceColumn: broad_product_category
+
+	column 'Observed Stable-Category Product Count Value'
+		dataType: int64
+		lineageTag: 1c9b1ca9-21dc-4c2b-b4fd-226aa61c8fd7
+		sourceColumn: observed_stable_category_product_count
+
+	column 'Stable Repeated Product Count'
+		dataType: int64
+		lineageTag: dc177585-72d6-4a2e-a256-58dd76895368
+		sourceColumn: stable_repeated_product_count
+
+	column 'Observed Date Count'
+		dataType: int64
+		lineageTag: 395f5f38-4c2f-4a89-847b-41d32f072d5f
+		sourceColumn: observed_date_count
+
+	column 'Eligible Exact Interval Count'
+		dataType: int64
+		lineageTag: 4b7cc53a-3c3e-4f89-b16a-52068ed8bfd7
+		sourceColumn: eligible_exact_interval_count
+
+	column 'Eligible Favorite-Movement Product Count Value'
+		dataType: int64
+		lineageTag: 5021690e-6465-4733-b915-87c63cea91c1
+		sourceColumn: eligible_favorite_movement_product_count
+
+	column 'Positive Product Count'
+		dataType: int64
+		lineageTag: 360933e1-574d-484e-85e8-23fe971b4364
+		sourceColumn: positive_product_count
+
+	column 'Zero Product Count'
+		dataType: int64
+		lineageTag: aaae6240-7816-4430-94c3-8124078a01ba
+		sourceColumn: zero_product_count
+
+	column 'Negative Product Count'
+		dataType: int64
+		lineageTag: 16436bcb-450e-4bed-afee-edb6ce1f1f20
+		sourceColumn: negative_product_count
+
+	column 'Breadth Wilson 95% Lower Value'
+		dataType: double
+		lineageTag: da76d55d-cd8f-4cac-9a6d-69bb8b6d6af8
+		sourceColumn: positive_breadth_wilson_95_lower_percent
+
+	column 'Breadth Wilson 95% Upper Value'
+		dataType: double
+		lineageTag: c6a19bc6-1b2b-4b9b-8c36-098ac11cc841
+		sourceColumn: positive_breadth_wilson_95_upper_percent
+
+	column 'Breadth Wilson 95% Width Value'
+		dataType: double
+		lineageTag: f0ed263b-e1ac-4a73-b3f1-9aa70125327c
+		sourceColumn: positive_breadth_wilson_95_width_percentage_points
+
+	column 'Evidence Sufficiency Tier'
+		dataType: string
+		lineageTag: 68b58e28-d175-4289-9b6d-553e1bc1fb64
+		sourceColumn: evidence_sufficiency_tier
+
+	column 'Eligible Share of Observed Stable Products'
+		dataType: double
+		lineageTag: b5162096-63e7-49f6-9db8-229050b361cd
+		sourceColumn: eligible_product_share_of_observed_stable_products_percent
+
+	column 'Sensitivity Status'
+		dataType: string
+		lineageTag: 164df4e7-c197-422e-965f-f0300d1e3263
+		sourceColumn: sensitivity_status
+
+	column 'Positive Favorite-Movement Breadth Value'
+		dataType: double
+		lineageTag: b360f2ce-d70f-4a7e-9602-eaee5550cab0
+		sourceColumn: positive_favorite_movement_breadth
+
+	column 'Median Daily Favorite Movement Value'
+		dataType: double
+		lineageTag: 158e7af8-56b5-4fce-8ce0-fbb1e567f0b1
+		sourceColumn: median_daily_favorite_movement_per_product
+
+	column 'Further Investigation Candidate'
+		dataType: boolean
+		lineageTag: cc71783f-02ef-4fde-b3b3-56f27922b022
+		sourceColumn: further_investigation_candidate_flag
+
+	column 'Analysis Classification'
+		dataType: string
+		lineageTag: 920a3338-68b5-442b-bc7b-ac9442158ae8
+		sourceColumn: analysis_classification
+
+	column 'Breadth-Magnitude Pattern'
+		dataType: string
+		lineageTag: 544bd5d1-7fa1-42c4-899a-762356a87b48
+		sourceColumn: breadth_magnitude_pattern
+
+	column 'Business Interpretation'
+		dataType: string
+		lineageTag: c27c32cd-f17d-477a-81d7-9bccf93ee95c
+		sourceColumn: business_interpretation
+
+	column product_movement_percentile_25
+		dataType: string
+		lineageTag: 8545f64b-9038-42da-b737-629e4c677901
+		summarizeBy: none
+		sourceColumn: product_movement_percentile_25
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_movement_percentile_75
+		dataType: string
+		lineageTag: d49499dc-2f9c-4e36-aed7-2aaf2a7df692
+		summarizeBy: none
+		sourceColumn: product_movement_percentile_75
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_movement_percentile_95
+		dataType: string
+		lineageTag: 088e4d5d-d0b2-4697-b83e-1776d283bafc
+		summarizeBy: none
+		sourceColumn: product_movement_percentile_95
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_movement_maximum
+		dataType: string
+		lineageTag: 0ff65b13-5f66-4dc6-a150-949fb88ea9b7
+		summarizeBy: none
+		sourceColumn: product_movement_maximum
+
+		annotation SummarizationSetBy = Automatic
+
+	column top_product_share_of_absolute_change_percent
+		dataType: string
+		lineageTag: af6019f3-7358-43b3-9a70-2e7eaff74d22
+		summarizeBy: none
+		sourceColumn: top_product_share_of_absolute_change_percent
+
+		annotation SummarizationSetBy = Automatic
+
+	column top_five_products_share_of_absolute_change_percent
+		dataType: string
+		lineageTag: 7c162495-110a-4e33-bde4-511cc6dd700d
+		summarizeBy: none
+		sourceColumn: top_five_products_share_of_absolute_change_percent
+
+		annotation SummarizationSetBy = Automatic
+
+	column top_product_share_of_positive_change_percent
+		dataType: string
+		lineageTag: 389f277b-600c-4341-b968-30a77fe1d5d1
+		summarizeBy: none
+		sourceColumn: top_product_share_of_positive_change_percent
+
+		annotation SummarizationSetBy = Automatic
+
+	column sensitivity_review_required_flag
+		dataType: string
+		lineageTag: c12924b1-0102-45ef-af79-e2fe06d3af87
+		summarizeBy: none
+		sourceColumn: sensitivity_review_required_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Category Scorecard' = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Binary.FromText("YnJvYWRfcHJvZHVjdF9jYXRlZ29yeSxvYnNlcnZlZF9zdGFibGVfY2F0ZWdvcnlfcHJvZHVjdF9jb3VudCxzdGFibGVfcmVwZWF0ZWRfcHJvZHVjdF9jb3VudCxvYnNlcnZlZF9kYXRlX2NvdW50LGVsaWdpYmxlX2V4YWN0X2ludGVydmFsX2NvdW50LGVsaWdpYmxlX2Zhdm9yaXRlX21vdmVtZW50X3Byb2R1Y3RfY291bnQscG9zaXRpdmVfcHJvZHVjdF9jb3VudCx6ZXJvX3Byb2R1Y3RfY291bnQsbmVnYXRpdmVfcHJvZHVjdF9jb3VudCxwb3NpdGl2ZV9icmVhZHRoX3dpbHNvbl85NV9sb3dlcl9wZXJjZW50LHBvc2l0aXZlX2JyZWFkdGhfd2lsc29uXzk1X3VwcGVyX3BlcmNlbnQscG9zaXRpdmVfYnJlYWR0aF93aWxzb25fOTVfd2lkdGhfcGVyY2VudGFnZV9wb2ludHMsZXZpZGVuY2Vfc3VmZmljaWVuY3lfdGllcixwcm9kdWN0X21vdmVtZW50X3BlcmNlbnRpbGVfMjUscHJvZHVjdF9tb3ZlbWVudF9wZXJjZW50aWxlXzc1LHByb2R1Y3RfbW92ZW1lbnRfcGVyY2VudGlsZV85NSxwcm9kdWN0X21vdmVtZW50X21heGltdW0sdG9wX3Byb2R1Y3Rfc2hhcmVfb2ZfYWJzb2x1dGVfY2hhbmdlX3BlcmNlbnQsdG9wX2ZpdmVfcHJvZHVjdHNfc2hhcmVfb2ZfYWJzb2x1dGVfY2hhbmdlX3BlcmNlbnQsdG9wX3Byb2R1Y3Rfc2hhcmVfb2ZfcG9zaXRpdmVfY2hhbmdlX3BlcmNlbnQsZWxpZ2libGVfcHJvZHVjdF9zaGFyZV9vZl9vYnNlcnZlZF9zdGFibGVfcHJvZHVjdHNfcGVyY2VudCxzZW5zaXRpdml0eV9zdGF0dXMsc2Vuc2l0aXZpdHlfcmV2aWV3X3JlcXVpcmVkX2ZsYWcscG9zaXRpdmVfZmF2b3JpdGVfbW92ZW1lbnRfYnJlYWR0aCxtZWRpYW5fZGFpbHlfZmF2b3JpdGVfbW92ZW1lbnRfcGVyX3Byb2R1Y3QsZnVydGhlcl9pbnZlc3RpZ2F0aW9uX2NhbmRpZGF0ZV9mbGFnLGFuYWx5c2lzX2NsYXNzaWZpY2F0aW9uLGJyZWFkdGhfbWFnbml0dWRlX3BhdHRlcm4sYnVzaW5lc3NfaW50ZXJwcmV0YXRpb24KRmFzaGlvbiw2MjU5LDEyNTcsMjAsMTA3Nyw4ODEsNDYzLDM5NCwyNCw0OS4yNTI1ODEwMiw1NS44MzMwNzQ5OCw2LjU4MDQ5Mzk2MSxISUdILDAsMC42NjY2NjY2NjY3LDMsMjEuMzMzMzMzMzMsNC4xMTIwOTI1OTgsMTMuODI4ODE1MTEsNC4xNjE1Mjg5NzcsMTQuMDc1NzMwOTUsVU5TVEFCTEUsVHJ1ZSw1Mi41NTM5MTYsMC4wOTA5MDkwOTA5MSxGYWxzZSxQT1NJVElWRV9TSUdOQUxfV0lUSF9RVUFMSUZJQ0FUSU9OLFBPU0lUSVZFX01BSk9SSVRZX0FORF9QT1NJVElWRV9UWVBJQ0FMX01PVkVNRU5ULCJBbW9uZyA4ODEgZWxpZ2libGUgdHJhY2tlZCBwcm9kdWN0cywgNTIuNTUlIGhhZCBwb3NpdGl2ZSBwcm9kdWN0LWxldmVsIG1vdmVtZW50IGFuZCB0aGUgdHlwaWNhbCBwcm9kdWN0IGNoYW5nZWQgYnkgMC4wOTEgZGlzcGxheWVkIGZhdm9yaXRlcyBwZXIgZGF5OyBldmlkZW5jZSBpcyBISUdIIGFuZCBzZW5zaXRpdml0eSBpcyB1bnN0YWJsZS4iCkdyb2NlcmllcyAmIFBldHMsOTY1LDE0NywyMCwxMjUsMTEyLDcyLDM1LDUsNTUuMDczMzc3NjIsNzIuNTUwNTUwMjIsMTcuNDc3MTcyNixISUdILDAsMC42NzUsMS45MzEyNSw0OS42NjY2NjY2Nyw0MS43OTUyMzE0Miw2NC43OTY2MzM5NCw0Mi4xNDk5MjkyOCwxMS42MDYyMTc2MixESVJFQ1RJT05BTExZX1NUQUJMRSxUcnVlLDY0LjI4NTcxNDI5LDAuMjExMTExMTExMSxGYWxzZSxQT1NJVElWRV9TSUdOQUxfV0lUSF9RVUFMSUZJQ0FUSU9OLFBPU0lUSVZFX01BSk9SSVRZX0FORF9QT1NJVElWRV9UWVBJQ0FMX01PVkVNRU5ULCJBbW9uZyAxMTIgZWxpZ2libGUgdHJhY2tlZCBwcm9kdWN0cywgNjQuMjklIGhhZCBwb3NpdGl2ZSBwcm9kdWN0LWxldmVsIG1vdmVtZW50IGFuZCB0aGUgdHlwaWNhbCBwcm9kdWN0IGNoYW5nZWQgYnkgMC4yMTEgZGlzcGxheWVkIGZhdm9yaXRlcyBwZXIgZGF5OyBldmlkZW5jZSBpcyBISUdIIGFuZCBzZW5zaXRpdml0eSBpcyBkaXJlY3Rpb25hbGx5IHN0YWJsZS4iCkhvbWUsMTg3MiwzMzYsMjAsMjIxLDE5NCwxMTEsNzYsNyw1MC4xODA1NTA3Niw2My45NzIxODU1NywxMy43OTE2MzQ4LEhJR0gsMCwwLjk1ODMzMzMzMzMsNCwxMS44MzMzMzMzMywxMi4yNDkyMDgwMywzNS40ODA0NjQ2MywxMi4zOTMxNjIzOSwxMC4zNjMyNDc4NixVTlNUQUJMRSxUcnVlLDU3LjIxNjQ5NDg1LDAuMTcxNTY4NjI3NSxGYWxzZSxQT1NJVElWRV9TSUdOQUxfV0lUSF9RVUFMSUZJQ0FUSU9OLFBPU0lUSVZFX01BSk9SSVRZX0FORF9QT1NJVElWRV9UWVBJQ0FMX01PVkVNRU5ULCJBbW9uZyAxOTQgZWxpZ2libGUgdHJhY2tlZCBwcm9kdWN0cywgNTcuMjIlIGhhZCBwb3NpdGl2ZSBwcm9kdWN0LWxldmVsIG1vdmVtZW50IGFuZCB0aGUgdHlwaWNhbCBwcm9kdWN0IGNoYW5nZWQgYnkgMC4xNzIgZGlzcGxheWVkIGZhdm9yaXRlcyBwZXIgZGF5OyBldmlkZW5jZSBpcyBISUdIIGFuZCBzZW5zaXRpdml0eSBpcyB1bnN0YWJsZS4iCk1vYmlsZSAmIFRlY2hub2xvZ3ksMjM0Niw0MjcsMjAsMzczLDMwNCwxNTksMTMxLDE0LDQ2LjY5NDI0NDE1LDU3Ljg1MzU0OTI2LDExLjE1OTMwNTEyLEhJR0gsMCwwLjc3NTc4NjcxMzMsMy43MDE4NzUsMzcuNSwxMS44NzMzNTA5MiwzMC44MTc5NDE5NSwxMS45ODA4MzA2NywxMi45NTgyMjY3NyxVTlNUQUJMRSxUcnVlLDUyLjMwMjYzMTU4LDAuMDgzMzMzMzMzMzMsRmFsc2UsUE9TSVRJVkVfU0lHTkFMX1dJVEhfUVVBTElGSUNBVElPTixQT1NJVElWRV9NQUpPUklUWV9BTkRfUE9TSVRJVkVfVFlQSUNBTF9NT1ZFTUVOVCwiQW1vbmcgMzA0IGVsaWdpYmxlIHRyYWNrZWQgcHJvZHVjdHMsIDUyLjMwJSBoYWQgcG9zaXRpdmUgcHJvZHVjdC1sZXZlbCBtb3ZlbWVudCBhbmQgdGhlIHR5cGljYWwgcHJvZHVjdCBjaGFuZ2VkIGJ5IDAuMDgzIGRpc3BsYXllZCBmYXZvcml0ZXMgcGVyIGRheTsgZXZpZGVuY2UgaXMgSElHSCBhbmQgc2Vuc2l0aXZpdHkgaXMgdW5zdGFibGUuIgpBdXRvbW90aXZlLDY1NiwxMzQsMTgsMTE4LDk2LDQ1LDQ5LDIsMzcuMjA1OTA1Nyw1Ni43ODQ1NzUyMiwxOS41Nzg2Njk1MixNT0RFUkFURSwwLDAuNTI1LDQuMzMzMzMzMzMzLDIwLDE0LjY1MjAxNDY1LDQ1LjQyMTI0NTQyLDE0Ljc2MDE0NzYsMTQuNjM0MTQ2MzQsUk9CVVNULEZhbHNlLDQ2Ljg3NSwwLEZhbHNlLExJTUlURURfT0JTRVJWRURfTU9WRU1FTlQsTk9fUE9TSVRJVkVfTUFKT1JJVFlfQU5EX05PTlBPU0lUSVZFX1RZUElDQUxfTU9WRU1FTlQsIkFtb25nIDk2IGVsaWdpYmxlIHRyYWNrZWQgcHJvZHVjdHMsIDQ2Ljg4JSBoYWQgcG9zaXRpdmUgcHJvZHVjdC1sZXZlbCBtb3ZlbWVudCBhbmQgdGhlIHR5cGljYWwgcHJvZHVjdCBjaGFuZ2VkIGJ5IDAuMDAwIGRpc3BsYXllZCBmYXZvcml0ZXMgcGVyIGRheTsgZXZpZGVuY2UgaXMgTU9ERVJBVEUgYW5kIHNlbnNpdGl2aXR5IGlzIHJvYnVzdC4iCkJhYnkgJiBLaWRzLDEyNzcsMTkzLDE5LDE2MywxNDgsNzcsNjksMiw0NC4wMjkxMjEyMiw1OS45MjIzNjUwNywxNS44OTMyNDM4NSxNT0RFUkFURSwwLDAuNTc4NTcxNDI4NiwyLjY5NSwxMCw2LjAxMDkyODk2MiwyMy40OTcyNjc3Niw2LjA2MDYwNjA2MSwxMS41ODk2NjMyNyxVTlNUQUJMRSxUcnVlLDUyLjAyNzAyNzAzLDAuMTQyODU3MTQyOSxGYWxzZSxQT1NJVElWRV9TSUdOQUxfV0lUSF9RVUFMSUZJQ0FUSU9OLFBPU0lUSVZFX01BSk9SSVRZX0FORF9QT1NJVElWRV9UWVBJQ0FMX01PVkVNRU5ULCJBbW9uZyAxNDggZWxpZ2libGUgdHJhY2tlZCBwcm9kdWN0cywgNTIuMDMlIGhhZCBwb3NpdGl2ZSBwcm9kdWN0LWxldmVsIG1vdmVtZW50IGFuZCB0aGUgdHlwaWNhbCBwcm9kdWN0IGNoYW5nZWQgYnkgMC4xNDMgZGlzcGxheWVkIGZhdm9yaXRlcyBwZXIgZGF5OyBldmlkZW5jZSBpcyBNT0RFUkFURSBhbmQgc2Vuc2l0aXZpdHkgaXMgdW5zdGFibGUuIgpIZWFsdGggJiBCZWF1dHksMTkyNiw0NDEsMTksNDExLDMzNywyMTIsMTE0LDExLDU3LjYzMjE3MDY1LDY3Ljg5Mjg4MjYzLDEwLjI2MDcxMTk4LE1PREVSQVRFLDAsMC42NjY2NjY2NjY3LDMuMDY1ODczMDE2LDEyLjEyNSw2LjM5NDE5OTA3NywyMS42MjE2MjE2Miw2LjQ0OTQ2ODA4NSwxNy40OTc0MDM5NSxST0JVU1QsRmFsc2UsNjIuOTA4MDExODcsMC4xNjY2NjY2NjY3LEZhbHNlLFBPU0lUSVZFX1NJR05BTF9XSVRIX1FVQUxJRklDQVRJT04sUE9TSVRJVkVfTUFKT1JJVFlfQU5EX1BPU0lUSVZFX1RZUElDQUxfTU9WRU1FTlQsIkFtb25nIDMzNyBlbGlnaWJsZSB0cmFja2VkIHByb2R1Y3RzLCA2Mi45MSUgaGFkIHBvc2l0aXZlIHByb2R1Y3QtbGV2ZWwgbW92ZW1lbnQgYW5kIHRoZSB0eXBpY2FsIHByb2R1Y3QgY2hhbmdlZCBieSAwLjE2NyBkaXNwbGF5ZWQgZmF2b3JpdGVzIHBlciBkYXk7IGV2aWRlbmNlIGlzIE1PREVSQVRFIGFuZCBzZW5zaXRpdml0eSBpcyByb2J1c3QuIgpTcG9ydHMgJiBPdXRkb29yLDY5NCw4OSwxOCw3MSw2NywzMSwzNSwxLDM0Ljg1ODI0ODg4LDU4LjA4Mzc1MTMxLDIzLjIyNTUwMjQzLE1PREVSQVRFLDAsMC4zNzE0Mjg1NzE0LDEuNzAzMzMzMzMzLDIuODMzMzMzMzMzLDEzLjE3ODI5NDU3LDQ1LjczNjQzNDExLDEzLjI4MTI1LDkuNjU0MTc4Njc0LFJPQlVTVCxGYWxzZSw0Ni4yNjg2NTY3MiwwLEZhbHNlLExJTUlURURfT0JTRVJWRURfTU9WRU1FTlQsTk9fUE9TSVRJVkVfTUFKT1JJVFlfQU5EX05PTlBPU0lUSVZFX1RZUElDQUxfTU9WRU1FTlQsIkFtb25nIDY3IGVsaWdpYmxlIHRyYWNrZWQgcHJvZHVjdHMsIDQ2LjI3JSBoYWQgcG9zaXRpdmUgcHJvZHVjdC1sZXZlbCBtb3ZlbWVudCBhbmQgdGhlIHR5cGljYWwgcHJvZHVjdCBjaGFuZ2VkIGJ5IDAuMDAwIGRpc3BsYXllZCBmYXZvcml0ZXMgcGVyIGRheTsgZXZpZGVuY2UgaXMgTU9ERVJBVEUgYW5kIHNlbnNpdGl2aXR5IGlzIHJvYnVzdC4iCkVudGVydGFpbm1lbnQgJiBIb2JiaWVzLDMyMiwyMiwxMywyMCwxOSwxNiwzLDAsNjIuNDM0MDcyMzYsOTQuNDc5NjI4OTYsMzIuMDQ1NTU2NixJTlNVRkZJQ0lFTlQsLCwsLCwsLDUuOTAwNjIxMTE4LE5PVF9BU1NFU1NBQkxFX0lOU1VGRklDSUVOVF9FVklERU5DRSxGYWxzZSwsLEZhbHNlLElOU1VGRklDSUVOVF9FVklERU5DRSxOT1RfQVNTRVNTQUJMRSxNb3ZlbWVudCBLUElzIGFyZSBzdXBwcmVzc2VkOiAxOSBlbGlnaWJsZSBwcm9kdWN0cyBhY3Jvc3MgMTMgc2FtcGxlZCBkYXRlcyBkbyBub3QgbWVldCB0aGUgTU9ERVJBVEUgZXZpZGVuY2UgZ2F0ZXMuCk90aGVycyw0NSwwLDIsMCwwLDAsMCwwLCwsLElOU1VGRklDSUVOVCwsLCwsLCwsMCxOT1RfQVNTRVNTQUJMRV9JTlNVRkZJQ0lFTlRfRVZJREVOQ0UsRmFsc2UsLCxGYWxzZSxJTlNVRkZJQ0lFTlRfRVZJREVOQ0UsTk9UX0FTU0VTU0FCTEUsTW92ZW1lbnQgS1BJcyBhcmUgc3VwcHJlc3NlZDogMCBlbGlnaWJsZSBwcm9kdWN0cyBhY3Jvc3MgMiBzYW1wbGVkIGRhdGVzIGRvIG5vdCBtZWV0IHRoZSBNT0RFUkFURSBldmlkZW5jZSBnYXRlcy4KVGlja2V0cyAmIFZvdWNoZXJzLDEwMSw1LDEyLDMsMywyLDEsMCwyMC43NjU0OTU1MSw5My44NTA5Njg0Nyw3My4wODU0NzI5NixJTlNVRkZJQ0lFTlQsLCwsLCwsLDIuOTcwMjk3MDMsTk9UX0FTU0VTU0FCTEVfSU5TVUZGSUNJRU5UX0VWSURFTkNFLEZhbHNlLCwsRmFsc2UsSU5TVUZGSUNJRU5UX0VWSURFTkNFLE5PVF9BU1NFU1NBQkxFLE1vdmVtZW50IEtQSXMgYXJlIHN1cHByZXNzZWQ6IDMgZWxpZ2libGUgcHJvZHVjdHMgYWNyb3NzIDEyIHNhbXBsZWQgZGF0ZXMgZG8gbm90IG1lZXQgdGhlIE1PREVSQVRFIGV2aWRlbmNlIGdhdGVzLgpUcmF2ZWwsMTQzLDExLDEwLDgsOCwyLDYsMCw3LjE0Nzc2ODg4Niw1OS4wNzMwMTIwOSw1MS45MjUyNDMyLElOU1VGRklDSUVOVCwsLCwsLCwsNS41OTQ0MDU1OTQsTk9UX0FTU0VTU0FCTEVfSU5TVUZGSUNJRU5UX0VWSURFTkNFLEZhbHNlLCwsRmFsc2UsSU5TVUZGSUNJRU5UX0VWSURFTkNFLE5PVF9BU1NFU1NBQkxFLE1vdmVtZW50IEtQSXMgYXJlIHN1cHByZXNzZWQ6IDggZWxpZ2libGUgcHJvZHVjdHMgYWNyb3NzIDEwIHNhbXBsZWQgZGF0ZXMgZG8gbm90IG1lZXQgdGhlIE1PREVSQVRFIGV2aWRlbmNlIGdhdGVzLgo=", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Types = Table.TransformColumnTypes(Headers, {{"broad_product_category", type text}, {"observed_stable_category_product_count", Int64.Type}, {"stable_repeated_product_count", Int64.Type}, {"observed_date_count", Int64.Type}, {"eligible_exact_interval_count", Int64.Type}, {"eligible_favorite_movement_product_count", Int64.Type}, {"positive_product_count", Int64.Type}, {"zero_product_count", Int64.Type}, {"negative_product_count", Int64.Type}, {"positive_breadth_wilson_95_lower_percent", type number}, {"positive_breadth_wilson_95_upper_percent", type number}, {"positive_breadth_wilson_95_width_percentage_points", type number}, {"evidence_sufficiency_tier", type text}, {"eligible_product_share_of_observed_stable_products_percent", type number}, {"sensitivity_status", type text}, {"positive_favorite_movement_breadth", type number}, {"median_daily_favorite_movement_per_product", type number}, {"further_investigation_candidate_flag", type logical}, {"analysis_classification", type text}, {"breadth_magnitude_pattern", type text}, {"business_interpretation", type text}})
+				in
+				    Types
+

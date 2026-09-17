@@ -1,0 +1,75 @@
+{
+  "phase": 9,
+  "status": "REVIEW REQUIRED",
+  "analysis_version": "2.0.0",
+  "timestamp_utc": "2026-08-17T00:00:00Z",
+  "validation": {
+    "check_count": 34,
+    "pass_count": 34,
+    "fail_count": 0
+  },
+  "pbir_validation": {
+    "error_count": 0,
+    "warning_count": 7,
+    "warning_scope": "remote schemas unreachable"
+  },
+  "desktop_render_qa": "PARTIAL PASS — native project/model load verified; page rendering and interactive behavior remain a manual review item",
+  "phase_10_status": "NOT STARTED",
+  "artifacts": [
+    {
+      "path": "dashboard/Shopee_Category_Engagement.pbip",
+      "sha256": "5ce2509886ed40d72aee6eaa18181a1dc16f3b1022b32b6bca928db1272e6b8d",
+      "bytes": 307
+    },
+    {
+      "path": "dashboard/phase_9_build_manifest.json",
+      "sha256": "af0ce85ec47b91422bbe24662d1ee3f218fa8be173b27759244423c67c49ca8c",
+      "bytes": 15736
+    },
+    {
+      "path": "docs/phase_9_dashboard_architecture.md",
+      "sha256": "405e1f34629609b8107c958be68ba34e80e85d44c8f2b0cc3b2c93b4418d95ec",
+      "bytes": 5297
+    },
+    {
+      "path": "reports/phase_9_powerbi_dashboard_report.md",
+      "sha256": "88eeaf411f2e6c56101c9ac2ace2c264b611ec6ff1d779255beab00f032c4cd4",
+      "bytes": 4586
+    },
+    {
+      "path": "outputs/tables/phase_9_validation_results.csv",
+      "sha256": "3ff8fb8783988ae76cc2f1d66e3daea2a4f545ef1b275a55f49f21982a9aa572",
+      "bytes": 5671
+    },
+    {
+      "path": "outputs/tables/phase_9_kpi_reconciliation.csv",
+      "sha256": "81276634016b4697b83efde4221e807cf67b3a6d4a0a1f4db74cd5d877bf1c57",
+      "bytes": 324
+    },
+    {
+      "path": "outputs/tables/phase_9_visual_qa.csv",
+      "sha256": "0295d428ba43255421c45ceaf9bd29d4d162551b7cf38f7294c4fbb5bb20c33c",
+      "bytes": 819
+    },
+    {
+      "path": "outputs/analysis_results/phase_9_pbir_validation.json",
+      "sha256": "e3def839166e5f9f5151da6c4e60f5d9e6dea5158ba7f72e3b515b04280afb39",
+      "bytes": 350
+    },
+    {
+      "path": "outputs/figures/phase_9_page_1_category_engagement_overview_preview.png",
+      "sha256": "662cdff5448de5fff32f07238a48139332d778d185d6ba36a5aabd2a41e47b26",
+      "bytes": 222574
+    },
+    {
+      "path": "outputs/figures/phase_9_page_2_category_evidence_deep_dive_preview.png",
+      "sha256": "34be27ef4a33ac14e1ec9d44d096ed1d473520b29139041f2aba5581bbed66f3",
+      "bytes": 166941
+    },
+    {
+      "path": "outputs/figures/phase_9_page_3_evidence_and_limitations_preview.png",
+      "sha256": "38ae1c5c7047e34a0878eac52cf0aa12c5dba75d7fff93eb3a456f4c29d66048",
+      "bytes": 194599
+    }
+  ]
+}

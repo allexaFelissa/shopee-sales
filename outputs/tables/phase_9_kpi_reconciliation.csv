@@ -1,4 +1,4 @@
 broad_product_category,eligible_products,breadth_percent,median_favorites_per_day,evidence_tier,sensitivity_status,status
 Groceries & Pets,112,64.28571429,0.2111111111,HIGH,DIRECTIONALLY_STABLE,PASS
 Health & Beauty,337,62.90801187,0.1666666667,MODERATE,ROBUST,PASS
-Women's Bags,46,58.69565217,0.2792207792,MODERATE,ROBUST,PASS
+Fashion,881,52.553916,0.09090909091,HIGH,UNSTABLE,PASS

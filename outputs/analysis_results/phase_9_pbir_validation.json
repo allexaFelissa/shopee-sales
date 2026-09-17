@@ -1,0 +1,10 @@
+{
+  "data": {
+    "result": "succeeded",
+    "errorCount": 0,
+    "warningCount": 0,
+    "reportPath": "dashboard/Shopee_Category_Engagement.Report",
+    "validationMode": "offline (--no-schema)",
+    "note": "Repository-normalized result from powerbi-report-author validation; the path is stored relative to the project root for portability."
+  }
+}

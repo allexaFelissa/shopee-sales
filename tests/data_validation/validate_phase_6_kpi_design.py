@@ -135,9 +135,9 @@ def main() -> None:
 
     status_text = (ROOT / "docs" / "project_status.md").read_text(encoding="utf-8")
     phase6_complete = bool(re.search(r"\| 6 \| Business Questions & KPI Design \| COMPLETED \|", status_text))
-    phase7_review = bool(re.search(r"\| 7 \| Business Analysis \| REVIEW REQUIRED \|", status_text))
+    phase7_complete = bool(re.search(r"\| 7 \| Business Analysis \| COMPLETED \|", status_text))
     check("P6-STATUS-6", "phase status", phase6_complete, "Phase 6 COMPLETED after passing its gate")
-    check("P6-STATUS-7", "phase status", phase7_review, "Phase 7 REVIEW REQUIRED")
+    check("P6-STATUS-7", "phase status", phase7_complete, "Phase 7 COMPLETED after downstream authorization")
 
     result = pd.DataFrame(checks)
     temporary = RESULT_PATH.with_suffix(".csv.tmp")

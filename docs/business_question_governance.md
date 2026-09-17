@@ -1,8 +1,8 @@
 # Phase 6 Business Question Governance
 
-Status: `REVIEW REQUIRED`  
-Governed window: 2023-04-24 through 2023-05-13 (20 dates)  
-Primary category grain: Level 2  
+Status: `COMPLETED`
+Governed window: 2023-04-24 through 2023-05-13 (20 dates)
+Primary publication grain: Broad Product Category (12 governed groups)
 Evidence basis: validated Phase 2-4 structures and Phase 5 facts
 
 ## Governance decision
@@ -23,7 +23,7 @@ Original wording:
 
 | Component | Support decision | Reason | Missing evidence |
 |---|---|---|---|
-| A. “categories” | Supported with restriction | Level-2 categories are complete and broad enough for the sample. Deeper levels are fragmented; eight products change Level 2. | A source-governed taxonomy and stable category history would be needed for unrestricted category claims. |
+| A. “categories” | Supported with restriction | The governed 12-group Broad Product Category mapping is complete for the sample; Level 2 remains preserved for detail. Eight products change Level 2. | An official source taxonomy and stable category history would be needed for unrestricted category claims. |
 | B. “gaining momentum” | Not supported as business or sales momentum | No verified sales or outcome measure exists. Favorites can describe observed engagement movement only. | Verified longitudinal orders/units/revenue or another validated business outcome over a longer period. |
 | C. “fastest” | Not supported as written; replace with gated “stronger observed movement” | Per-day normalization can compare the proxy, but sparse histories, rounded values, and uncertainty prevent an unconditional fastest-category claim. | Regular longitudinal measurement, sufficient matched products, validated outcome semantics, and stable results across definitions. |
 | D. “on the platform” | Not supported | The data is an uneven scraped sample, not a census or known probability sample. Daily volume varies 18.54×. | Known sampling frame, inclusion probabilities, or platform-wide aggregates. |
@@ -31,6 +31,21 @@ Original wording:
 | F. “upcoming campaigns and collections” | Not supported | There is no campaign exposure, outcome, control, seasonality, or future-demand evidence. | Campaign history, impressions/clicks/conversion, treatment/control evidence, calendar context, inventory, margin, and forecast horizon. |
 
 The unsupported components are not silently rewritten. They remain documented exclusions.
+
+## Recruiter-facing analytical decision record
+
+| Decision | Reason | Analytical consequence |
+|---|---|---|
+| Reject `total_sold` as a sales measure | Its meaning cannot be independently verified and it does not provide trustworthy sales evidence | No sales, revenue, order, conversion, or sales-growth KPI is calculated |
+| Keep `total_rating` unverified | It cannot independently validate the ambiguous counter field | It remains source information, not an outcome or validation target |
+| Use displayed favorites as an engagement proxy | Favorite counts provide observable longitudinal variation for repeated listings | Claims are limited to sampled favorite engagement, never purchases or demand |
+| Make exact displays primary | Compact displays are rounded and can hide small changes | Compact-inclusive calculations are labeled sensitivity results |
+| Publish 12 Broad Product Categories | The governed mapping improves business readability and cohort support while preserving all Level-2 values | Broad category is the publication grain; Level 2 remains detail and lineage |
+| Exclude Level-2-changing products | A moving category identity can contaminate category comparisons | The full changing-product history is excluded from governed movement cohorts |
+| Require evidence sufficiency | Repetition and coverage vary substantially across categories | Weak categories retain counts and diagnostics but do not publish movement KPIs |
+| Show insufficient movement as N/A | Zero is a measured outcome; insufficient evidence is an inability to estimate | Missing evidence cannot be mistaken for no movement |
+| Keep breadth, magnitude, scale, and evidence separate | No defensible business weights exist and dimensions can disagree | No composite momentum score or disguised ranking is produced |
+| Prohibit platform-wide growth claims | The data is an uneven listing sample with an unknown sampling frame | Every finding remains bounded to eligible repeatedly tracked sampled listings |
 
 ## Governed operational definitions
 
@@ -40,14 +55,14 @@ The unsupported components are not silently rewritten. They remain documented ex
 | Favorite engagement | The displayed favorite count, treated as a secondary engagement proxy. Primary movement uses exact displays only. | Purchases, customers, conversion, or causal campaign response. |
 | Traction | A non-composite scorecard: Positive Favorite-Movement Breadth, Median Daily Favorite Movement per Product, Observed Stable-Category Product Count, Eligible Favorite-Movement Product Count, and Evidence Sufficiency Tier. | A weighted momentum score, sales growth, or a single rank. |
 | Repeatedly tracked | A product with at least two snapshots and at least one eligible consecutive favorite interval: both endpoints exact and valid, elapsed days positive, both dates in context, and no Level-2 change anywhere in its study history. | Every repeated product, or products with rounded/missing endpoints in the primary cohort. |
-| Category | The validated Level-2 category for products whose Level-2 membership is stable across the study. | Level-3/4 taxonomy or a platform-governed category universe. |
+| Category | The governed Broad Product Category mapped deterministically from preserved Level 2; products with any Level-2 change remain excluded. | An official Shopee taxonomy or a platform-governed category universe. |
 | Sampled dataset | 20,312 listing snapshots for 16,614 products observed on 20 dates from 2023-04-24 to 2023-05-13 under an unknown, uneven scraping process. | A representative Shopee Malaysia panel or platform census. |
 
 ## Analysis contract
 
 ### Question as measurable claim
 
-- Plain question: Which sampled Level-2 categories exhibit stronger observed favorite-engagement movement?
+- Plain question: Which sampled Broad Product Categories exhibit stronger observed favorite-engagement movement?
 - Measurable version: compare product-level positive favorite breadth and the median of product-level daily favorite changes, accompanied by stable-category product scale and an evidence tier.
 - Do not claim: verified sales, demand, platform growth, causality, future performance, or campaign priority.
 
@@ -58,7 +73,7 @@ The unsupported components are not silently rewritten. They remain documented ex
 - Breadth numerator: eligible products whose product-level median daily change is greater than zero.
 - Breadth denominator: all eligible products, including products with zero or negative medians.
 - Magnitude statistic: category median of product-level median daily changes.
-- Main comparison: Level-2 categories meeting at least `MODERATE` evidence.
+- Main comparison: Broad Product Categories meeting at least `MODERATE` evidence.
 - Sensitivities: compact-inclusive, outlier-endpoint-excluded, and interval-weighted results, kept separate from the primary values.
 
 ### Support, weakening, and falsification

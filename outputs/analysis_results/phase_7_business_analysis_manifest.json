@@ -1,0 +1,170 @@
+{
+  "analysis_timestamp_utc": "2026-08-20T10:13:26+00:00",
+  "analysis_version": "2.0.0",
+  "figures": {
+    "breadth_magnitude_matrix": {
+      "bytes": 126145,
+      "path": "outputs/figures/phase_7_breadth_vs_magnitude_evidence_matrix.png",
+      "sha256": "5afd408f083d5bd05b4d5f76a7c0899730b34460d5a4d83a1557bb460b3b35f5"
+    },
+    "compact_sensitivity": {
+      "bytes": 114019,
+      "path": "outputs/figures/phase_7_primary_vs_compact_inclusive_sensitivity.png",
+      "sha256": "18c5952457cbfe1ac45532e9777340cebeca0092fdfeb74a2e803df2ae7a0af9"
+    },
+    "eligible_product_count": {
+      "bytes": 119694,
+      "path": "outputs/figures/phase_7_eligible_product_count_by_category.png",
+      "sha256": "3bdbad1398f4d355470efd335ab24b19631250e40b284f44cc55fb743bf88368"
+    },
+    "evidence_sufficiency": {
+      "bytes": 178565,
+      "path": "outputs/figures/phase_7_evidence_sufficiency_by_category.png",
+      "sha256": "b1decb3fec7c055800080cf62de3edd552f44e5aec221244f0973f8176f9cbce"
+    },
+    "interval_sensitivity": {
+      "bytes": 109112,
+      "path": "outputs/figures/phase_7_primary_vs_interval_weighted_sensitivity.png",
+      "sha256": "9da7ab5888da73f230008c9b69ad8a9dd7454b09144f8672cf2d18567dba3731"
+    },
+    "outlier_sensitivity": {
+      "bytes": 108550,
+      "path": "outputs/figures/phase_7_primary_vs_outlier_excluded_sensitivity.png",
+      "sha256": "1da4e170aca41d8a31462f6929f1c0313b63e35a92d440b516b1f86426641154"
+    }
+  },
+  "governed_counts": {
+    "broad_product_category_count": 12,
+    "exact_favorite_intervals_before_category_stability": 2603,
+    "formal_further_investigation_candidate_count": 0,
+    "high_evidence_category_count": 4,
+    "insufficient_evidence_category_count": 4,
+    "moderate_evidence_category_count": 4,
+    "primary_exact_intervals_after_category_stability": 2590,
+    "valid_favorite_intervals_before_exact_filter": 3489
+  },
+  "input_tables": {
+    "category_daily_coverage": {
+      "columns": 17,
+      "path": "data/processed/shopee_category_daily_coverage.csv",
+      "rows": 480,
+      "sha256": "943aadf0d5d57834071b97788ddce529a6f787e808e6a657b979d38b1e719aba"
+    },
+    "category_level2_summary": {
+      "columns": 39,
+      "path": "data/processed/shopee_category_level2_summary.csv",
+      "rows": 24,
+      "sha256": "6b3a100d49160513e1d1cb6de129f658fdb5cb6bdcdd266e7929aa009ad62cfb"
+    },
+    "daily_coverage": {
+      "columns": 16,
+      "path": "data/processed/shopee_daily_coverage.csv",
+      "rows": 20,
+      "sha256": "381fc062ef65da8fff2a24011b4de015529884e1a384dbc7da7adf8a147fc97f"
+    },
+    "matched_observations": {
+      "columns": 65,
+      "path": "data/processed/shopee_matched_observations.csv",
+      "rows": 3698,
+      "sha256": "7c5e45e2f9f4991c43ad005ad6a1cb20ce3f18721aeddbbfe26b7d6672640914"
+    },
+    "product_coverage": {
+      "columns": 39,
+      "path": "data/processed/shopee_product_coverage.csv",
+      "rows": 16614,
+      "sha256": "5498f09b177da0f81cf3a528e5296cde8d805bf2b8f9440f79af774fc3d9d945"
+    },
+    "product_snapshots": {
+      "columns": 66,
+      "path": "data/processed/shopee_product_snapshots.csv",
+      "rows": 20312,
+      "sha256": "d8bea40d4a0842d0e5411dd43904c22c1f1e54d66414ace7bbdde86b5b48b730"
+    }
+  },
+  "output_tables": {
+    "business_findings": {
+      "columns": 10,
+      "path": "outputs/tables/phase_7_business_findings.csv",
+      "rows": 5,
+      "sha256": "946ca627cad243b5d23f488da0e5b3103cd41600b6566c928a95ca21eb946152"
+    },
+    "category_business_analysis": {
+      "columns": 10,
+      "path": "outputs/tables/phase_7_category_business_analysis.csv",
+      "rows": 12,
+      "sha256": "317669844ba9eccf3c803004dd25dde5eec7bda1a38a19db33360d3296176228"
+    },
+    "category_comparison": {
+      "columns": 29,
+      "path": "outputs/tables/phase_7_category_comparison.csv",
+      "rows": 12,
+      "sha256": "9b87094f10832e6aefbfaa23c58316d73809230057838f3d612989930ec03518"
+    },
+    "figure_review": {
+      "columns": 9,
+      "path": "outputs/tables/phase_7_figure_review.csv",
+      "rows": 6,
+      "sha256": "4dace70be6f836c5dcbfb5c1e569c4ccc2a85b6d18a3d7d47b745bd753a0e8ee"
+    },
+    "sensitivity_analysis": {
+      "columns": 18,
+      "path": "outputs/tables/phase_7_sensitivity_analysis.csv",
+      "rows": 48,
+      "sha256": "f98d74560efc8e878902828df50d98d87d657955ff58ed6e8f78f69d0f04ba0b"
+    }
+  },
+  "phase4_manifest_sha256": "7089d79fab84432acf6bc4bf2a09ab017bcaf2d99a53dbe7904efc83a9972e51",
+  "phase6_manifest_sha256": "132822b3187b874344e14202674a449dab278c2393a3b2779dc5709fc49cee4d",
+  "phase6_specification_inputs": {
+    "dependency_map": {
+      "columns": 8,
+      "path": "outputs/tables/phase_6_kpi_dependency_map.csv",
+      "rows": 14,
+      "sha256": "b13415a5dd7d0603158e0d5687e75b8e37b03c5c81ba2a1891608c0aa6a1830b"
+    },
+    "eligibility_rules": {
+      "columns": 6,
+      "path": "outputs/tables/phase_6_category_eligibility_rules.csv",
+      "rows": 14,
+      "sha256": "4409bad9c0ebde8928fa93ac447adcc5f85d113ea6e2a35672322c9188022148"
+    },
+    "kpi_specification": {
+      "columns": 30,
+      "path": "outputs/tables/phase_6_kpi_specification.csv",
+      "rows": 5,
+      "sha256": "6d94e5747d13a13abf2c800361b168113520d19a39fda7c79173c54b5c1b1ac3"
+    },
+    "validation_rules": {
+      "columns": 9,
+      "path": "outputs/tables/phase_6_kpi_validation_rules.csv",
+      "rows": 18,
+      "sha256": "f14f9b69277ba4250d16381df8fcadcad470881fbc7d8fc04d0d7d11366af5ff"
+    }
+  },
+  "reproducibility_check": {
+    "generated_artifacts_compared": 13,
+    "note": "Analysis tables, figures, manifest, and independent validation results reproduced byte-for-byte on the verified rerun.",
+    "sha256_differences": 0,
+    "status": "PASS"
+  },
+  "safeguards": {
+    "campaign_effectiveness_metric_created": false,
+    "campaign_recommendation_created": false,
+    "composite_score_created": false,
+    "phase4_data_modified": false,
+    "phase6_kpis_changed": false,
+    "revenue_metric_created": false,
+    "sales_metric_created": false,
+    "total_rating_used": false,
+    "total_sold_used": false
+  },
+  "timestamp_note": "Timestamp of first successful Phase 7 generation; preserved on deterministic reruns of this version.",
+  "validation": {
+    "check_count": 43,
+    "fail_count": 0,
+    "pass_count": 43,
+    "path": "outputs/tables/phase_7_validation_results.csv",
+    "sha256": "cd6233b60b05df0a179cafab4c42b11a3086e3c7178265c300bf815ecda92aeb",
+    "status": "PASS"
+  }
+}

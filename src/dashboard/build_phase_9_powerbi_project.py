@@ -6,6 +6,7 @@ It does not recompute any governed KPI from upstream listing data.
 
 from __future__ import annotations
 
+import base64
 import csv
 import hashlib
 import json
@@ -32,15 +33,15 @@ PAGE_IDS = {
 }
 
 COLORS = {
-    "navy": "#16324F",
-    "blue": "#3E6B89",
-    "light_blue": "#DCEAF3",
-    "orange": "#D97706",
-    "purple": "#6D5BD0",
-    "gray": "#737B84",
-    "light_gray": "#EEF1F4",
-    "ink": "#17202A",
-    "muted": "#5C6773",
+    "navy": "#0C1F39",
+    "orange": "#F96722",
+    "blue_gray": "#6E8BA6",
+    "teal": "#2D7A70",
+    "rose": "#C55A6A",
+    "page": "#F5F7FA",
+    "border": "#DDE3EA",
+    "ink": "#172535",
+    "muted": "#687586",
     "white": "#FFFFFF",
 }
 
@@ -77,16 +78,17 @@ def position(x: int, y: int, width: int, height: int, order: int) -> dict:
 def container_objects(title: str | None = None) -> dict:
     out = {
         "background": [{"properties": {"show": literal("true"), "color": {"solid": {"color": literal("'#FFFFFF'")}}, "transparency": literal("0D")}}],
-        "border": [{"properties": {"show": literal("true"), "color": {"solid": {"color": literal("'#D9E0E6'")}}, "radius": literal("6D")}}],
+        "border": [{"properties": {"show": literal("true"), "color": {"solid": {"color": literal(f"'{COLORS['border']}'")}}, "radius": literal("10D")}}],
         "dropShadow": [{"properties": {"show": literal("false")}}],
     }
     if title:
-        out["title"] = [{"properties": {"show": literal("true"), "text": literal(f"'{title}'"), "fontColor": {"solid": {"color": literal("'#16324F'")}}, "fontSize": literal("12D"), "bold": literal("true"), "alignment": literal("'left'")}}]
+        out["title"] = [{"properties": {"show": literal("true"), "text": literal(f"'{title}'"), "fontColor": {"solid": {"color": literal(f"'{COLORS['navy']}'")}}, "fontSize": literal("12D"), "bold": literal("true"), "alignment": literal("'left'")}}]
     return out
 
 
 def textbox(page_key: str, ordinal: int, text: str, x: int, y: int, w: int, h: int,
-            size: int = 14, color: str = COLORS["ink"], weight: str | None = None) -> dict:
+            size: int = 14, color: str = COLORS["ink"], weight: str | None = None,
+            card_style: bool = False, card_color: str = COLORS["white"]) -> dict:
     style = {"fontFamily": "Segoe UI", "fontSize": f"{size}px", "color": color}
     if weight:
         style["fontWeight"] = weight
@@ -98,8 +100,15 @@ def textbox(page_key: str, ordinal: int, text: str, x: int, y: int, w: int, h: i
             "visualType": "textbox",
             "objects": {"general": [{"properties": {"paragraphs": [{"textRuns": [{"value": text, "textStyle": style}], "horizontalTextAlignment": "left"}]}}]},
             "visualContainerObjects": {
-                "background": [{"properties": {"show": literal("false")}}],
-                "border": [{"properties": {"show": literal("false")}}],
+                "background": [{"properties": {
+                    "show": literal("true" if card_style else "false"),
+                    "color": {"solid": {"color": literal(f"'{card_color}'")}},
+                }}],
+                "border": [{"properties": {
+                    "show": literal("true" if card_style else "false"),
+                    "color": {"solid": {"color": literal(f"'{COLORS['border']}'")}},
+                    "radius": literal("10D"),
+                }}],
                 "padding": [{"properties": {"top": literal("0D"), "bottom": literal("0D"), "left": literal("0D"), "right": literal("0D")}}],
             },
         },
@@ -107,7 +116,8 @@ def textbox(page_key: str, ordinal: int, text: str, x: int, y: int, w: int, h: i
 
 
 def data_visual(page_key: str, ordinal: int, visual_type: str, roles: dict, x: int, y: int,
-                w: int, h: int, title: str | None = None, objects: dict | None = None) -> dict:
+                w: int, h: int, title: str | None = None, objects: dict | None = None,
+                sort: dict | None = None) -> dict:
     visual = {
         "visualType": visual_type,
         "query": {"queryState": roles},
@@ -115,6 +125,8 @@ def data_visual(page_key: str, ordinal: int, visual_type: str, roles: dict, x: i
     }
     if objects:
         visual["objects"] = objects
+    if sort:
+        visual["sortDefinition"] = sort
     return {
         "$schema": f"{SCHEMA}/visualContainer/2.9.0/schema.json",
         "name": visual_id(page_key, ordinal),
@@ -141,6 +153,19 @@ def card(page_key: str, ordinal: int, measure_name: str, x: int, y: int, w: int,
     return data_visual(page_key, ordinal, "cardVisual", roles, x, y, w, h, title)
 
 
+def descending_sort(field: dict) -> dict:
+    return {"sort": [{"field": field, "direction": "Descending"}]}
+
+
+def chart_objects(fill: str | None = None, labels: bool = False) -> dict:
+    objects: dict = {}
+    if fill:
+        objects["dataPoint"] = [{"properties": {"fill": {"solid": {"color": literal(f"'{fill}'")}}}}]
+    if labels:
+        objects["labels"] = [{"properties": {"show": literal("true"), "color": {"solid": {"color": literal(f"'{COLORS['navy']}'")}}}}]
+    return objects
+
+
 def write_visual(page_key: str, visual: dict) -> str:
     page_id = PAGE_IDS[page_key]
     path = PAGES / page_id / "visuals" / visual["name"] / "visual.json"
@@ -148,18 +173,23 @@ def write_visual(page_key: str, visual: dict) -> str:
     return visual["name"]
 
 
-def page_header(page_key: str, title: str, subtitle: str) -> int:
-    write_visual(page_key, textbox(page_key, 1, title, 28, 18, 820, 42, 25, COLORS["navy"], "bold"))
-    write_visual(page_key, textbox(page_key, 2, subtitle, 28, 60, 1040, 42, 12, COLORS["muted"]))
-    write_visual(page_key, textbox(page_key, 3, "20-day sampled Shopee listing data  •  Favorite engagement, not sales", 930, 20, 320, 38, 11, COLORS["orange"], "bold"))
+def page_header(page_key: str, title: str, subtitle: str, methodology: str) -> int:
+    write_visual(page_key, textbox(page_key, 1, title, 28, 18, 760, 42, 24, COLORS["navy"], "bold"))
+    write_visual(page_key, textbox(page_key, 2, subtitle, 28, 56, 820, 26, 12, COLORS["muted"]))
+    write_visual(page_key, textbox(page_key, 3, methodology, 28, 84, 800, 22, 10, COLORS["orange"], "bold"))
     return 4
 
 
 def build_overview() -> None:
     key = "overview"
-    i = page_header(key, "Category Engagement Overview", "Breadth, typical daily movement, eligible tracked-product scale, and evidence are separate dimensions.")
-    write_visual(key, slicer(key, i, "Category Scorecard", "Evidence Sufficiency Tier", 930, 56, 150, 76, "Evidence Tier")); i += 1
-    write_visual(key, slicer(key, i, "Category Scorecard", "Sensitivity Status", 1090, 56, 160, 76, "Sensitivity Status")); i += 1
+    i = page_header(key, "Category Engagement Overview", "How do observed favorite-engagement movement patterns differ across broad categories?", "Observed favorite-display engagement | Sales metrics excluded | Fixed sampled observation window")
+    write_visual(key, slicer(key, i, "Category Scorecard", "Broad Product Category", 810, 22, 140, 78, "Broad Product Category")); i += 1
+    write_visual(key, slicer(key, i, "Category Scorecard", "Evidence Sufficiency Tier", 960, 22, 135, 78, "Evidence Tier")); i += 1
+    write_visual(key, slicer(key, i, "Category Scorecard", "Sensitivity Status", 1105, 22, 145, 78, "Sensitivity Status")); i += 1
+    write_visual(key, card(key, i, "Evidence-Sufficient Category Count Display", 28, 126, 286, 92, "Evidence-Sufficient Categories")); i += 1
+    write_visual(key, card(key, i, "Maximum Positive Favorite-Movement Breadth Display", 330, 126, 286, 92, "Maximum Observed Breadth")); i += 1
+    write_visual(key, card(key, i, "Maximum Median Daily Favorite Movement Display", 632, 126, 286, 92, "Maximum Typical Movement")); i += 1
+    write_visual(key, card(key, i, "Eligible Favorite-Movement Product Count", 934, 126, 316, 92, "Eligible / Tracked Products")); i += 1
 
     scatter_roles = {
         "Category": {"projections": [projection(column("Category Scorecard", "Broad Product Category"), "Category Scorecard.Broad Product Category")]},
@@ -172,33 +202,44 @@ def build_overview() -> None:
             projection(measure("Category Scorecard", "Breadth Wilson 95% Width"), "Category Scorecard.Breadth Wilson 95% Width"),
         ]},
     }
-    write_visual(key, data_visual(key, i, "scatterChart", scatter_roles, 28, 134, 790, 480, "Breadth vs typical displayed-favorite movement")); i += 1
-
-    evidence_roles = {
-        "Category": {"projections": [projection(column("Category Scorecard", "Evidence Sufficiency Tier"), "Category Scorecard.Evidence Sufficiency Tier")]},
-        "Y": {"projections": [projection(measure("Category Scorecard", "Broad Product Category Count"), "Category Scorecard.Broad Product Category Count")]},
+    scatter_objects = {"categoryLabels": [{"properties": {"show": literal("true")}}]}
+    write_visual(key, data_visual(key, i, "scatterChart", scatter_roles, 28, 238, 650, 405, "Category Engagement Movement", scatter_objects)); i += 1
+    write_visual(key, textbox(key, i, "Farther right and higher = more positive observed movement | Bubble size = eligible products", 44, 612, 605, 20, 9, COLORS["muted"])); i += 1
+    breadth_roles = {
+        "Category": {"projections": [projection(column("Category Scorecard", "Broad Product Category"), "Category Scorecard.Broad Product Category")]},
+        "Y": {"projections": [projection(measure("Category Scorecard", "Positive Favorite-Movement Breadth"), "Category Scorecard.Positive Favorite-Movement Breadth")]},
+        "Series": {"projections": [projection(column("Category Scorecard", "Evidence Sufficiency Tier"), "Category Scorecard.Evidence Sufficiency Tier")]},
     }
-    write_visual(key, data_visual(key, i, "barChart", evidence_roles, 838, 134, 412, 190, "Evidence availability (not performance)")); i += 1
-    write_visual(key, card(key, i, "Eligible Favorite-Movement Product Count", 838, 340, 198, 115, "Eligible Tracked Products")); i += 1
-    write_visual(key, card(key, i, "Publishable Broad Product Category Count", 1052, 340, 198, 115, "Published Categories")); i += 1
-    callout = ("Observed patterns to read with evidence context:\n"
-               "• Groceries & Pets: strongest HIGH-evidence primary pattern; directionally stable.\n"
-               "• Health & Beauty: strongest robust positive pattern; MODERATE evidence.\n"
-               "• Women's Bags: largest published median; 46 eligible products / 17 dates.\n"
-               "Top-right is not an automatic campaign priority.")
-    write_visual(key, textbox(key, i, callout, 850, 478, 390, 150, 12, COLORS["ink"])); i += 1
-    write_visual(key, textbox(key, i, "Source: governed Phase 7 category outputs, fixed 2023-04-24 to 2023-05-13 window. Ten insufficient categories remain unranked and have N/A movement values.", 28, 650, 1218, 42, 10, COLORS["muted"]))
+    write_visual(key, data_visual(key, i, "barChart", breadth_roles, 700, 238, 550, 195, "Positive Favorite-Movement Breadth", chart_objects(labels=True), descending_sort(measure("Category Scorecard", "Positive Favorite-Movement Breadth")))); i += 1
+    movement_roles = {
+        "Category": {"projections": [projection(column("Category Scorecard", "Broad Product Category"), "Category Scorecard.Broad Product Category")]},
+        "Y": {"projections": [projection(measure("Category Scorecard", "Median Daily Favorite Movement per Product"), "Category Scorecard.Median Daily Favorite Movement per Product")]},
+        "Series": {"projections": [projection(column("Category Scorecard", "Evidence Sufficiency Tier"), "Category Scorecard.Evidence Sufficiency Tier")]},
+    }
+    write_visual(key, data_visual(key, i, "barChart", movement_roles, 700, 448, 550, 195, "Median Daily Favorite Movement", chart_objects(labels=True), descending_sort(measure("Category Scorecard", "Median Daily Favorite Movement per Product")))); i += 1
+    write_visual(key, textbox(key, i, "Observed favorite engagement is not sales performance.", 28, 676, 740, 18, 10, COLORS["muted"]))
 
 
 def build_deep_dive() -> None:
     key = "deep_dive"
-    i = page_header(key, "Category Evidence Deep Dive", "Select one Broad Product Category. Primary exact-display KPIs are prominent; sensitivities remain separate.")
-    write_visual(key, slicer(key, i, "Category Scorecard", "Broad Product Category", 28, 106, 320, 76,
-                             "Broad Product Category", single_select=True)); i += 1
-    write_visual(key, card(key, i, "Positive Favorite-Movement Breadth Display", 370, 112, 205, 105, "Positive Breadth")); i += 1
-    write_visual(key, card(key, i, "Median Daily Favorite Movement Display", 590, 112, 205, 105, "Median Favorites / Day")); i += 1
-    write_visual(key, card(key, i, "Eligible Favorite-Movement Product Count Display", 810, 112, 205, 105, "Eligible Tracked Products")); i += 1
-    write_visual(key, card(key, i, "Evidence Sufficiency Tier Display", 1030, 112, 220, 105, "Evidence Tier")); i += 1
+    i = page_header(key, "Category Evidence Deep Dive", "Inspect the strength, coverage, and stability of the selected category's engagement signal.", "Primary result: exact favorite display | Sensitivity views test measurement stability")
+    write_visual(key, slicer(key, i, "Category Scorecard", "Broad Product Category", 890, 22, 360, 78,
+                             "Selected Category", single_select=True)); i += 1
+    write_visual(key, card(key, i, "Positive Favorite-Movement Breadth Display", 28, 128, 230, 92, "Positive-Movement Breadth")); i += 1
+    write_visual(key, card(key, i, "Median Daily Favorite Movement Display", 274, 128, 230, 92, "Median Daily Favorite Movement")); i += 1
+    write_visual(key, card(key, i, "Eligible Favorite-Movement Product Count Display", 520, 128, 230, 92, "Eligible Product Count")); i += 1
+    write_visual(key, card(key, i, "Positive Favorite-Movement Product Count", 766, 128, 230, 92, "Positive-Movement Products")); i += 1
+    write_visual(key, card(key, i, "Evidence Sufficiency Tier Display", 1012, 128, 238, 92, "Evidence Sufficiency Tier")); i += 1
+
+    coverage_roles = {
+        "Category": {"projections": [projection(column("Category Scorecard", "Broad Product Category"), "Category Scorecard.Broad Product Category")]},
+        "Y": {"projections": [
+            projection(measure("Category Scorecard", "Eligible Favorite-Movement Product Count"), "Category Scorecard.Eligible Favorite-Movement Product Count"),
+            projection(measure("Category Scorecard", "Positive Favorite-Movement Product Count"), "Category Scorecard.Positive Favorite-Movement Product Count"),
+            projection(measure("Category Scorecard", "Eligible Exact Interval Observation Count"), "Category Scorecard.Eligible Exact Interval Observation Count"),
+        ]},
+    }
+    write_visual(key, data_visual(key, i, "barChart", coverage_roles, 28, 250, 510, 225, "Evidence Coverage", chart_objects(labels=True))); i += 1
 
     table_roles = {"Values": {"projections": [
         projection(column("Category Scorecard", "Broad Product Category"), "Category Scorecard.Broad Product Category"),
@@ -208,7 +249,9 @@ def build_deep_dive() -> None:
         projection(measure("Category Scorecard", "Breadth Wilson 95% Width"), "Category Scorecard.Breadth Wilson 95% Width"),
         projection(column("Category Scorecard", "Sensitivity Status"), "Category Scorecard.Sensitivity Status"),
     ]}}
-    write_visual(key, data_visual(key, i, "tableEx", table_roles, 28, 238, 520, 205, "Primary evidence context")); i += 1
+    write_visual(key, data_visual(key, i, "tableEx", table_roles, 560, 250, 690, 145, "Wilson Evidence Bounds")); i += 1
+    write_visual(key, card(key, i, "Observed Dates Display", 560, 413, 330, 78, "Sampled Dates Observed")); i += 1
+    write_visual(key, card(key, i, "Eligible Exact Interval Observation Count", 908, 413, 342, 78, "Relevant Observation Count")); i += 1
 
     sensitivity_roles = {
         "Category": {"projections": [projection(column("Sensitivity", "Scenario Display"), "Sensitivity.Scenario Display")]},
@@ -216,25 +259,26 @@ def build_deep_dive() -> None:
         "Y": {"projections": [projection(measure("Sensitivity", "Scenario Positive Breadth"), "Sensitivity.Scenario Positive Breadth")]},
         "Tooltips": {"projections": [projection(measure("Sensitivity", "Difference from Primary"), "Sensitivity.Difference from Primary")]},
     }
-    write_visual(key, data_visual(key, i, "barChart", sensitivity_roles, 570, 238, 680, 310, "PRIMARY exact-display breadth vs SENSITIVITY specifications")); i += 1
-
-    median_roles = {"Values": {"projections": [
-        projection(column("Sensitivity", "Scenario Display"), "Sensitivity.Scenario Display"),
-        projection(measure("Sensitivity", "Scenario Eligible Units"), "Sensitivity.Scenario Eligible Units"),
-        projection(measure("Sensitivity", "Scenario Positive Breadth"), "Sensitivity.Scenario Positive Breadth"),
-        projection(measure("Sensitivity", "Difference from Primary"), "Sensitivity.Difference from Primary"),
-        projection(measure("Sensitivity", "Scenario Median Movement"), "Sensitivity.Scenario Median Movement"),
-    ]}}
-    write_visual(key, data_visual(key, i, "tableEx", median_roles, 28, 462, 520, 165, "Sensitivity evidence by specification")); i += 1
-    write_visual(key, textbox(key, i, "N/A — insufficient evidence is intentionally distinct from zero. Compact-inclusive, outlier-excluded, and interval-weighted values are sensitivity checks, not replacements for the primary KPI.", 570, 568, 680, 56, 11, COLORS["orange"], "bold")); i += 1
-    write_visual(key, textbox(key, i, "Fixed 20-day window; no date slicer. Broad Product Category selection filters the scorecard and sensitivity fact through a one-to-many category relationship.", 28, 650, 1218, 36, 10, COLORS["muted"]))
+    write_visual(key, data_visual(key, i, "barChart", sensitivity_roles, 28, 510, 1222, 145, "Sensitivity Scenario Comparison", chart_objects(labels=True))); i += 1
+    write_visual(key, textbox(key, i, "N/A - insufficient evidence is distinct from zero. Sensitivity scenarios test stability; they do not replace the primary exact-display KPI.", 28, 676, 1090, 18, 10, COLORS["muted"]))
 
 
 def build_evidence() -> None:
     key = "evidence"
-    i = page_header(key, "Evidence & Limitations", "Evidence tier describes analytical support, not category performance.")
-    write_visual(key, slicer(key, i, "Category Scorecard", "Evidence Sufficiency Tier", 920, 56, 160, 76, "Evidence Tier")); i += 1
-    write_visual(key, slicer(key, i, "Category Scorecard", "Sensitivity Status", 1090, 56, 160, 76, "Sensitivity Status")); i += 1
+    i = page_header(key, "Evidence & Limitations", "How strong is the evidence behind each category comparison?", "Evidence evaluates confidence in the signal - not performance.")
+    write_visual(key, slicer(key, i, "Category Scorecard", "Evidence Sufficiency Tier", 960, 22, 135, 78, "Evidence Tier")); i += 1
+    write_visual(key, slicer(key, i, "Category Scorecard", "Sensitivity Status", 1105, 22, 145, 78, "Sensitivity Status")); i += 1
+
+    tier_roles = {
+        "Category": {"projections": [projection(column("Category Scorecard", "Evidence Sufficiency Tier"), "Category Scorecard.Evidence Sufficiency Tier")]},
+        "Y": {"projections": [projection(measure("Category Scorecard", "Broad Product Category Count"), "Category Scorecard.Broad Product Category Count")]},
+    }
+    write_visual(key, data_visual(key, i, "barChart", tier_roles, 28, 128, 370, 195, "Categories by Evidence Tier", chart_objects(labels=True))); i += 1
+    stability_roles = {
+        "Category": {"projections": [projection(column("Category Scorecard", "Sensitivity Status"), "Category Scorecard.Sensitivity Status")]},
+        "Y": {"projections": [projection(measure("Category Scorecard", "Broad Product Category Count"), "Category Scorecard.Broad Product Category Count")]},
+    }
+    write_visual(key, data_visual(key, i, "barChart", stability_roles, 418, 128, 370, 195, "Signal Stability", chart_objects(COLORS["teal"], labels=True))); i += 1
 
     product_roles = {
         "Category": {"projections": [projection(column("Category Scorecard", "Broad Product Category"), "Category Scorecard.Broad Product Category")]},
@@ -242,37 +286,38 @@ def build_evidence() -> None:
         "Y": {"projections": [projection(measure("Category Scorecard", "Eligible Favorite-Movement Product Count"), "Category Scorecard.Eligible Favorite-Movement Product Count")]},
         "Tooltips": {"projections": [projection(measure("Category Scorecard", "Observed Dates"), "Category Scorecard.Observed Dates")]},
     }
-    write_visual(key, data_visual(key, i, "barChart", product_roles, 28, 132, 610, 380, "Eligible tracked products by Broad Product Category")); i += 1
+    write_visual(key, data_visual(key, i, "barChart", product_roles, 808, 128, 442, 215, "Evidence Coverage by Category", chart_objects(labels=True), descending_sort(measure("Category Scorecard", "Eligible Favorite-Movement Product Count")))); i += 1
 
-    evidence_table = {"Values": {"projections": [
-        projection(column("Category Scorecard", "Broad Product Category"), "Category Scorecard.Broad Product Category"),
-        projection(column("Category Scorecard", "Evidence Sufficiency Tier"), "Category Scorecard.Evidence Sufficiency Tier"),
-        projection(measure("Category Scorecard", "Observed Dates"), "Category Scorecard.Observed Dates"),
-        projection(measure("Category Scorecard", "Eligible Favorite-Movement Product Count"), "Category Scorecard.Eligible Favorite-Movement Product Count"),
-        projection(measure("Category Scorecard", "Breadth Wilson 95% Width"), "Category Scorecard.Breadth Wilson 95% Width"),
-        projection(column("Category Scorecard", "Sensitivity Status"), "Category Scorecard.Sensitivity Status"),
-    ]}}
-    write_visual(key, data_visual(key, i, "tableEx", evidence_table, 660, 132, 590, 380, "Evidence gates and sensitivity status")); i += 1
-
-    limitations = ("What this analysis measures\n"
-                   "Observed favorite-display movement among eligible repeatedly tracked listings in a sampled 20-day window. Exact displays are primary; compact/rounded displays appear only in sensitivity analysis.\n\n"
-                   "What it does NOT establish\n"
-                   "Sales or revenue growth • orders or conversion • customer demand • platform-wide category growth or market share • campaign effectiveness • future performance.\n\n"
-                   "Sampling limits\n"
-                   "Only a minority of products repeat; daily sampling is uneven; 10 categories have insufficient evidence and remain N/A/unranked.")
-    write_visual(key, textbox(key, i, limitations, 28, 534, 830, 155, 12, COLORS["ink"])); i += 1
-    write_visual(key, card(key, i, "Insufficient Broad Product Category Count", 885, 540, 165, 105, "N/A Categories")); i += 1
-    write_visual(key, card(key, i, "Publishable Broad Product Category Count", 1070, 540, 180, 105, "Published Categories")); i += 1
-    write_visual(key, textbox(key, i, "Tier gates: HIGH = 20 dates, n≥100, Wilson width≤20pp. MODERATE = ≥15 dates, n≥30, width≤35pp. Otherwise INSUFFICIENT.", 875, 655, 375, 40, 10, COLORS["muted"]))
+    insufficient = csv.DictReader(SCORECARD_SOURCE.open(encoding="utf-8"))
+    insufficient_rows = [row for row in insufficient if row["evidence_sufficiency_tier"] == "INSUFFICIENT"]
+    positions = [(28, 352), (337, 352), (28, 447), (337, 447)]
+    for row, (x, y) in zip(insufficient_rows, positions, strict=True):
+        write_visual(key, textbox(key, i, f"INSUFFICIENT | {row['broad_product_category']}\n{row['business_interpretation']}", x, y, 292, 80, 9, COLORS["ink"], None, True, "#FFF6F5")); i += 1
+    can_support = ("What this analysis can support\n"
+                   "• Compare patterns across sufficiently observed categories\n"
+                   "• Identify stronger or broader engagement signals\n"
+                   "• Assess evidence strength and sensitivity")
+    cannot_support = ("What this analysis cannot support\n"
+                      "• Sales performance or growth claims\n"
+                      "• Causal campaign impact\n"
+                      "• Campaign prioritization or generalization beyond the sampled window")
+    write_visual(key, textbox(key, i, can_support, 658, 365, 282, 162, 10, COLORS["ink"], None, True)); i += 1
+    write_visual(key, textbox(key, i, cannot_support, 958, 365, 292, 162, 10, COLORS["ink"], None, True, "#FFF9F4")); i += 1
+    write_visual(key, textbox(key, i, "Four insufficient-evidence categories remain visible by design; movement KPIs are blank rather than zero.", 658, 548, 590, 20, 10, COLORS["muted"]))
 
 
 def m_csv(path: Path, columns: list[tuple[str, str]]) -> list[str]:
-    # Power Query M does not use backslash as a string escape character.
-    source = str(path)
+    """Embed the small governed publication fact as portable Base64 CSV.
+
+    PBIP exposes no stable project-directory variable for File.Contents. The
+    deterministic generator therefore embeds the 12-row and 48-row publication
+    facts while keeping every governed calculation upstream in Python.
+    """
+    source = base64.b64encode(path.read_bytes()).decode("ascii")
     types = ", ".join(f'{{"{name}", {kind}}}' for name, kind in columns)
     return [
         "let",
-        f'    Source = Csv.Document(File.Contents("{source}"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),',
+        f'    Source = Csv.Document(Binary.FromText("{source}", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),',
         '    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),',
         f"    Types = Table.TransformColumnTypes(Headers, {{{types}}})",
         "in",
@@ -327,6 +372,8 @@ def build_model() -> None:
     score_measures = [
         model_measure("Observed Stable-Category Product Count", "SUM('Category Scorecard'[Observed Stable-Category Product Count Value])", "#,0"),
         model_measure("Eligible Favorite-Movement Product Count", "SUM('Category Scorecard'[Eligible Favorite-Movement Product Count Value])", "#,0"),
+        model_measure("Eligible Exact Interval Observation Count", "SUM('Category Scorecard'[Eligible Exact Interval Count])", "#,0"),
+        model_measure("Positive Favorite-Movement Product Count", "SUM('Category Scorecard'[Positive Product Count])", "#,0"),
         model_measure("Positive Favorite-Movement Breadth", "IF(HASONEVALUE('Category Scorecard'[Broad Product Category]), SELECTEDVALUE('Category Scorecard'[Positive Favorite-Movement Breadth Value]), BLANK())", "0.0\"%\""),
         model_measure("Median Daily Favorite Movement per Product", "IF(HASONEVALUE('Category Scorecard'[Broad Product Category]), SELECTEDVALUE('Category Scorecard'[Median Daily Favorite Movement Value]), BLANK())", "0.000"),
         model_measure("Observed Dates", "SELECTEDVALUE('Category Scorecard'[Observed Date Count])", "0"),
@@ -336,9 +383,13 @@ def build_model() -> None:
         model_measure("Broad Product Category Count", "DISTINCTCOUNT('Category Scorecard'[Broad Product Category])", "0"),
         model_measure("Publishable Broad Product Category Count", "CALCULATE(DISTINCTCOUNT('Category Scorecard'[Broad Product Category]), 'Category Scorecard'[Evidence Sufficiency Tier] <> \"INSUFFICIENT\")", "0"),
         model_measure("Insufficient Broad Product Category Count", "CALCULATE(DISTINCTCOUNT('Category Scorecard'[Broad Product Category]), 'Category Scorecard'[Evidence Sufficiency Tier] = \"INSUFFICIENT\")", "0"),
+        model_measure("Evidence-Sufficient Category Count Display", "VAR sufficient = CALCULATE(DISTINCTCOUNT('Category Scorecard'[Broad Product Category]), 'Category Scorecard'[Evidence Sufficiency Tier] <> \"INSUFFICIENT\") VAR total = CALCULATE(DISTINCTCOUNT('Category Scorecard'[Broad Product Category]), REMOVEFILTERS('Category Scorecard'[Evidence Sufficiency Tier], 'Category Scorecard'[Sensitivity Status])) RETURN FORMAT(sufficient, \"0\") & \" / \" & FORMAT(total, \"0\")"),
+        model_measure("Maximum Positive Favorite-Movement Breadth Display", "VAR maximum = MAXX(VALUES('Category Scorecard'[Broad Product Category]), CALCULATE([Positive Favorite-Movement Breadth])) RETURN IF(ISBLANK(maximum), \"N/A - insufficient evidence\", FORMAT(maximum / 100, \"0.0%\"))"),
+        model_measure("Maximum Median Daily Favorite Movement Display", "VAR maximum = MAXX(VALUES('Category Scorecard'[Broad Product Category]), CALCULATE([Median Daily Favorite Movement per Product])) RETURN IF(ISBLANK(maximum), \"N/A - insufficient evidence\", FORMAT(maximum, \"0.000\"))"),
         model_measure("Positive Favorite-Movement Breadth Display", "VAR v=[Positive Favorite-Movement Breadth] RETURN IF(ISBLANK(v), \"N/A — insufficient evidence\", FORMAT(v/100, \"0.0%\"))"),
         model_measure("Median Daily Favorite Movement Display", "VAR v=[Median Daily Favorite Movement per Product] RETURN IF(ISBLANK(v), \"N/A — insufficient evidence\", FORMAT(v, \"0.000\"))"),
         model_measure("Eligible Favorite-Movement Product Count Display", "FORMAT([Eligible Favorite-Movement Product Count], \"#,0\")"),
+        model_measure("Observed Dates Display", "VAR observed = [Observed Dates] RETURN IF(ISBLANK(observed), \"N/A\", FORMAT(observed, \"0\") & \" observed\")"),
         model_measure("Evidence Sufficiency Tier Display", "SELECTEDVALUE('Category Scorecard'[Evidence Sufficiency Tier], \"Select one category\")"),
     ]
     score_table = {
@@ -458,6 +509,9 @@ def build_scaffold() -> None:
             "displayOption": "FitToPage",
             "height": 720,
             "width": 1280,
+            "objects": {
+                "background": [{"properties": {"color": {"solid": {"color": literal(f"'{COLORS['page']}'")}}, "transparency": literal("0D")}}]
+            },
         })
 
 
@@ -465,7 +519,10 @@ def build_manifest() -> None:
     files = sorted(p for p in DASHBOARD.rglob("*") if p.is_file())
     manifest = {
         "phase": 9,
-        "analysis_version": "1.0.0",
+        "analysis_version": "2.0.0",
+        "publication_grain": "Broad Product Category",
+        "category_count": 12,
+        "portable_import_strategy": "Base64-embedded governed Phase 7 publication facts; rebuild with the generator to refresh",
         "project": str((DASHBOARD / f"{NAME}.pbip").relative_to(ROOT)).replace("\\", "/"),
         "source_tables": [str(p.relative_to(ROOT)).replace("\\", "/") for p in (SCORECARD_SOURCE, SENSITIVITY_SOURCE, FINDINGS_SOURCE)],
         "pages": ["Category Engagement Overview", "Category Evidence Deep Dive", "Evidence & Limitations"],

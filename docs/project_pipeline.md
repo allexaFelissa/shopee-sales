@@ -16,9 +16,9 @@ No column, KPI, relationship, target, causal claim, or recommendation may be inv
 
 ### Project-specific central question
 
-The project is organized around: **Which product categories are gaining momentum fastest on the platform, and which should a marketplace category team prioritize featuring in upcoming campaigns and collections?**
+The original sales-momentum and campaign-priority question was rejected after data-quality validation. The governed question is: **Which Broad Product Categories show stronger observed favorite-engagement movement among eligible repeatedly tracked listings in this 20-day sampled dataset, when breadth, typical per-day movement, sampled scale, and evidence sufficiency are reported separately?**
 
-Phase 0 found listing-snapshot data rather than transaction data. Until the labeled sold field and sampling coverage are validated, downstream work must treat the feasible target as **momentum among repeatedly observed sampled listings**, not platform-wide revenue or order momentum. Coverage and reliability measures are mandatory companions to any later category ranking.
+This is a sample-bound engagement question. It does not authorize sales, revenue, demand, platform-growth, category-ranking, or campaign-priority claims.
 
 ## Architecture
 
@@ -183,9 +183,7 @@ Phase 4 analytical tables are `shopee_product_snapshots.csv`, `shopee_matched_ob
 - **Validation:** correct encodings, labels, denominators, axes, comparisons, accessibility, and delivery-size legibility; N/A is never encoded as zero; exact/product results remain primary; input hashes remain unchanged; no decorative, purposeless, sales, composite-score, or recommendation visual.
 - **Complete when:** each delivered chart passes critique and matches its source facts.
 
-Phase 8 implements a six-visual story: breadth-versus-magnitude scatter, evidence sufficiency, eligible tracked products, breadth comparison, median-movement comparison, and a three-panel sensitivity summary. It defines a three-page Power BI handoff without building the dashboard. The final gate passed 57 of 57 independent checks; six of six exports passed manual visual QA; ten generated artifacts reproduced byte-for-byte; and Phase 4, Phase 6, and Phase 7 inputs remained hash-identical. Phase 8 remains `REVIEW REQUIRED` until user approval.
-
-The user explicitly authorized Phase 9 after the Phase 8 gate, so Phase 8 is recorded as `COMPLETED` for sequential progression.
+The controlled Broad Product Category revision implements a six-visual story from the recalculated 12-group Phase 7 facts: breadth-versus-magnitude scatter, evidence sufficiency, eligible tracked products, breadth comparison, median-movement comparison, and a two-row sensitivity summary covering breadth and median. The revised gate passes 58 of 58 independent checks; six of six exports pass rendered semantic QA; and Phase 4, Phase 6, and Phase 7 inputs remain hash-identical. The user authorized Phase 9 after this gate, so Phase 8 is `COMPLETED`.
 
 ### Phase 9 — Power BI Dashboard
 
@@ -197,7 +195,7 @@ The user explicitly authorized Phase 9 after the Phase 8 gate, so Phase 8 is rec
 - **Validation:** displayed values, filters, relationships, totals, time context, and KPI definitions reconcile to benchmarks.
 - **Complete when:** all pages serve a defined audience question and pass value reconciliation.
 
-Phase 9 produced `dashboard/Shopee_Category_Engagement.pbip`, a native PBIP/PBIR project with a local semantic model and the approved overview, deep-dive, and evidence/limitations pages. The model imports frozen Phase 7 publication facts, exposes only the three approved slicer fields, and preserves N/A for insufficient movement. Desktop compatibility review repaired the invalid report/3.3.0 root, two semantic-model DAX columns that lacked the required TMSL `type: calculated` discriminator, and five imported-column/measure name collisions. The backing columns now use internal `Value` aliases while approved measure names, DAX meaning, source mappings, and report bindings remain unchanged. Independent validation passes 23 of 23 checks and offline PBIR validation reports zero errors. Installed Power BI Desktop 2.150.2455.0 reaches the named `Shopee_Category_Engagement` project window with no modal project-load error, while visible refresh/render/interaction screenshot QA remains a review action. Three deterministic page previews passed manual layout/semantic QA. Phase 9 is `REVIEW REQUIRED` and Phase 10 is `NOT STARTED`.
+The canonical PBIP/PBIR project is regenerated in place from the 12-row category scorecard and 48-row sensitivity fact. It contains the three approved pages and only the permitted filters. The semantic model uses portable Base64-embedded publication facts produced by the deterministic Python generator, eliminating machine-specific source paths while retaining analytical computation upstream. Phase 9 is `REVIEW REQUIRED` pending final native Desktop interaction review; Phase 10 recruiter-facing communication is also `REVIEW REQUIRED`.
 
 ### Phase 10 — Business Insights & Recommendations
 

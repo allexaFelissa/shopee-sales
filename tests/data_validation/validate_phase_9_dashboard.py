@@ -18,6 +18,11 @@ MANIFEST = ROOT / "outputs/analysis_results/phase_9_dashboard_manifest.json"
 REPORT = ROOT / "dashboard/Shopee_Category_Engagement.Report"
 MODEL_PATH = ROOT / "dashboard/Shopee_Category_Engagement.SemanticModel/model.bim"
 PHASE8_MANIFEST = ROOT / "outputs/analysis_results/phase_8_visualization_manifest.json"
+EXPECTED_CATEGORIES = {
+    "Automotive", "Baby & Kids", "Entertainment & Hobbies", "Fashion",
+    "Groceries & Pets", "Health & Beauty", "Home", "Mobile & Technology",
+    "Others", "Sports & Outdoor", "Tickets & Vouchers", "Travel",
+}
 
 
 results: list[dict[str, str]] = []
@@ -49,7 +54,7 @@ def main() -> None:
 
     check("P9-STRUCT-01", (ROOT / "dashboard/Shopee_Category_Engagement.pbip").exists(), "PBIP exists", True, "Native Power BI project shortcut exists.")
     check("P9-STRUCT-02", len(pages["pageOrder"]) == 3, "3 pages", len(pages["pageOrder"]), "Only the approved three-page architecture is present.")
-    check("P9-STRUCT-03", len(visuals) == 35, "35 governed report visuals", len(visuals), "Visual inventory includes titles, slicers, cards, charts, tables, notes, and footers.")
+    check("P9-STRUCT-03", len(visuals) == 45, "45 governed report visuals", len(visuals), "Visual inventory includes titles, compact filters, cards, charts, evidence cards, notes, and footers.")
     visual_types = [json.loads(p.read_text(encoding="utf-8"))["visual"]["visualType"] for p in visuals]
     check("P9-STRUCT-04", "scatterChart" in visual_types and "barChart" in visual_types and "tableEx" in visual_types, "scatter, bar, and table", sorted(set(visual_types)), "Required analytical visual families are implemented.")
     report_schema_330 = report_definition.get("$schema", "").endswith("/report/3.3.0/schema.json")
@@ -59,14 +64,28 @@ def main() -> None:
         and "layoutOptimization" not in report_definition
     )
     check("P9-STRUCT-05", report_root_compatible, "report/3.3.0 with required themeCollection and no legacy layoutOptimization", sorted(report_definition), "Report root matches the Power BI Desktop report/3.3.0 contract.")
+    visual_text = "\n".join(path.read_text(encoding="utf-8") for path in visuals)
+    required_design_titles = {
+        "Category Engagement Movement", "Positive Favorite-Movement Breadth", "Median Daily Favorite Movement",
+        "Evidence Coverage", "Wilson Evidence Bounds", "Sensitivity Scenario Comparison",
+        "Categories by Evidence Tier", "Signal Stability", "Evidence Coverage by Category",
+    }
+    missing_design_titles = sorted(title for title in required_design_titles if title not in visual_text)
+    check("P9-DESIGN-01", not missing_design_titles, "all redesigned chart titles present", missing_design_titles, "Each page retains its specified analytical chart hierarchy.")
+    check("P9-DESIGN-02", "Evidence availability (not performance)" not in visual_text, "legacy evidence-availability chart removed", "present" if "Evidence availability (not performance)" in visual_text else "absent", "Page 1 now uses the requested breadth and median-movement comparisons.")
+    evidence_page = REPORT / "definition/pages/ReportSection2c3d4e5f60718293a4b5c6d7/visuals"
+    evidence_visual_types = [json.loads(path.read_text(encoding="utf-8"))["visual"]["visualType"] for path in evidence_page.glob("*/visual.json")]
+    check("P9-DESIGN-03", "tableEx" not in evidence_visual_types, "no primary evidence table on Page 3", sorted(evidence_visual_types), "Evidence Coverage by Category is a bar chart and insufficient categories remain as four text cards.")
+    check("P9-DESIGN-04", visual_text.count("INSUFFICIENT |") == 4, "four insufficient-evidence category cards", visual_text.count("INSUFFICIENT |"), "All four insufficient categories remain visible with source-governed reasons.")
+    check("P9-DESIGN-05", "momentum" not in visual_text.lower() and "Observed favorite-display engagement" in visual_text, "Page 1 uses governed movement wording", "pass" if "momentum" not in visual_text.lower() else "legacy momentum wording present", "The dashboard frames the comparison as observed favorite-engagement movement, not a performance or momentum outcome.")
 
-    check("P9-DATA-01", len(score) == 24, "24 categories", len(score), "All Broad Product Categories remain in the source fact.")
+    check("P9-DATA-01", len(score) == 12 and set(score.broad_product_category) == EXPECTED_CATEGORIES, "12 governed Broad Product Categories", sorted(score.broad_product_category), "All current Broad Product Categories remain in the source fact.")
     tier_counts = score.evidence_sufficiency_tier.value_counts().to_dict()
-    check("P9-DATA-02", tier_counts == {"MODERATE": 10, "INSUFFICIENT": 10, "HIGH": 4}, "HIGH=4; MODERATE=10; INSUFFICIENT=10", tier_counts, "Evidence tiers reconcile to Phase 7.")
+    check("P9-DATA-02", tier_counts == {"MODERATE": 4, "INSUFFICIENT": 4, "HIGH": 4}, "HIGH=4; MODERATE=4; INSUFFICIENT=4", tier_counts, "Evidence tiers reconcile to current Phase 7 broad facts.")
     insuff = score.evidence_sufficiency_tier.eq("INSUFFICIENT")
     check("P9-DATA-03", score.loc[insuff, "positive_favorite_movement_breadth"].isna().all(), "all blank", int(score.loc[insuff, "positive_favorite_movement_breadth"].notna().sum()), "Insufficient breadth is never converted to zero.")
     check("P9-DATA-04", score.loc[insuff, "median_daily_favorite_movement_per_product"].isna().all(), "all blank", int(score.loc[insuff, "median_daily_favorite_movement_per_product"].notna().sum()), "Insufficient magnitude is never converted to zero.")
-    check("P9-DATA-05", len(sensitivity) == 96 and sensitivity.sensitivity_scenario.nunique() == 4, "96 rows / 4 scenarios", f"{len(sensitivity)} / {sensitivity.sensitivity_scenario.nunique()}", "Primary and three sensitivities are complete.")
+    check("P9-DATA-05", len(sensitivity) == 48 and sensitivity.sensitivity_scenario.nunique() == 4, "48 rows / 4 scenarios", f"{len(sensitivity)} / {sensitivity.sensitivity_scenario.nunique()}", "Twelve broad categories each retain primary and three sensitivities.")
     reference_sensitivity = sensitivity.loc[sensitivity.broad_product_category.eq("Health & Beauty")]
     reference_sensitivity_ok = (
         len(reference_sensitivity) == 4
@@ -79,7 +98,7 @@ def main() -> None:
     targets = {
         "Groceries & Pets": (112, 64.28571429, .2111111111, "HIGH", "DIRECTIONALLY_STABLE"),
         "Health & Beauty": (337, 62.90801187, .1666666667, "MODERATE", "ROBUST"),
-        "Women's Bags": (46, 58.69565217, .2792207792, "MODERATE", "ROBUST"),
+        "Fashion": (881, 52.553916, .09090909091, "HIGH", "UNSTABLE"),
     }
     recon_rows = []
     for cat, expected in targets.items():
@@ -100,6 +119,8 @@ def main() -> None:
     }
     namespace_collisions = {table: names for table, names in namespace_collisions.items() if names}
     check("P9-MODEL-02", not namespace_collisions, "no table-local column/measure name collisions", namespace_collisions, "Approved measure names remain unique within their table namespace.")
+    portable_import = "Binary.FromText" in model_text and "BinaryEncoding.Base64" in model_text and "File.Contents" not in model_text and str(ROOT) not in model_text
+    check("P9-MODEL-03", portable_import, "portable embedded publication facts and no machine-specific path", portable_import, "The PBIP refreshes from facts embedded by the deterministic Python build, not an absolute local path.")
     approved = {"Observed Stable-Category Product Count", "Eligible Favorite-Movement Product Count", "Positive Favorite-Movement Breadth", "Median Daily Favorite Movement per Product"}
     check("P9-KPI-01", approved.issubset(measures), "all four numeric governed KPI measures", sorted(approved & measures), "Evidence tier is a governed categorical column.")
     check("P9-KPI-02", "N/A — insufficient evidence" in model_text, "explicit N/A display behavior", "present" if "N/A — insufficient evidence" in model_text else "absent", "Deep-dive cards protect blanks from zero interpretation.")
@@ -132,7 +153,10 @@ def main() -> None:
     valid_filter_names = all(1 <= len(name) <= 50 for name in filter_names) and len(filter_names) == len(set(filter_names))
     check("P9-FILTER-03", valid_filter_names, "all filter names unique and 1–50 characters", [(name, len(name)) for name in filter_names], "PBIR filter identifiers satisfy the Desktop contract.")
     governed_categories = set(score.broad_product_category.dropna())
-    check("P9-FILTER-04", len(governed_categories) == 24 and "Health & Beauty" in governed_categories and "Groceries & Pets" in governed_categories and "Men Clothes" in governed_categories and "Women Clothes" in governed_categories, "24 governed category values available to slicer field", len(governed_categories), "The slicer-bound scorecard column retains the complete category domain, including insufficient-evidence categories.")
+    check("P9-FILTER-04", governed_categories == EXPECTED_CATEGORIES, "12 governed Broad Product Categories available to slicer field", sorted(governed_categories), "The slicer-bound scorecard column retains the complete broad-category domain, including insufficient-evidence categories.")
+    active_dashboard_text = "\n".join(p.read_text(encoding="utf-8") for p in [MODEL_PATH, *visuals])
+    stale_publication_terms = [term for term in ("Women's Bags", "Men Clothes", "Women Clothes", "24 governed", "10 insufficient", "96 rows") if term.lower() in active_dashboard_text.lower()]
+    check("P9-GOV-04", not stale_publication_terms, "no former Level-2 publication names or counts in active dashboard logic", stale_publication_terms, "Level-2 remains upstream detail but does not drive the dashboard.")
 
     manifest = json.loads(PHASE8_MANIFEST.read_text(encoding="utf-8"))["input_artifacts"]
     lineage_ok = True
@@ -149,9 +173,10 @@ def main() -> None:
     pd.DataFrame(recon_rows).to_csv(RECON, index=False)
     qa_rows = [
         ("Page 1", "PASS", "Titles, units, labels, scatter annotation, evidence semantics, N/A note, and non-priority safeguard reviewed."),
-        ("Page 2", "PASS", "All 24 categories remain available through the single-select slicer; selecting one drives KPI cards and the separate breadth, difference, median, and eligible-unit sensitivity evidence."),
+        ("Page 2", "PASS", "All 12 Broad Product Categories remain available through the single-select slicer; selecting one drives KPI cards and the separate breadth, difference, median, and eligible-unit sensitivity evidence."),
         ("Page 3", "PASS", "All-category evidence scale, neutral tier semantics, and unsupported-claim boundary reviewed."),
-        ("Power BI Desktop render", "REVIEW REQUIRED", "Desktop 2.150.2455.0 accepted the repaired report root, calculated-column TMSL, and collision-free model namespace, reaching the named project window without a modal load error; visible render, refresh, and cross-filter QA remain for reviewer."),
+        ("Power BI Desktop project/model load", "PASS", "The regenerated PBIP opened in the installed Desktop build; a new responsive local Analysis Services model process loaded the semantic model."),
+        ("Power BI Desktop visual interactions", "REVIEW REQUIRED", "Page rendering, slicer interaction, and cross-filter behavior require a final manual Desktop walkthrough."),
     ]
     pd.DataFrame(qa_rows, columns=["qa_scope", "status", "result"]).to_csv(QA, index=False)
     failed = sum(r["status"] == "FAIL" for r in results)
@@ -169,11 +194,11 @@ def main() -> None:
     manifest_out = {
         "phase": 9,
         "status": "REVIEW REQUIRED",
-        "analysis_version": "1.0.0",
+        "analysis_version": "2.0.0",
         "timestamp_utc": "2026-08-17T00:00:00Z",
         "validation": {"check_count": len(results), "pass_count": len(results)-failed, "fail_count": failed},
         "pbir_validation": {"error_count": 0, "warning_count": 7, "warning_scope": "remote schemas unreachable"},
-        "desktop_render_qa": "REVIEW REQUIRED — native Desktop reaches the named project window without a modal load error; visible render/interaction review remains",
+        "desktop_render_qa": "PARTIAL PASS — native project/model load verified; page rendering and interactive behavior remain a manual review item",
         "phase_10_status": "NOT STARTED",
         "artifacts": [{"path": str(p.relative_to(ROOT)).replace("\\", "/"), "sha256": sha(p), "bytes": p.stat().st_size} for p in artifact_paths],
     }

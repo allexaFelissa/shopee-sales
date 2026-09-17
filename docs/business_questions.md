@@ -1,5 +1,7 @@
 # Business Questions and Initial Evidence Contract
 
+> **Historical Phase 0 contract.** This document preserves the original question and early candidate metrics for decision traceability. It is not the current analytical specification. The authoritative governed question and approved KPI framework are in [business_question_governance.md](business_question_governance.md) and [kpi_definitions.md](kpi_definitions.md).
+
 ## Central Big Question
 
 > Which product categories are gaining momentum fastest on the platform, and which of those should a marketplace's category team prioritize featuring in upcoming campaigns and collections?

@@ -1,0 +1,120 @@
+{
+  "dashboard_page_count": 3,
+  "generated_artifacts": {
+    "V01": {
+      "bytes": 230835,
+      "path": "outputs/figures/phase_8_category_breadth_vs_magnitude.png",
+      "sha256": "4bf73aba4be80751059f7cefc8acd8f74cb252d5cad5f2b9b364f8081221f808"
+    },
+    "V02": {
+      "bytes": 251715,
+      "path": "outputs/figures/phase_8_evidence_sufficiency.png",
+      "sha256": "e572e79d7ce6ebfaf8d646f682ded49b56d2c2783f327fc4823126cd9286fd0d"
+    },
+    "V03": {
+      "bytes": 149126,
+      "path": "outputs/figures/phase_8_eligible_tracked_products.png",
+      "sha256": "3e374b98f9daeefc6bceac4e3ffc5a5a43ea23c5387a8d482beb69a47afb1919"
+    },
+    "V04": {
+      "bytes": 180831,
+      "path": "outputs/figures/phase_8_positive_breadth_by_category.png",
+      "sha256": "9bad989cfbfee818b21ebbf62e8b2a32cc8a132ccba9c3b1377106a7a377cc34"
+    },
+    "V05": {
+      "bytes": 194290,
+      "path": "outputs/figures/phase_8_median_daily_movement_by_category.png",
+      "sha256": "60e40774cc597a71edcce5dcd4eb54c4f02d40f3e4499f73f038c72e8d2b55ae"
+    },
+    "V06": {
+      "bytes": 303316,
+      "path": "outputs/figures/phase_8_sensitivity_summary.png",
+      "sha256": "527faf6520479d2f9c1cea208182c8036c8449ffe85fb85957fcc1439115c75d"
+    },
+    "dashboard_specification": {
+      "bytes": 3383,
+      "path": "outputs/tables/phase_8_dashboard_specification.csv",
+      "sha256": "964727e16a27778040619c2ce147763ca5c8af433b208d10210b9014eac6e2ee"
+    },
+    "visual_qa": {
+      "bytes": 1668,
+      "path": "outputs/tables/phase_8_visual_qa.csv",
+      "sha256": "e5fd36125dc1c50f2b9e87ff957f348c80962a5ca3bc87ba17570b36487e91f7"
+    },
+    "visual_specification": {
+      "bytes": 8098,
+      "path": "outputs/tables/phase_8_visual_specification.csv",
+      "sha256": "1b7c500c0861f700a40690dfa80fbdf0c978f298c3ca5975c66160c16e5db115"
+    }
+  },
+  "governed_question": "Which broad product categories show stronger observed favorite-engagement movement among eligible repeatedly tracked listings in this 20-day sampled dataset, when breadth, typical per-day movement, sampled scale, and evidence sufficiency are reported separately?",
+  "guardrails": {
+    "approved_kpi_count": 5,
+    "campaign_recommendation_created": false,
+    "composite_score_created": false,
+    "insufficient_categories_plotted_as_zero": false,
+    "power_bi_dashboard_built": false,
+    "primary_exact_result_remains_primary": true,
+    "revenue_metric_created": false,
+    "sales_metric_created": false,
+    "upstream_artifacts_modified": false
+  },
+  "input_artifacts": {
+    "category_analysis": {
+      "bytes": 3566,
+      "path": "outputs/tables/phase_7_category_business_analysis.csv",
+      "sha256": "317669844ba9eccf3c803004dd25dde5eec7bda1a38a19db33360d3296176228"
+    },
+    "category_comparison": {
+      "bytes": 6035,
+      "path": "outputs/tables/phase_7_category_comparison.csv",
+      "sha256": "9b87094f10832e6aefbfaa23c58316d73809230057838f3d612989930ec03518"
+    },
+    "findings": {
+      "bytes": 3169,
+      "path": "outputs/tables/phase_7_business_findings.csv",
+      "sha256": "946ca627cad243b5d23f488da0e5b3103cd41600b6566c928a95ca21eb946152"
+    },
+    "phase6_kpi_specification": {
+      "bytes": 14810,
+      "path": "outputs/tables/phase_6_kpi_specification.csv",
+      "sha256": "6d94e5747d13a13abf2c800361b168113520d19a39fda7c79173c54b5c1b1ac3"
+    },
+    "phase7_manifest": {
+      "bytes": 6667,
+      "path": "outputs/analysis_results/phase_7_business_analysis_manifest.json",
+      "sha256": "84f0e85353cba915985c0b2a88594fea570ef076b2faa76046c1d7e526e3a217"
+    },
+    "sensitivity": {
+      "bytes": 8846,
+      "path": "outputs/tables/phase_7_sensitivity_analysis.csv",
+      "sha256": "f98d74560efc8e878902828df50d98d87d657955ff58ed6e8f78f69d0f04ba0b"
+    },
+    "validation": {
+      "bytes": 3038,
+      "path": "outputs/tables/phase_7_validation_results.csv",
+      "sha256": "b28714980d8abf596ed77b12c6d335b7087b5298286f92a6b9d30ab7c39d937d"
+    }
+  },
+  "manual_qa_status": "PASS_VISUAL_QA",
+  "period": "2023-04-24 to 2023-05-13 (20-day sampled window)",
+  "reproducibility": {
+    "artifacts_in_scope": 10,
+    "note": "All generated specification tables, QA table, figures, and this manifest reproduced byte-for-byte on the verified rerun.",
+    "sha256_differences": 0,
+    "status": "PASS"
+  },
+  "timestamp_note": "Timestamp of first successful Phase 8 generation for this version; preserved on deterministic reruns.",
+  "validation": {
+    "bytes": 7148,
+    "check_count": 58,
+    "fail_count": 0,
+    "pass_count": 58,
+    "path": "outputs/tables/phase_8_visual_validation_results.csv",
+    "sha256": "3de19103f757ddca1ad10c0bad8c1304fcb61447bbb0b7eef76fc041f085f4b5",
+    "status": "PASS"
+  },
+  "visual_count": 6,
+  "visualization_timestamp_utc": "2026-08-20T10:38:44+00:00",
+  "visualization_version": "2.0.0"
+}

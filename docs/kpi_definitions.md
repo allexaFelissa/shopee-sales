@@ -1,6 +1,6 @@
 # Phase 6 KPI Definitions
 
-Status: `REVIEW REQUIRED`  
+Status: `COMPLETED`
 Final governed question: Which Broad Product Categories show stronger observed favorite-engagement movement among eligible repeatedly tracked listings in this 20-day sampled dataset, when breadth, typical per-day movement, sampled scale, and evidence sufficiency are reported separately?
 
 ## Design principles
@@ -53,7 +53,7 @@ Zero and negative product medians remain valid. A product with more intervals st
 
 - Business meaning: sampled product scale for the governed stable-category cohort.
 - Formula: distinct `product_id` in snapshot context where `level2_category_changed_over_time_flag = FALSE`.
-- Unit/grain: product; Level-2 category × active date window.
+- Unit/grain: product; Broad Product Category × active date window.
 - Numerator: distinct eligible products. Denominator: none.
 - Aggregation: distinct count; do not sum into a platform estimate.
 - Eligibility/exclusion: include products with a snapshot in context; exclude all Level-2-changing products and missing keys.
@@ -69,7 +69,7 @@ Zero and negative product medians remain valid. A product with more intervals st
 
 - Business meaning: independent product-level evidence available for favorite movement.
 - Formula: distinct products with at least one primary-cohort interval.
-- Unit/grain: product; Level-2 category × active date window.
+- Unit/grain: product; Broad Product Category × active date window.
 - Numerator: distinct eligible products. Denominator: none; this becomes the movement denominator.
 - Aggregation: materialize one product-category row, then count rows/distinct products.
 - Eligibility/exclusion: exact valid favorite endpoints, positive elapsed days, both dates in context, stable Level-2 membership; exclude compact, missing/invalid, category-changing, and boundary-crossing intervals.
@@ -86,7 +86,7 @@ Zero and negative product medians remain valid. A product with more intervals st
 
 - Business meaning: how broadly positive movement is distributed across eligible products.
 - Formula: `100 × products with product_median_daily_favorite_change > 0 / all eligible products`.
-- Unit/grain: product; Level-2 category × active date window.
+- Unit/grain: product; Broad Product Category × active date window.
 - Numerator: positive product medians.
 - Denominator: all eligible product medians, including zero and negative values.
 - Aggregation: product-level median first, then a share across products.
@@ -105,7 +105,7 @@ Zero and negative product medians remain valid. A product with more intervals st
 
 - Business meaning: typical magnitude and direction of exact displayed-favorite movement for an eligible product.
 - Formula: category median of each product's median `(favorite change / elapsed days)`.
-- Unit/grain: interval → product → Level-2 category × active date window.
+- Unit/grain: interval → product → Broad Product Category × active date window.
 - Numerator/denominator: interval favorite change divided by positive elapsed days; final median has no ratio denominator.
 - Aggregation: two-stage median. Mean is rejected because favorite changes are skewed and outlier-sensitive; a trimmed mean remains diagnostic only.
 - Eligibility/exclusion: common primary cohort; intervals crossing the active date boundary are excluded.
@@ -140,7 +140,7 @@ INSUFFICIENT
   otherwise
 ```
 
-- Unit/grain: Level-2 category × active date window.
+- Unit/grain: Broad Product Category × active date window.
 - Numerator/denominator: positive eligible products / all eligible products for Wilson precision; observed category dates / dates in context for coverage.
 - Aggregation: transparent gates; no weights and no compensating between dimensions.
 - Eligibility: evaluated after exact-display and stable-category rules.
@@ -212,7 +212,7 @@ No metric dominates another, and no arbitrary weighted tie-break is allowed.
 
 - Default date context is the complete 20-day window.
 - An interval enters a filtered view only when both endpoints are inside the selected dates.
-- Category filtering uses stable Level-2 membership.
+- Category filtering uses Broad Product Category while the conservative stable-Level-2 exclusion remains enforced.
 - Count measures may show zero; rate and median measures return blank for zero denominators or insufficient evidence.
 - Movement KPIs are suppressed for `INSUFFICIENT`; counts, dates, tier, and the suppression reason remain visible.
 - The recommended Phase 7 prepared fact has one row per product/category/window with product median, positive/zero/negative outcome, eligible interval count, and sensitivity variants. This preserves grain and keeps Phase 9 DAX simple and auditable.

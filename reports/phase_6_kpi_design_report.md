@@ -1,9 +1,9 @@
 # Phase 6 — Business Questions & KPI Design Report
 
-Status: `REVIEW REQUIRED`  
+Status: `COMPLETED`
 Phase type: governance and definition  
 Study window: 2023-04-24 through 2023-05-13  
-Primary category grain: Level 2
+Primary publication grain: Broad Product Category (12 governed groups)
 
 ## 1. Executive decision
 
@@ -36,7 +36,7 @@ These facts rule out sales and platform momentum while allowing a carefully labe
 
 ## 3. Business question governance
 
-Level-2 “categories” are supported for the sample after excluding products with changing Level-2 membership. “Gaining momentum,” “fastest,” and “on the platform” are not supported as written. They are replaced only in the governed question by stronger observed favorite-engagement movement under explicit eligibility, product weighting, and evidence gates. “Prioritize featuring” and “upcoming campaigns and collections” remain unsupported because commercial outcomes and causal decision inputs are absent.
+Broad Product Categories are supported for sample-bound comparison through the deterministic 24-to-12 mapping, while original Level-2 values remain available for traceability. Products with changing Level-2 membership remain excluded. “Gaining momentum,” “fastest,” and “on the platform” are not supported as written. They are replaced only in the governed question by stronger observed favorite-engagement movement under explicit eligibility, product weighting, and evidence gates. “Prioritize featuring” and “upcoming campaigns and collections” remain unsupported because commercial outcomes and causal decision inputs are absent.
 
 Detailed component decisions and definitions of observed, favorite engagement, traction, repeatedly tracked, category, and sampled dataset are in `docs/business_question_governance.md`.
 
@@ -198,4 +198,4 @@ Remaining limitations survive unchanged: short window, uneven unknown sampling, 
 - `tests/data_validation/validate_phase_6_kpi_design.py`
 - `reports/phase_6_kpi_design_report.md`
 
-Phase 6 stops at `REVIEW REQUIRED`. Phase 7 remains `NOT STARTED` pending explicit approval.
+Phase 6 definitions are frozen and `COMPLETED`; the current Phase 7 broad-category analysis applies them without modification.

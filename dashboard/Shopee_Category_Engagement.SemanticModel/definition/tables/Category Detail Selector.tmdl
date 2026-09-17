@@ -1,0 +1,35 @@
+table 'Category Detail Selector'
+	lineageTag: c7e1a2b4-9d63-4f21-a0e8-51b7c2d90f34
+
+	measure 'Selected Detail Category' = SELECTEDVALUE('Category Detail Selector'[Broad Product Category], "Select a category")
+		lineageTag: d1f2a3b4-0c15-46e7-9a28-62c8d3e01a45
+
+	measure 'Detail Evidence Tier' = CALCULATE(SELECTEDVALUE('Category Scorecard'[Evidence Sufficiency Tier]), TREATAS({ [Selected Detail Category] }, 'Category Scorecard'[Broad Product Category]))
+		lineageTag: e2a3b4c5-1d26-47f8-8b39-73d9e4f12b56
+
+	measure 'Detail Sensitivity Status' = CALCULATE(SELECTEDVALUE('Category Scorecard'[Sensitivity Status]), TREATAS({ [Selected Detail Category] }, 'Category Scorecard'[Broad Product Category]))
+		lineageTag: f3b4c5d6-2e37-48a9-9c40-84e0f5023c67
+
+	measure 'Detail Eligible Products' = CALCULATE([Eligible Favorite-Movement Product Count], TREATAS({ [Selected Detail Category] }, 'Category Scorecard'[Broad Product Category]))
+		formatString: #,0
+		lineageTag: a4c5d6e7-3f48-49b0-8d51-95f106134d78
+
+	measure 'Detail Observed Dates' = CALCULATE([Observed Dates], TREATAS({ [Selected Detail Category] }, 'Category Scorecard'[Broad Product Category]))
+		formatString: 0
+		lineageTag: b5d6e7f8-4059-4ac1-9e62-06021724e89a
+
+	measure 'Detail Evidence Coverage' = CALCULATE([Positive Favorite-Movement Breadth], TREATAS({ [Selected Detail Category] }, 'Category Scorecard'[Broad Product Category]))
+		formatString: 0.0"%"
+		lineageTag: c6e7f8a9-5160-4bd2-8f73-17132835f90b
+
+	column 'Broad Product Category'
+		lineageTag: c0752f9a-776a-45d1-a108-cfc06df01478
+		isNameInferred
+		sourceColumn: Category Scorecard[Broad Product Category]
+
+	partition 'Category Detail Selector' = calculated
+		mode: import
+		source = DISTINCT('Category Scorecard'[Broad Product Category])
+
+	annotation PBI_Id = e8091a2b3c4d5e6f70819a2b3c4d5e6f
+

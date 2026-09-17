@@ -36,7 +36,10 @@ htmlcov/
 
 # Reproducible intermediate data and disposable generated results
 data/interim/*
-outputs/analysis_results/*
+# The large raw profile is reproducible and not required by downstream tests.
+outputs/analysis_results/phase_1_profile.json
+# Small phase manifests are intentionally tracked because validation and lineage
+# checks on a clean clone depend on them.
 
 # Local secrets and credentials
 *.pem
@@ -46,4 +49,3 @@ secrets*.toml
 
 # Power BI lock and temporary files
 dashboard/~$*.pbix
-
