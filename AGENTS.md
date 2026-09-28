@@ -5,16 +5,13 @@
 - Do not create or retain unnecessary files, duplicate artifacts, temporary outputs, or disposable debug files.
 - Reuse existing folders when they fit; create a new folder only when it gives a distinct category of files a clear home.
 - Before finishing work, remove temporary files created during the task and verify that all newly added files are necessary.
-- Follow `docs/project_pipeline.md` as the single source of truth for phase dependencies, artifacts, validation gates, and completion criteria.
-- Update `docs/project_status.md` only with these states: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `REVIEW REQUIRED`, or `COMPLETED`. Never mark a phase complete before its deliverables are verified.
 
 ## Shopee sales analytics workflow
 
 - Project objective: produce a professional, portfolio-ready Shopee Sales Analytics project that demonstrates job-ready Data Analyst and Data Science internship skills through accurate, reproducible, business-focused work suitable for recruiters and employers.
 - Intended deliverables: a clean and validated dataset, reproducible analysis, meaningful KPIs, EDA, business-focused insights, high-quality visualizations, a Power BI dashboard, actionable recommendations, and professional documentation.
-- The user identifies `20240121_shopee_sample_data (1).csv` as the main source and `shopee_sales_cleaned.csv` as the intended cleaned output. The current workspace instead contains `dataset/shopee_sales_data.csv`; reconcile this filename/source discrepancy during Phase 0 before processing. The cleaned output does not yet exist.
-- Treat `dataset/shopee_sales_data.csv` as immutable raw data while it remains in the legacy folder. It is currently held open by another process, so relocate it to `data/raw/shopee_sales_data.csv` only after the file is released and a before/after SHA-256 check proves its bytes are unchanged. Never keep two raw copies.
-- Once the source is relocated, never modify anything in `data/raw/`. Processed data belongs in `data/processed/`, and disposable or intermediate datasets belong in `data/interim/`.
+- The user identifies `20240121_shopee_sample_data (1).csv` as the main source and `shopee_sales_cleaned.csv` as the intended cleaned output. The current workspace instead contains `dataset/shopee_sales_data.csv`; reconcile this filename/source discrepancy during the initial inventory before processing. The cleaned output does not yet exist.
+- Treat files in `dataset/` as source data unless the user explicitly identifies a generated or cleaned file. Never overwrite a raw dataset.
 - Use this stage order for full analytics work: raw dataset -> data profiling -> data cleaning -> data validation -> data transformation -> EDA -> KPI definition -> business analysis -> visualization selection -> chart critique -> dashboard -> business insights -> final report/documentation.
 - Work one phase at a time. At the end of every phase, verify the outputs, summarize decisions and evidence, report limitations, and wait for the user before advancing to the next phase.
 - Inspect the actual schema, row grain, columns, data types, date coverage, missingness, uniqueness, and available business dimensions before proposing metrics or analytical claims.

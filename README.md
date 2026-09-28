@@ -1,16 +1,20 @@
-# Shopee Category Engagement Analytics
+# Shopee Favorite-Engagement Analytics
 
-An end-to-end analytics project that investigates a sampled Shopee listing dataset, rejects an unreliable sales metric, and builds a governed category-engagement analysis and Power BI dashboard from defensible evidence.
+An end-to-end portfolio project that turns sampled Shopee listing data into a validated, reproducible category-engagement analysis and an evidence-aware Power BI dashboard. The work demonstrates how a data analyst can refine an unsupported sales question into a decision-useful question that the available data can answer responsibly.
 
-![Category Engagement Overview](outputs/figures/phase_9_page_1_category_engagement_overview_preview.png)
+![Power BI Evidence Analytics Overview dashboard](outputs/figures/powerbi_evidence_analytics_overview.png)
+
+*Power BI overview: category engagement breadth versus typical daily movement, with evidence sufficiency and sensitivity shown alongside the result.*
 
 ## Business problem
 
 The original goal was to identify categories gaining sales momentum and recommend campaign priorities. Data-quality investigation showed that the dataset cannot support that decision: `total_sold` could not be independently trusted as sales, observation coverage was uneven, and the file is a listing sample rather than a platform census.
 
-Instead of forcing the original question, the project asks:
+Instead of forcing the original question, the project is designed to answer:
 
-> Which Broad Product Categories show stronger observed favorite-engagement movement among eligible repeatedly tracked listings in this 20-day sampled dataset, when breadth, typical per-day movement, sampled scale, and evidence sufficiency are reported separately?
+> **Which product categories show the strongest and most widespread favorite engagement momentum, and where is the evidence strong enough to support further marketplace attention?**
+
+To make that question measurable, **strongest** is represented by median daily favorite movement per eligible product, **most widespread** by the share of eligible products with positive movement, and **strong enough** by explicit sample-size, coverage, uncertainty, and sensitivity gates. “Further marketplace attention” means a case for additional investigation—not an automatic campaign, budget, or assortment decision.
 
 This is an engagement analysis, not a sales, demand, growth, or campaign-performance analysis.
 
@@ -109,6 +113,14 @@ The source-controlled PBIP/PBIR project is [Shopee_Category_Engagement.pbip](das
 3. Evidence & Limitations
 
 Python owns eligibility, aggregation, Wilson intervals, evidence classification, and sensitivities. Power BI owns presentation and filtering. The model embeds the two small governed publication facts during deterministic generation, avoiding machine-specific source paths.
+
+The overview page answers the business question in three linked views:
+
+- The **engagement-momentum matrix** compares breadth on the x-axis with median daily favorite movement on the y-axis; bubble size represents eligible tracked products and color represents evidence sufficiency.
+- The two **ranked bar charts** separate widespread movement from typical movement so that unlike measures are not collapsed into a misleading composite score.
+- The **key-finding card and KPI cards** surface the leading observed category, evidence-ready category count, peak values, and eligible sample size. Slicers let users inspect product category, evidence tier, and sensitivity status without changing the governed definitions.
+
+The dashboard deliberately keeps evidence quality visible. A visually strong category is not treated as decision-ready unless its coverage and sensitivity results also support the interpretation.
 
 Dashboard architecture and refresh instructions are in [phase_9_dashboard_architecture.md](docs/phase_9_dashboard_architecture.md).
 
